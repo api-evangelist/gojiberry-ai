@@ -1,0 +1,22 @@
+aid: gojiberry-ai
+name: Gojiberry Ai
+description: Gojiberry Ai is a company surfaced as a portfolio company of y-combinator and added to the
+  API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+url: https://raw.githubusercontent.com/api-evangelist/gojiberry-ai/refs/heads/main/apis.yml
+x-type: company
+x-source: vc-portfolio
+x-backed-by:
+- y-combinator
+x-tier: stub
+x-tier-reason: portfolio-lead
+specificationVersion: '0.20'
+created: '2026-07-17'
+modified: '2026-07-17'
+tags:
+- Company
+apis: []
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
+- FN: APIs.json
+  email: info@apis.io
