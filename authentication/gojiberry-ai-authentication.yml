@@ -1,0 +1,14 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/gojiberry-ai-external-openapi-original.json
+summary:
+  types:
+  - http
+schemes:
+- name: API-Key
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  description: Enter API Key
+  sources:
+  - openapi/gojiberry-ai-external-openapi-original.json
