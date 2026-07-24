@@ -1,0 +1,393 @@
+openapi: 3.0.0
+info:
+  title: Gojiberry AI - External AppExternal Lead source agents API
+  description: "\n# Gojiberry AI External API\n\nThis API allows you to programmatically access your Gojiberry AI data and integrate it with your applications.\n\n## Authentication\n\nAll API requests require authentication using a Bearer token. To get your API key:\n\n1. **Log in to your Gojiberry AI account** at [https://app.gojiberry.ai](https://app.gojiberry.ai)\n2. **Navigate to Settings** → **API** section\n3. **Click \"Create API Key\"** to generate a new token\n4. **Copy the API key** when it's displayed (you won't be able to see it again)\n5. **Use the token** in your requests by adding the header: `Authorization: Bearer YOUR_API_KEY`\n\n## Impersonation (organization owners)\n\nIf your API key belongs to the **owner of an organization**, you can perform any API call on behalf of another member of your organization by adding the `x-impersonate-user-id` header with the member's user ID:\n\n```bash\n# Get the contacts of the organization member with user ID 123\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     -H \"x-impersonate-user-id: 123\" \\\n     https://ext.gojiberry.ai/v1/contact\n```\n\nWhen impersonating, the request behaves exactly as if it was made by that member: you read and write their data (contacts, campaigns, lists, unibox, etc.).\n\nRules:\n- Your API key must belong to the **organization owner**; other members cannot impersonate.\n- The impersonated user must belong to the **same organization** as the API key user.\n- Requests that don't meet these rules are rejected with a `401 Unauthorized`.\n\nTip: use `GET /v1/organization/members` to list the members of your organization and their user IDs, and `GET /v1/user/me` to verify which user the current request acts as.\n\n## Rate Limits\n\n- **100 requests per minute** per API key\n\n## Base URL\n- **Production**: `https://ext.gojiberry.ai`\n\n## Endpoints\n\n### Contacts\n- `GET /v1/contact` - Get all contacts with filtering and pagination\n- `GET /v1/contact/{id}` - Get a specific contact\n- `GET /v1/contact/health` - Health check endpoint\n\n## Example Usage\n\n```bash\n# Get all contacts\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     https://ext.gojiberry.ai/v1/contact\n\n# Get contacts with filtering\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     \"https://ext.gojiberry.ai/v1/contact?search=john&agent=1&dateFrom=2024-01-01\"\n\n# Get a specific contact\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     https://ext.gojiberry.ai/v1/contact/123\n```\n\n## Webhooks\n\nGojiberry allows you to receive real-time notifications when new contacts are created or updated by configuring a webhook URL.\n\n### How to Configure Webhooks\n\n1. **Log in to your Gojiberry AI account** at [https://app.gojiberry.ai](https://app.gojiberry.ai)\n2. **Navigate to the Integrations page** at [https://app.gojiberry.ai/integrations](https://app.gojiberry.ai/integrations)\n3. **Add a Webhook integration** by clicking the Webhook option\n4. **Enter your webhook URL** where you want to receive notifications\n5. **Save the configuration**\n\nOnce configured, Gojiberry will send POST requests to your webhook URL whenever:\n- A new contact is created\n- A contact is updated\n- Other relevant events occur in your account\n\nThe webhook payload will include the full contact data in JSON format. Each webhook request includes a custom header `x-gojiberry-user-id` containing your user ID for verification purposes.\n\n## Support\n\nFor API support, please contact us at [hello@gojiberry.ai](mailto:hello@gojiberry.ai)\n      "
+  version: '1.0'
+  contact: {}
+servers: []
+tags:
+- name: Lead source agents
+paths:
+  /v1/agent:
+    get:
+      description: Retrieve all source agents for the authenticated user
+      operationId: AgentExternalController_findAll
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of agents
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Agent'
+      security:
+      - bearer: []
+      summary: Get all source agents
+      tags:
+      - Lead source agents
+  /v1/agent/{id}:
+    get:
+      description: Retrieve a single source agent by ID
+      operationId: AgentExternalController_findOne
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Agent found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+        '404':
+          description: Agent not found
+      security:
+      - bearer: []
+      summary: Get one source agent
+      tags:
+      - Lead source agents
+    patch:
+      description: Update a source agent by ID
+      operationId: AgentExternalController_update
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAgentDto'
+      responses:
+        '200':
+          description: Agent updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+        '404':
+          description: Agent not found
+      security:
+      - bearer: []
+      summary: Update a source agent
+      tags:
+      - Lead source agents
+  /v1/agent/{id}/logs:
+    get:
+      description: Retrieve the run logs for one AI Agent. Each log entry corresponds to one signal run and reports how many leads were sourced vs. how many ended up imported into the platform after AI scoring & filtering. Use this to answer questions like "how many leads did this agent create last week?", "which signals are producing the most leads?", or "did any of this agent's signals fail recently?". Optionally narrow the window with dateFrom / dateTo (ISO 8601). Capped at the most recent 100 logs (newest first).
+      operationId: AgentExternalController_findLogs
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: number
+      - name: dateFrom
+        required: false
+        in: query
+        description: Start of the time window (ISO 8601, e.g. 2025-04-01T00:00:00Z). Used together with dateTo.
+        schema:
+          type: string
+      - name: dateTo
+        required: false
+        in: query
+        description: End of the time window (ISO 8601). Used together with dateFrom.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Up to 100 most recent log entries for the agent (newest first).
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AgentLog'
+        '404':
+          description: Agent not found
+      security:
+      - bearer: []
+      summary: Get logs for a source agent
+      tags:
+      - Lead source agents
+components:
+  schemas:
+    UpdateAgentDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the agent
+        targetJobTitles:
+          description: Target job titles to search for
+          type: array
+          items:
+            type: string
+        targetIndustries:
+          description: Target industries to search in
+          type: array
+          items:
+            type: string
+        targetCompanySizes:
+          description: Target company sizes
+          type: array
+          items:
+            type: string
+        targetLocations:
+          description: Target locations to search in
+          type: array
+          items:
+            type: string
+        targetCompanyTypes:
+          description: Target company types
+          type: array
+          items:
+            type: string
+        additionalCriteria:
+          type: string
+          description: Additional search criteria or instructions
+        agentType:
+          type: string
+          description: 'Type of agent : "autopilot" or "lookalike"'
+        variables:
+          description: Agent variables configuration
+          type: array
+          items:
+            $ref: '#/components/schemas/AgentVariableV2Dto'
+        ignoredCompanies:
+          description: Companies to ignore in search results
+          type: array
+          items:
+            type: string
+        mandatoryKeywords:
+          description: Keywords that must be present in the profile
+          type: array
+          items:
+            type: string
+        listId:
+          type: number
+          description: ID of the list to associate with this agent
+        excludeServiceProviders:
+          type: boolean
+          description: Exclude service providers from results
+        skipIcpFilter:
+          type: boolean
+          description: Skip ICP (Ideal Customer Profile) filter
+        includeOpenToWorkProfiles:
+          type: boolean
+          description: Include open-to-work profiles in results
+        leadWaterfall:
+          type: boolean
+          description: Enable lead waterfall mode
+        paused:
+          type: boolean
+          description: Whether the agent is paused
+        minLeadScore:
+          type: number
+          description: Minimum lead score threshold (0–1)
+    AgentLog:
+      type: object
+      properties:
+        id:
+          type: number
+          description: Unique identifier of the agent log entry.
+        leadsCreated:
+          type: number
+          description: Number of leads imported into the user platform after the AI scoring & filtering pipeline. These are the qualified leads that ended up on the agent's list and become contacts of the linked outreach campaign.
+        totalLeads:
+          type: number
+          description: Total number of raw leads the agent found from this signal in this run, BEFORE any AI scoring or filtering. Always greater than or equal to leadsCreated.
+        errorMessage:
+          type: string
+          description: Error message if the run failed for this signal. Null when the run succeeded.
+          nullable: true
+        agentType:
+          type: object
+          description: Type of signal the agent ran (e.g. SEARCH_KEYWORD, COMPETITOR_PAGE_URL, RECENT_FUNDING_EVENT). Matches the agent's configured signal types.
+          nullable: true
+        agentKeyword:
+          type: string
+          description: The specific signal value used in this run — e.g. the keyword searched, the competitor page URL watched, or the lookalike seed. Lets you see which signal produced which leads.
+          nullable: true
+        userId:
+          type: number
+          description: Owner user ID.
+        agentId:
+          type: number
+          description: ID of the agent this log entry belongs to.
+          nullable: true
+        createdAt:
+          format: date-time
+          type: string
+          description: When this log entry was recorded (ISO 8601).
+      required:
+      - id
+      - leadsCreated
+      - totalLeads
+      - userId
+      - createdAt
+    AgentVariableV2Dto:
+      type: object
+      properties: {}
+    Agent:
+      type: object
+      properties:
+        id:
+          type: number
+          description: Unique identifier
+        name:
+          type: string
+          description: Display name of the agent
+        targetJobTitles:
+          description: List of target job titles to prospect. Part of the ICP.
+          type: array
+          items:
+            type: string
+        targetIndustries:
+          description: List of target industries to prospect. Part of the ICP.
+          type: array
+          items:
+            type: string
+        targetCompanySizes:
+          description: List of target company sizes (e.g. "1-10", "11-50"). Part of the ICP.
+          type: array
+          items:
+            type: string
+        targetLocations:
+          description: List of target geographic locations. Part of the ICP.
+          type: array
+          items:
+            type: string
+        targetCompanyTypes:
+          description: List of target company types (e.g. "Public", "Private")
+          type: array
+          items:
+            type: string
+        additionalCriteria:
+          type: string
+          description: Additional free-text targeting criteria
+          nullable: true
+        variables:
+          description: Variables used by the agent to find high intent leads. (Keywords, Competitor Page URL, etc.)
+          nullable: true
+          type: array
+          items:
+            type: string
+        ignoredCompanies:
+          description: Company names to exclude from prospecting. Part of the ICP.
+          nullable: true
+          type: array
+          items:
+            type: string
+        mandatoryKeywords:
+          description: Keywords that must be present in a lead profile to be included
+          nullable: true
+          type: array
+          items:
+            type: string
+        agentType:
+          type: string
+          description: Type of agent (e.g. "autopilot")
+          example: autopilot
+        lastRun:
+          format: date-time
+          type: string
+          description: Timestamp of the last agent execution
+          nullable: true
+        paused:
+          type: boolean
+          description: Whether the agent is paused and will not run on its next scheduled time
+          default: false
+        excludeServiceProviders:
+          type: boolean
+          description: Whether to exclude service provider companies from prospecting
+          default: false
+        skipIcpFilter:
+          type: boolean
+          description: Whether to skip the ICP (Ideal Customer Profile) filter when sourcing leads
+          default: false
+        includeOpenToWorkProfiles:
+          type: boolean
+          description: Whether to include LinkedIn profiles marked as open to work
+          default: false
+        leadWaterfall:
+          type: boolean
+          description: Whether to use the lead waterfall strategy (cascade through multiple sources)
+          default: true
+        minLeadScore:
+          type: number
+          description: Minimum lead score threshold (0.00–1.00) required to include a lead
+          nullable: true
+          example: 0.75
+        userId:
+          type: number
+          description: ID of the account (user) who owns this agent
+        listId:
+          type: number
+          description: ID of the list this agent sources contacts into
+          nullable: true
+        createdAt:
+          format: date-time
+          type: string
+          description: Creation timestamp
+        updatedAt:
+          format: date-time
+          type: string
+          description: Last update timestamp
+      required:
+      - id
+      - name
+      - targetJobTitles
+      - targetIndustries
+      - targetCompanySizes
+      - targetLocations
+      - targetCompanyTypes
+      - agentType
+      - paused
+      - excludeServiceProviders
+      - skipIcpFilter
+      - includeOpenToWorkProfiles
+      - leadWaterfall
+      - userId
+      - createdAt
+      - updatedAt
+  securitySchemes:
+    API-Key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      name: JWT
+      description: Enter API Key
+      in: header

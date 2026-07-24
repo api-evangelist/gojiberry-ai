@@ -1,0 +1,750 @@
+openapi: 3.0.0
+info:
+  title: Gojiberry AI - External AppExternal Unibox API
+  description: "\n# Gojiberry AI External API\n\nThis API allows you to programmatically access your Gojiberry AI data and integrate it with your applications.\n\n## Authentication\n\nAll API requests require authentication using a Bearer token. To get your API key:\n\n1. **Log in to your Gojiberry AI account** at [https://app.gojiberry.ai](https://app.gojiberry.ai)\n2. **Navigate to Settings** → **API** section\n3. **Click \"Create API Key\"** to generate a new token\n4. **Copy the API key** when it's displayed (you won't be able to see it again)\n5. **Use the token** in your requests by adding the header: `Authorization: Bearer YOUR_API_KEY`\n\n## Impersonation (organization owners)\n\nIf your API key belongs to the **owner of an organization**, you can perform any API call on behalf of another member of your organization by adding the `x-impersonate-user-id` header with the member's user ID:\n\n```bash\n# Get the contacts of the organization member with user ID 123\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     -H \"x-impersonate-user-id: 123\" \\\n     https://ext.gojiberry.ai/v1/contact\n```\n\nWhen impersonating, the request behaves exactly as if it was made by that member: you read and write their data (contacts, campaigns, lists, unibox, etc.).\n\nRules:\n- Your API key must belong to the **organization owner**; other members cannot impersonate.\n- The impersonated user must belong to the **same organization** as the API key user.\n- Requests that don't meet these rules are rejected with a `401 Unauthorized`.\n\nTip: use `GET /v1/organization/members` to list the members of your organization and their user IDs, and `GET /v1/user/me` to verify which user the current request acts as.\n\n## Rate Limits\n\n- **100 requests per minute** per API key\n\n## Base URL\n- **Production**: `https://ext.gojiberry.ai`\n\n## Endpoints\n\n### Contacts\n- `GET /v1/contact` - Get all contacts with filtering and pagination\n- `GET /v1/contact/{id}` - Get a specific contact\n- `GET /v1/contact/health` - Health check endpoint\n\n## Example Usage\n\n```bash\n# Get all contacts\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     https://ext.gojiberry.ai/v1/contact\n\n# Get contacts with filtering\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     \"https://ext.gojiberry.ai/v1/contact?search=john&agent=1&dateFrom=2024-01-01\"\n\n# Get a specific contact\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     https://ext.gojiberry.ai/v1/contact/123\n```\n\n## Webhooks\n\nGojiberry allows you to receive real-time notifications when new contacts are created or updated by configuring a webhook URL.\n\n### How to Configure Webhooks\n\n1. **Log in to your Gojiberry AI account** at [https://app.gojiberry.ai](https://app.gojiberry.ai)\n2. **Navigate to the Integrations page** at [https://app.gojiberry.ai/integrations](https://app.gojiberry.ai/integrations)\n3. **Add a Webhook integration** by clicking the Webhook option\n4. **Enter your webhook URL** where you want to receive notifications\n5. **Save the configuration**\n\nOnce configured, Gojiberry will send POST requests to your webhook URL whenever:\n- A new contact is created\n- A contact is updated\n- Other relevant events occur in your account\n\nThe webhook payload will include the full contact data in JSON format. Each webhook request includes a custom header `x-gojiberry-user-id` containing your user ID for verification purposes.\n\n## Support\n\nFor API support, please contact us at [hello@gojiberry.ai](mailto:hello@gojiberry.ai)\n      "
+  version: '1.0'
+  contact: {}
+servers: []
+tags:
+- name: Unibox
+paths:
+  /v1/unibox/contact/{contactId}:
+    get:
+      description: Legacy endpoint. Returns all unibox chats (with their messages) associated with the given contact for the authenticated user.
+      operationId: UniboxExternalController_getMessagesByContactId
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      - name: contactId
+        required: true
+        in: path
+        schema:
+          type: number
+      responses:
+        '200':
+          description: List of unibox chats for the contact, ordered by most recent message first
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Unibox'
+        '404':
+          description: Contact not found
+      security:
+      - bearer: []
+      summary: Legacy - Get unibox chats and messages for a contact
+      tags:
+      - Unibox
+  /v1/unibox/threads:
+    get:
+      description: Returns paginated unibox threads for a specific LinkedIn seat when seatId is provided. If no seatId is provided, it returns threads for all LinkedIn seats in the account.
+      operationId: UniboxExternalController_getThreads
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      - name: dateTo
+        required: false
+        in: query
+        description: Filter threads with lastMessageDate on or before this ISO date string.
+        schema:
+          type: string
+      - name: dateFrom
+        required: false
+        in: query
+        description: Filter threads with lastMessageDate on or after this ISO date string.
+        schema:
+          type: string
+      - name: seen
+        required: false
+        in: query
+        description: Filter threads by seen/read status. Use true or false.
+        schema:
+          type: boolean
+      - name: interested
+        required: false
+        in: query
+        description: Filter threads by interested status. Use true or false.
+        schema:
+          type: boolean
+      - name: attendeeFullName
+        required: false
+        in: query
+        description: Filter threads by attendee full name. Partial matches are supported.
+        schema:
+          type: string
+      - name: order
+        required: false
+        in: query
+        description: 'Sort direction by last message date. Default: DESC.'
+        schema:
+          enum:
+          - ASC
+          - DESC
+          type: string
+      - name: limit
+        required: false
+        in: query
+        description: 'Number of threads per page. Default: 20. Minimum: 1. Maximum: 100.'
+        schema:
+          type: number
+      - name: page
+        required: false
+        in: query
+        description: 'Page number. Default: 1. Minimum: 1.'
+        schema:
+          type: number
+      - name: seatId
+        required: false
+        in: query
+        description: Optional LinkedIn seat ID. If omitted, returns threads for all seats in the account.
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Paginated unibox threads retrieved successfully.
+      security:
+      - bearer: []
+      summary: Get unibox threads
+      tags:
+      - Unibox
+  /v1/unibox/threads/{threadId}/messages:
+    get:
+      description: Returns paginated unibox messages for a thread owned by the authenticated user.
+      operationId: UniboxExternalController_getThreadMessages
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      - name: threadId
+        required: true
+        in: path
+        schema:
+          type: number
+      - name: order
+        required: false
+        in: query
+        description: 'Sort direction by message creation date. Default: ASC.'
+        schema:
+          enum:
+          - ASC
+          - DESC
+          type: string
+      - name: limit
+        required: false
+        in: query
+        description: 'Number of messages per page. Default: 50. Minimum: 1. Maximum: 200.'
+        schema:
+          type: number
+      - name: page
+        required: false
+        in: query
+        description: 'Page number. Default: 1. Minimum: 1.'
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Paginated unibox messages retrieved successfully.
+      security:
+      - bearer: []
+      summary: Get unibox messages from a thread
+      tags:
+      - Unibox
+  /v1/unibox/messages/send-message:
+    post:
+      description: 'Sends a LinkedIn message in a unibox thread. Provide chatId and message in the body. chatId is the internal unibox thread id returned as id by GET /v1/unibox/threads; it is not the LinkedIn conversationUrn. Optional multipart fields: file, voiceMessage.'
+      operationId: UniboxExternalController_sendMessage
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+              - chatId
+              properties:
+                chatId:
+                  type: string
+                  description: Internal unibox thread id returned as id by GET /v1/unibox/threads. This is not the LinkedIn conversationUrn.
+                message:
+                  type: string
+                  description: Text message to send. Optional only when sending a file or voiceMessage.
+                  example: Hi, thanks for your reply.
+                file:
+                  type: string
+                  format: binary
+                  description: Optional file attachment. Do not send together with voiceMessage.
+                voiceMessage:
+                  type: string
+                  format: binary
+                  description: Optional voice message attachment. Do not send together with file.
+      responses:
+        '201':
+          description: Message sent successfully.
+      security:
+      - bearer: []
+      summary: Send a unibox LinkedIn message
+      tags:
+      - Unibox
+components:
+  schemas:
+    List:
+      type: object
+      properties:
+        id:
+          type: number
+          description: Unique identifier for the list
+        name:
+          type: string
+          description: Name of the list
+        userId:
+          type: number
+          description: User ID who owns this list
+        user:
+          description: Associated user account
+          allOf:
+          - $ref: '#/components/schemas/Account'
+        campaignId:
+          type: number
+          description: Campaign ID associated with this list
+        campaign:
+          description: Associated campaign
+          allOf:
+          - $ref: '#/components/schemas/Campaign'
+        createdAt:
+          format: date-time
+          type: string
+          description: Creation timestamp
+        updatedAt:
+          format: date-time
+          type: string
+          description: Last update timestamp
+      required:
+      - id
+      - name
+      - userId
+      - user
+      - createdAt
+      - updatedAt
+    LinkedinSeat:
+      type: object
+      properties: {}
+    Campaign:
+      type: object
+      properties:
+        id:
+          type: number
+          description: Unique identifier for the campaign
+        name:
+          type: string
+          description: Name of the campaign
+        steps:
+          type: array
+          description: Campaign steps
+        userId:
+          type: number
+          description: User ID who owns this campaign
+        active:
+          type: boolean
+          description: Whether the campaign is active
+          default: true
+        excludeFirstDegreeFromCampaigns:
+          type: boolean
+          description: Exclude first degree connections from campaigns
+          default: true
+        isManual:
+          type: boolean
+          description: Whether the campaign is manual
+          default: false
+        skipInvitationAfterDays:
+          type: number
+          description: Number of days after which a pending invitation is skipped and only email steps are sent
+        language:
+          type: string
+          description: Campaign language
+          nullable: true
+        tone:
+          type: string
+          description: Campaign tone
+          enum:
+          - professional
+          - direct
+          - conversational
+        goal:
+          type: string
+          description: Campaign goal
+          enum:
+          - conversations
+          - demos
+        linkedinSeatId:
+          type: number
+          description: LinkedIn seat ID for this campaign
+        createdAt:
+          format: date-time
+          type: string
+          description: Creation timestamp
+        updatedAt:
+          format: date-time
+          type: string
+          description: Last update timestamp
+      required:
+      - id
+      - name
+      - userId
+      - active
+      - excludeFirstDegreeFromCampaigns
+      - isManual
+      - createdAt
+      - updatedAt
+    Contact:
+      type: object
+      properties:
+        id:
+          type: number
+          description: Unique identifier for the contact
+        firstName:
+          type: string
+          description: First name of the contact
+        lastName:
+          type: string
+          description: Last name of the contact
+        fullName:
+          type: string
+          description: Full name (auto-generated from firstName and lastName)
+          readOnly: true
+        profileBaseline:
+          type: string
+          description: Profile baseline information
+        location:
+          type: string
+          description: Location of the contact
+        jobTitle:
+          type: string
+          description: Job title of the contact
+        positionDates:
+          type: string
+          description: Position dates information
+        company:
+          type: string
+          description: Company name
+        companySize:
+          type: string
+          description: Company size
+        companyUrl:
+          type: string
+          description: Company URL
+        website:
+          type: string
+          description: Website URL
+        industry:
+          type: string
+          description: Industry
+        email:
+          type: string
+          description: Primary email address
+        email_2:
+          type: string
+          description: Secondary email address
+        email_3:
+          type: string
+          description: Tertiary email address
+        secondEmail:
+          type: string
+          description: Second email alias
+        thirdEmail:
+          type: string
+          description: Third email alias
+        phone:
+          type: string
+          description: Primary phone number
+        phone_2:
+          type: string
+          description: Secondary phone number
+        phone_3:
+          type: string
+          description: Tertiary phone number
+        secondPhone:
+          type: string
+          description: Second phone alias
+        thirdPhone:
+          type: string
+          description: Third phone alias
+        profileId:
+          type: string
+          description: LinkedIn profile ID
+        linkedinMemberId:
+          type: number
+          description: Numeric LinkedIn member ID decoded from the profile URN
+        profileUrl:
+          type: string
+          description: LinkedIn profile URL
+        picture:
+          type: string
+          description: Profile picture URL
+        openToWork:
+          type: boolean
+          description: Open to work status
+        skills:
+          description: Array of skills
+          type: array
+          items:
+            type: string
+        linkedinIdentifier:
+          type: string
+          description: LinkedIn identifier for the profile
+        note:
+          type: string
+          description: Additional notes about the contact
+        user_note:
+          type: string
+          description: User personal notes about the contact
+        intent:
+          type: string
+          description: Intent or activity description
+        intent_scoring:
+          type: number
+          description: AI scoring for intent relevance between 0 and 3
+        total_scoring:
+          type: number
+          description: Total scoring (intent_scoring + scoring)
+        intent_type:
+          type: object
+          description: Type or category of the intent
+        intent_keyword:
+          type: string
+          description: Keyword extracted from the intent
+        scoring:
+          type: number
+          description: AI scoring result between 0 and 1 (0 = no match, 1 = perfect match)
+        score_reasoning:
+          type: string
+          description: Reasoning for the AI scoring result
+        bounced:
+          type: boolean
+          description: Whether the contact email has bounced
+          default: false
+        unsubscribed:
+          type: boolean
+          description: Whether the contact has unsubscribed from emails
+          default: false
+        emailEnriched:
+          type: boolean
+          description: Whether email has been enriched
+          default: false
+        phoneEnriched:
+          type: boolean
+          description: Whether phone has been enriched
+          default: false
+        fit:
+          type: string
+          description: Contact fit classification
+          enum:
+          - qualified
+          - unknown
+          - out-of-scope
+        email_template:
+          type: object
+          description: Email template in JSON format with subject and body
+        linkedin_template:
+          type: string
+          description: LinkedIn template text
+        personalizedMessages:
+          description: Personalized messages for the contact
+          type: array
+          items:
+            type: string
+        destinationStatus:
+          description: Destination sync status information
+          type: array
+          items:
+            type: string
+        campaignStatus:
+          description: Campaign status information. Useful to know what is the achieved step of the contact in the campaign — i.e. how far the contact has progressed through the campaign's sequence. The stepNumber matches the campaign's step numbers (the steps defined on the campaign), so a stepNumber of 2 means the contact has reached step 2 of that campaign.
+          type: array
+          items:
+            type: string
+        userId:
+          type: number
+          description: User ID who owns this contact
+        user:
+          description: Associated user account
+          allOf:
+          - $ref: '#/components/schemas/Account'
+        agentId:
+          type: number
+          description: Associated agent ID
+        agent:
+          description: Associated agent
+          allOf:
+          - $ref: '#/components/schemas/Agent'
+        listId:
+          type: number
+          description: Associated list ID
+        list:
+          description: Associated list
+          allOf:
+          - $ref: '#/components/schemas/List'
+        readyForCampaign:
+          type: boolean
+          description: Ready for campaign flag
+          default: false
+        hasStartedCampaign:
+          type: boolean
+          description: Has started campaign flag
+          default: false
+        state:
+          type: string
+          description: Contact state
+          enum:
+          - finished
+          - paused
+          - 1stnetwork
+          - excluded
+        createdAt:
+          format: date-time
+          type: string
+          description: Creation timestamp
+        updatedAt:
+          format: date-time
+          type: string
+          description: Last update timestamp
+      required:
+      - id
+      - firstName
+      - lastName
+      - fullName
+      - bounced
+      - unsubscribed
+      - emailEnriched
+      - phoneEnriched
+      - userId
+      - user
+      - readyForCampaign
+      - hasStartedCampaign
+      - createdAt
+      - updatedAt
+    Unibox:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique chat identifier (internal chat ID)
+        subject:
+          type: string
+          description: Subject of the chat (sometimes empty)
+        lastMessage:
+          type: string
+          description: Content of the latest message in the chat
+        lastMessageDate:
+          format: date-time
+          type: string
+          description: Date of the latest message in the chat
+        messages:
+          description: List of messages in the chat
+          type: array
+          items:
+            type: object
+        sender:
+          type: object
+          description: Sender attendee information for the chat
+        seen:
+          type: boolean
+          description: Whether the chat has been seen
+          default: false
+        attendeeId:
+          type: string
+          description: attendee ID of the conversation partner (internal)
+        accountId:
+          type: string
+          description: Linkedin account ID associated with this chat (internal)
+        interested:
+          type: boolean
+          description: Whether the contact is interested (sentiment analysis result)
+        tag:
+          type: string
+          description: Sentiment / category tag for the chat
+        contactId:
+          type: number
+          description: Linked Gojiberry contact ID, if matched
+        contact:
+          description: Associated Gojiberry contact
+          allOf:
+          - $ref: '#/components/schemas/Contact'
+        seatId:
+          type: number
+          description: Gojiberry LinkedIn seat ID owning this chat
+        seat:
+          description: Associated LinkedIn seat
+          allOf:
+          - $ref: '#/components/schemas/LinkedinSeat'
+        userId:
+          type: number
+          description: User ID who owns this chat
+        user:
+          description: Associated user account
+          allOf:
+          - $ref: '#/components/schemas/Account'
+        createdAt:
+          format: date-time
+          type: string
+          description: Creation timestamp
+        updatedAt:
+          format: date-time
+          type: string
+          description: Last update timestamp
+      required:
+      - id
+      - seen
+      - createdAt
+      - updatedAt
+    Account:
+      type: object
+      properties: {}
+    Agent:
+      type: object
+      properties:
+        id:
+          type: number
+          description: Unique identifier
+        name:
+          type: string
+          description: Display name of the agent
+        targetJobTitles:
+          description: List of target job titles to prospect. Part of the ICP.
+          type: array
+          items:
+            type: string
+        targetIndustries:
+          description: List of target industries to prospect. Part of the ICP.
+          type: array
+          items:
+            type: string
+        targetCompanySizes:
+          description: List of target company sizes (e.g. "1-10", "11-50"). Part of the ICP.
+          type: array
+          items:
+            type: string
+        targetLocations:
+          description: List of target geographic locations. Part of the ICP.
+          type: array
+          items:
+            type: string
+        targetCompanyTypes:
+          description: List of target company types (e.g. "Public", "Private")
+          type: array
+          items:
+            type: string
+        additionalCriteria:
+          type: string
+          description: Additional free-text targeting criteria
+          nullable: true
+        variables:
+          description: Variables used by the agent to find high intent leads. (Keywords, Competitor Page URL, etc.)
+          nullable: true
+          type: array
+          items:
+            type: string
+        ignoredCompanies:
+          description: Company names to exclude from prospecting. Part of the ICP.
+          nullable: true
+          type: array
+          items:
+            type: string
+        mandatoryKeywords:
+          description: Keywords that must be present in a lead profile to be included
+          nullable: true
+          type: array
+          items:
+            type: string
+        agentType:
+          type: string
+          description: Type of agent (e.g. "autopilot")
+          example: autopilot
+        lastRun:
+          format: date-time
+          type: string
+          description: Timestamp of the last agent execution
+          nullable: true
+        paused:
+          type: boolean
+          description: Whether the agent is paused and will not run on its next scheduled time
+          default: false
+        excludeServiceProviders:
+          type: boolean
+          description: Whether to exclude service provider companies from prospecting
+          default: false
+        skipIcpFilter:
+          type: boolean
+          description: Whether to skip the ICP (Ideal Customer Profile) filter when sourcing leads
+          default: false
+        includeOpenToWorkProfiles:
+          type: boolean
+          description: Whether to include LinkedIn profiles marked as open to work
+          default: false
+        leadWaterfall:
+          type: boolean
+          description: Whether to use the lead waterfall strategy (cascade through multiple sources)
+          default: true
+        minLeadScore:
+          type: number
+          description: Minimum lead score threshold (0.00–1.00) required to include a lead
+          nullable: true
+          example: 0.75
+        userId:
+          type: number
+          description: ID of the account (user) who owns this agent
+        listId:
+          type: number
+          description: ID of the list this agent sources contacts into
+          nullable: true
+        createdAt:
+          format: date-time
+          type: string
+          description: Creation timestamp
+        updatedAt:
+          format: date-time
+          type: string
+          description: Last update timestamp
+      required:
+      - id
+      - name
+      - targetJobTitles
+      - targetIndustries
+      - targetCompanySizes
+      - targetLocations
+      - targetCompanyTypes
+      - agentType
+      - paused
+      - excludeServiceProviders
+      - skipIcpFilter
+      - includeOpenToWorkProfiles
+      - leadWaterfall
+      - userId
+      - createdAt
+      - updatedAt
+  securitySchemes:
+    API-Key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      name: JWT
+      description: Enter API Key
+      in: header

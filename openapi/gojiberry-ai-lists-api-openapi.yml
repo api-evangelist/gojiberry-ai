@@ -1,0 +1,221 @@
+openapi: 3.0.0
+info:
+  title: Gojiberry AI - External AppExternal Lists API
+  description: "\n# Gojiberry AI External API\n\nThis API allows you to programmatically access your Gojiberry AI data and integrate it with your applications.\n\n## Authentication\n\nAll API requests require authentication using a Bearer token. To get your API key:\n\n1. **Log in to your Gojiberry AI account** at [https://app.gojiberry.ai](https://app.gojiberry.ai)\n2. **Navigate to Settings** → **API** section\n3. **Click \"Create API Key\"** to generate a new token\n4. **Copy the API key** when it's displayed (you won't be able to see it again)\n5. **Use the token** in your requests by adding the header: `Authorization: Bearer YOUR_API_KEY`\n\n## Impersonation (organization owners)\n\nIf your API key belongs to the **owner of an organization**, you can perform any API call on behalf of another member of your organization by adding the `x-impersonate-user-id` header with the member's user ID:\n\n```bash\n# Get the contacts of the organization member with user ID 123\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     -H \"x-impersonate-user-id: 123\" \\\n     https://ext.gojiberry.ai/v1/contact\n```\n\nWhen impersonating, the request behaves exactly as if it was made by that member: you read and write their data (contacts, campaigns, lists, unibox, etc.).\n\nRules:\n- Your API key must belong to the **organization owner**; other members cannot impersonate.\n- The impersonated user must belong to the **same organization** as the API key user.\n- Requests that don't meet these rules are rejected with a `401 Unauthorized`.\n\nTip: use `GET /v1/organization/members` to list the members of your organization and their user IDs, and `GET /v1/user/me` to verify which user the current request acts as.\n\n## Rate Limits\n\n- **100 requests per minute** per API key\n\n## Base URL\n- **Production**: `https://ext.gojiberry.ai`\n\n## Endpoints\n\n### Contacts\n- `GET /v1/contact` - Get all contacts with filtering and pagination\n- `GET /v1/contact/{id}` - Get a specific contact\n- `GET /v1/contact/health` - Health check endpoint\n\n## Example Usage\n\n```bash\n# Get all contacts\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     https://ext.gojiberry.ai/v1/contact\n\n# Get contacts with filtering\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     \"https://ext.gojiberry.ai/v1/contact?search=john&agent=1&dateFrom=2024-01-01\"\n\n# Get a specific contact\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     https://ext.gojiberry.ai/v1/contact/123\n```\n\n## Webhooks\n\nGojiberry allows you to receive real-time notifications when new contacts are created or updated by configuring a webhook URL.\n\n### How to Configure Webhooks\n\n1. **Log in to your Gojiberry AI account** at [https://app.gojiberry.ai](https://app.gojiberry.ai)\n2. **Navigate to the Integrations page** at [https://app.gojiberry.ai/integrations](https://app.gojiberry.ai/integrations)\n3. **Add a Webhook integration** by clicking the Webhook option\n4. **Enter your webhook URL** where you want to receive notifications\n5. **Save the configuration**\n\nOnce configured, Gojiberry will send POST requests to your webhook URL whenever:\n- A new contact is created\n- A contact is updated\n- Other relevant events occur in your account\n\nThe webhook payload will include the full contact data in JSON format. Each webhook request includes a custom header `x-gojiberry-user-id` containing your user ID for verification purposes.\n\n## Support\n\nFor API support, please contact us at [hello@gojiberry.ai](mailto:hello@gojiberry.ai)\n      "
+  version: '1.0'
+  contact: {}
+servers: []
+tags:
+- name: Lists
+paths:
+  /v1/list:
+    post:
+      description: Create a new list for the authenticated user
+      operationId: ListExternalController_create
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateListDto'
+      responses:
+        '201':
+          description: List created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/List'
+      security:
+      - bearer: []
+      summary: Create a list
+      tags:
+      - Lists
+    get:
+      description: Retrieve all lists with contact counts
+      operationId: ListExternalController_findAll
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of lists with contact counts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/List'
+      security:
+      - bearer: []
+      summary: Get all lists
+      tags:
+      - Lists
+  /v1/list/{id}:
+    get:
+      description: Retrieve a single list by ID with its contacts
+      operationId: ListExternalController_findOne
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Get one list with contacts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/List'
+      security:
+      - bearer: []
+      summary: Get one list
+      tags:
+      - Lists
+components:
+  schemas:
+    List:
+      type: object
+      properties:
+        id:
+          type: number
+          description: Unique identifier for the list
+        name:
+          type: string
+          description: Name of the list
+        userId:
+          type: number
+          description: User ID who owns this list
+        user:
+          description: Associated user account
+          allOf:
+          - $ref: '#/components/schemas/Account'
+        campaignId:
+          type: number
+          description: Campaign ID associated with this list
+        campaign:
+          description: Associated campaign
+          allOf:
+          - $ref: '#/components/schemas/Campaign'
+        createdAt:
+          format: date-time
+          type: string
+          description: Creation timestamp
+        updatedAt:
+          format: date-time
+          type: string
+          description: Last update timestamp
+      required:
+      - id
+      - name
+      - userId
+      - user
+      - createdAt
+      - updatedAt
+    Campaign:
+      type: object
+      properties:
+        id:
+          type: number
+          description: Unique identifier for the campaign
+        name:
+          type: string
+          description: Name of the campaign
+        steps:
+          type: array
+          description: Campaign steps
+        userId:
+          type: number
+          description: User ID who owns this campaign
+        active:
+          type: boolean
+          description: Whether the campaign is active
+          default: true
+        excludeFirstDegreeFromCampaigns:
+          type: boolean
+          description: Exclude first degree connections from campaigns
+          default: true
+        isManual:
+          type: boolean
+          description: Whether the campaign is manual
+          default: false
+        skipInvitationAfterDays:
+          type: number
+          description: Number of days after which a pending invitation is skipped and only email steps are sent
+        language:
+          type: string
+          description: Campaign language
+          nullable: true
+        tone:
+          type: string
+          description: Campaign tone
+          enum:
+          - professional
+          - direct
+          - conversational
+        goal:
+          type: string
+          description: Campaign goal
+          enum:
+          - conversations
+          - demos
+        linkedinSeatId:
+          type: number
+          description: LinkedIn seat ID for this campaign
+        createdAt:
+          format: date-time
+          type: string
+          description: Creation timestamp
+        updatedAt:
+          format: date-time
+          type: string
+          description: Last update timestamp
+      required:
+      - id
+      - name
+      - userId
+      - active
+      - excludeFirstDegreeFromCampaigns
+      - isManual
+      - createdAt
+      - updatedAt
+    Account:
+      type: object
+      properties: {}
+    CreateListDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the list
+          maxLength: 255
+        campaignId:
+          type: number
+          description: Campaign ID associated with this list
+      required:
+      - name
+  securitySchemes:
+    API-Key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      name: JWT
+      description: Enter API Key
+      in: header
