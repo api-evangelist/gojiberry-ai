@@ -1,0 +1,34 @@
+generated: '2026-07-19'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: gojiberry.ai
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep 27 14:32:39 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: app.gojiberry.ai
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep 27 14:32:39 2026 GMT
+  hsts: false
+- host: ext.gojiberry.ai
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct  1 23:59:59 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+domains:
+- domain: gojiberry.ai
+  dnssec: false
+  caa:
+  - 0 issue "amazon.com"
+  - 0 issue "comodoca.com"
+  - 0 issue "digicert.com; cansignhttpexchanges=yes"
+  - 0 issue "letsencrypt.org"
+  - 0 issue "pki.goog; cansignhttpexchanges=yes"
+  - 0 issue "ssl.com"
+  spf: true
+  dmarc: true
+  dmarc_policy: reject

@@ -1,0 +1,12 @@
+generated: '2026-07-19'
+method: searched
+source: https://ext.gojiberry.ai/documentation (OpenAPI info.description "Rate Limits")
+rate_limits:
+- scope: per API key
+  limit_count: 100
+  window: 1 minute
+  description: 100 requests per minute per API key.
+notes: >-
+  Documented in the External API reference. No RateLimit / Retry-After response
+  headers were observed on an unauthenticated probe; behavior on limit exceed is
+  not published.

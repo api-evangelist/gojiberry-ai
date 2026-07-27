@@ -1,0 +1,24 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Gojiberry AI External API
+  version: 1.0.0
+extends: openapi/gojiberry-ai-external-openapi-original.json
+actions:
+- target: $.info
+  update:
+    x-apievangelist-enriched: '2026-07-19'
+    x-apievangelist-rating-notes: >-
+      Real 28-operation REST API with bearer (JWT) auth, documented 100 req/min
+      rate limit, org-owner impersonation, outbound webhooks, and a live hosted
+      MCP server. Errors use a NestJS {message, statusCode} envelope (not RFC 9457).
+- target: $.servers
+  update:
+  - url: https://ext.gojiberry.ai
+    description: Production (added by API Evangelist; the source spec ships an empty servers array).
+- target: $.info
+  update:
+    x-agentic-access-summary: >-
+      GET operations are read/connected; POST/PATCH/DELETE on contacts, lists,
+      campaigns, agents, and unibox messages are acting/write. Sending a Unibox
+      LinkedIn message (UniboxExternalController_sendMessage) has external
+      consequence and warrants audit.

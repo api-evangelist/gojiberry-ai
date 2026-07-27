@@ -1,0 +1,97 @@
+generated: '2026-07-19'
+method: searched
+status: published
+source: https://mcp.gojiberry.ai/ (live probe) + https://gojiberry.ai/how-to-do-outreach-claude-linkedin-mcp
+server:
+  name: Gojiberry AI
+  version: 1.0.0
+  transport: http
+  url: https://mcp.gojiberry.ai/mcp
+  root_url: https://mcp.gojiberry.ai/
+  authentication: required (JSON-RPC error -32001 without credentials; HTTP 401)
+  docs: https://ext.gojiberry.ai/documentation
+  connect_guide: https://gojiberry.ai/how-to-do-outreach-claude-linkedin-mcp
+  description: Hosted MCP server that lets an AI client (e.g. Claude) run multichannel outbound, find
+    and score warm leads, draft personalized messages, and pull pipeline insights from Gojiberry conversationally.
+notes: Server verified live (GET / returns {"name":"Gojiberry AI","version":"1.0.0","status":"ok"}). Tool
+  list below is DERIVED from the External API operations as candidates; the authenticated server may expose
+  a curated subset/superset.
+tools:
+- name: ContactExternalController_create
+  description: Create a new contact
+  source_operation: openapi/gojiberry-ai-external-openapi-original.json#ContactExternalController_create
+- name: ContactExternalController_findMany
+  description: Get all contacts with pagination and filtering
+  source_operation: openapi/gojiberry-ai-external-openapi-original.json#ContactExternalController_findMany
+- name: ContactExternalController_update
+  description: Update a contact
+  source_operation: openapi/gojiberry-ai-external-openapi-original.json#ContactExternalController_update
+- name: ContactExternalController_findOne
+  description: Get one contact
+  source_operation: openapi/gojiberry-ai-external-openapi-original.json#ContactExternalController_findOne
+- name: ContactExternalController_addManyToList
+  description: Add contacts to a list
+  source_operation: openapi/gojiberry-ai-external-openapi-original.json#ContactExternalController_addManyToList
+- name: ContactExternalController_removeManyFromList
+  description: Remove contacts from a list
+  source_operation: openapi/gojiberry-ai-external-openapi-original.json#ContactExternalController_removeManyFromList
+- name: ContactExternalController_getIntentTypeCounts
+  description: Get contact counts by intent type
+  source_operation: openapi/gojiberry-ai-external-openapi-original.json#ContactExternalController_getIntentTypeCounts
+- name: ContactExternalController_enrichEmail
+  description: Enrich a contact's email
+  source_operation: openapi/gojiberry-ai-external-openapi-original.json#ContactExternalController_enrichEmail
+- name: CampaignExternalController_findAll
+  description: Get all campaigns
+  source_operation: openapi/gojiberry-ai-external-openapi-original.json#CampaignExternalController_findAll
+- name: CampaignExternalController_findOne
+  description: Get one campaign
+  source_operation: openapi/gojiberry-ai-external-openapi-original.json#CampaignExternalController_findOne
+- name: CampaignExternalController_update
+  description: Update one campaign
+  source_operation: openapi/gojiberry-ai-external-openapi-original.json#CampaignExternalController_update
+- name: ListExternalController_create
+  description: Create a list
+  source_operation: openapi/gojiberry-ai-external-openapi-original.json#ListExternalController_create
+- name: ListExternalController_findAll
+  description: Get all lists
+  source_operation: openapi/gojiberry-ai-external-openapi-original.json#ListExternalController_findAll
+- name: ListExternalController_findOne
+  description: Get one list
+  source_operation: openapi/gojiberry-ai-external-openapi-original.json#ListExternalController_findOne
+- name: AgentExternalController_findAll
+  description: Get all source agents
+  source_operation: openapi/gojiberry-ai-external-openapi-original.json#AgentExternalController_findAll
+- name: AgentExternalController_findOne
+  description: Get one source agent
+  source_operation: openapi/gojiberry-ai-external-openapi-original.json#AgentExternalController_findOne
+- name: AgentExternalController_update
+  description: Update a source agent
+  source_operation: openapi/gojiberry-ai-external-openapi-original.json#AgentExternalController_update
+- name: AgentExternalController_findLogs
+  description: Get logs for a source agent
+  source_operation: openapi/gojiberry-ai-external-openapi-original.json#AgentExternalController_findLogs
+- name: UniboxExternalController_getMessagesByContactId
+  description: Legacy - Get unibox chats and messages for a contact
+  source_operation: openapi/gojiberry-ai-external-openapi-original.json#UniboxExternalController_getMessagesByContactId
+- name: UniboxExternalController_getThreads
+  description: Get unibox threads
+  source_operation: openapi/gojiberry-ai-external-openapi-original.json#UniboxExternalController_getThreads
+- name: UniboxExternalController_getThreadMessages
+  description: Get unibox messages from a thread
+  source_operation: openapi/gojiberry-ai-external-openapi-original.json#UniboxExternalController_getThreadMessages
+- name: UniboxExternalController_sendMessage
+  description: Send a unibox LinkedIn message
+  source_operation: openapi/gojiberry-ai-external-openapi-original.json#UniboxExternalController_sendMessage
+- name: OrganizationExternalController_getOrganization
+  description: Get the organization
+  source_operation: openapi/gojiberry-ai-external-openapi-original.json#OrganizationExternalController_getOrganization
+- name: OrganizationExternalController_getOrganizationMembers
+  description: Get all organization members
+  source_operation: openapi/gojiberry-ai-external-openapi-original.json#OrganizationExternalController_getOrganizationMembers
+- name: UserExternalController_getMe
+  description: Get the authenticated user
+  source_operation: openapi/gojiberry-ai-external-openapi-original.json#UserExternalController_getMe
+- name: UserExternalController_getMyPermissions
+  description: Get the permissions of the authenticated user
+  source_operation: openapi/gojiberry-ai-external-openapi-original.json#UserExternalController_getMyPermissions

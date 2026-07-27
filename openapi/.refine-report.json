@@ -1,0 +1,28 @@
+{
+  "provider": "gojiberry-ai",
+  "sources": [
+    "gojiberry-ai-appexternal-api-openapi.yml",
+    "gojiberry-ai-campaigns-api-openapi.yml",
+    "gojiberry-ai-contacts-api-openapi.yml",
+    "gojiberry-ai-lead-source-agents-api-openapi.yml",
+    "gojiberry-ai-lists-api-openapi.yml",
+    "gojiberry-ai-organization-api-openapi.yml",
+    "gojiberry-ai-unibox-api-openapi.yml",
+    "gojiberry-ai-user-api-openapi.yml"
+  ],
+  "outputs": [
+    "gojiberry-ai-appexternal-api-openapi.yml",
+    "gojiberry-ai-campaigns-api-openapi.yml",
+    "gojiberry-ai-contacts-api-openapi.yml",
+    "gojiberry-ai-lead-source-agents-api-openapi.yml",
+    "gojiberry-ai-lists-api-openapi.yml",
+    "gojiberry-ai-organization-api-openapi.yml",
+    "gojiberry-ai-unibox-api-openapi.yml",
+    "gojiberry-ai-user-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

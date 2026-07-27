@@ -1,0 +1,45 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/gojiberry-ai-external-openapi-original.json
+format: nest-error-envelope
+envelope:
+  note: Errors are returned as a JSON object, NOT RFC 9457 problem+json.
+  shape: '{"message": string | string[], "statusCode": integer, "error"?: string}'
+  example:
+    message: Unauthorized
+    statusCode: 401
+docs: https://ext.gojiberry.ai/documentation
+problems:
+- status: 400
+  title: Bad Request
+  description: The request was malformed or contained invalid parameters.
+  remediation: Check request body/query parameters against the OpenAPI schema.
+  source_operations:
+  - openapi/gojiberry-ai-external-openapi-original.json#CampaignExternalController_update
+  - openapi/gojiberry-ai-external-openapi-original.json#ContactExternalController_create
+- status: 401
+  title: Unauthorized
+  description: "Missing, invalid, or expired API key \u2014 or an impersonation attempt that violates\
+    \ the org-owner rules."
+  remediation: 'Send a valid `Authorization: Bearer <API_KEY>`; for x-impersonate-user-id the key must
+    belong to the org owner and target the same organization.'
+  source_operations:
+  - openapi/gojiberry-ai-external-openapi-original.json#UserExternalController_getMe
+- status: 404
+  title: Not Found
+  description: The referenced resource (contact, campaign, list, agent, thread) does not exist or is not
+    visible to the authenticated user.
+  remediation: Verify the resource id and that it belongs to the authenticated (or impersonated) user.
+  source_operations:
+  - openapi/gojiberry-ai-external-openapi-original.json#AgentExternalController_findLogs
+  - openapi/gojiberry-ai-external-openapi-original.json#AgentExternalController_findOne
+  - openapi/gojiberry-ai-external-openapi-original.json#AgentExternalController_update
+  - openapi/gojiberry-ai-external-openapi-original.json#CampaignExternalController_update
+  - openapi/gojiberry-ai-external-openapi-original.json#ContactExternalController_enrichEmail
+  - openapi/gojiberry-ai-external-openapi-original.json#ContactExternalController_update
+- status: 422
+  title: Unprocessable Entity
+  description: The request was well-formed but failed validation.
+  remediation: Correct the field values reported in the response and retry.
+  source_operations:
+  - openapi/gojiberry-ai-external-openapi-original.json#ContactExternalController_enrichEmail

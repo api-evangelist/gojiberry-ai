@@ -1,0 +1,41 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/gojiberry-ai-external-openapi-original.json + https://ext.gojiberry.ai/documentation
+standards:
+- id: oauth2
+  conforms: false
+  evidence: securityScheme is http bearer (API key / JWT), not an oauth2 flow.
+- id: openid-connect
+  conforms: false
+- id: bearer-token-auth
+  conforms: true
+  evidence: components.securitySchemes.API-Key = http bearer, bearerFormat JWT.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: errors use a NestJS-style {message, statusCode} envelope, not application/problem+json.
+- id: json-api
+  conforms: false
+- id: pagination
+  conforms: true
+  evidence: page + limit query parameters on collection endpoints.
+- id: rate-limiting
+  conforms: true
+  evidence: documented 100 requests/minute per API key.
+- id: webhooks
+  conforms: true
+  evidence: outbound webhooks on contact created/updated with x-gojiberry-user-id verification header.
+- id: fhir
+  conforms: false
+- id: scim
+  conforms: false
+- id: odata
+  conforms: false
+- id: fapi
+  conforms: false
+- id: psd2
+  conforms: false
+note: >-
+  Derived assertions only. Gojiberry publishes no formal compliance certifications
+  (no SOC 2 / ISO 27001 / PCI / HIPAA / FedRAMP trust center was found); the product
+  advertises "Made & Hosted in the EU" (GDPR posture). No Compliance pointer is
+  emitted because no certified compliance program is published.

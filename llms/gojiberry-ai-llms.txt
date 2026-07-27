@@ -1,0 +1,35 @@
+# Gojiberry AI
+
+> Y Combinator-backed (P26), EU-hosted AI sales development platform. Turn a website into an autonomous go-to-market agent that detects buying/social intent, scores prospects against an ideal customer profile, builds warm-lead lists, and runs multichannel (email + LinkedIn) outreach. The Gojiberry AI External API and a hosted MCP server expose contacts, campaigns, lists, lead-source agents, and the unified inbox (Unibox) for programmatic and agent-driven use.
+
+## APIs
+
+- [Gojiberry AI External API (docs)](https://ext.gojiberry.ai/documentation): REST API — contacts, campaigns, lists, agents, unibox, organization, users. Base URL https://ext.gojiberry.ai
+- [OpenAPI spec](https://ext.gojiberry.ai/openapi.json): OpenAPI 3.0.0, 28 operations, bearer (JWT) auth, 100 req/min per key.
+
+## MCP
+
+- [Gojiberry MCP server](https://mcp.gojiberry.ai/mcp): Hosted Model Context Protocol server (streamable HTTP, auth required) — run outbound, find/score leads, draft messages, and pull pipeline insights from an AI client like Claude.
+- [Connect MCP guide](https://gojiberry.ai/how-to-do-outreach-claude-linkedin-mcp): One-URL setup to connect Claude to Gojiberry.
+
+## Auth
+
+- Bearer token: `Authorization: Bearer <API_KEY>`. Create a key at https://app.gojiberry.ai (Settings -> API).
+- Org owners can impersonate a member with the `x-impersonate-user-id` header.
+
+## Events
+
+- Outbound webhooks (configured at https://app.gojiberry.ai/integrations): POST on contact created / contact updated, with an `x-gojiberry-user-id` verification header.
+
+## Docs
+
+- [Website](https://gojiberry.ai)
+- [App / Login](https://app.gojiberry.ai/login)
+- [Sign up](https://app.gojiberry.ai/registration)
+- [Pricing](https://gojiberry.ai/#pricing)
+- [FAQ](https://gojiberry.ai/faq)
+- [Blog](https://blog.gojiberry.ai)
+- [Status](https://status.gojiberry.ai/)
+- [Terms](https://gojiberry.ai/general-terms)
+- [Privacy](https://gojiberry.ai/privacy-policy)
+- Support: hello@gojiberry.ai

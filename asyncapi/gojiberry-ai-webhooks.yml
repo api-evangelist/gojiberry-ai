@@ -1,0 +1,34 @@
+generated: '2026-07-19'
+method: searched
+source: https://ext.gojiberry.ai/documentation (OpenAPI info.description "Webhooks") + https://app.gojiberry.ai/integrations
+spec_type: Webhooks
+type: Webhooks
+transport: HTTP POST to a user-configured URL
+configuration:
+  where: https://app.gojiberry.ai/integrations
+  steps:
+  - Log in to Gojiberry AI
+  - Open the Integrations page
+  - Add a Webhook integration
+  - Enter your receiving URL
+  - Save
+delivery:
+  method: POST
+  content_type: application/json
+  verification_header: x-gojiberry-user-id  # contains your Gojiberry user ID
+  payload: Full contact data in JSON format.
+events:
+- name: contact.created
+  description: A new contact is created in your account.
+  payload: full contact object
+- name: contact.updated
+  description: An existing contact is updated.
+  payload: full contact object
+- name: other
+  description: >-
+    Docs state "Other relevant events occur in your account" without an
+    enumerated catalog; contact.created and contact.updated are the two
+    explicitly documented triggers.
+notes: >-
+  No AsyncAPI document is published. This captures the documented outbound
+  webhook surface so the event/webhook signal is represented (type Webhooks).

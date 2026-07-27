@@ -1,0 +1,21 @@
+generated: '2026-07-19'
+method: searched
+source: https://gojiberry.ai + https://status.gojiberry.ai/ + https://ext.gojiberry.ai/documentation
+versioning:
+  scheme: uri-path
+  current: v1
+  base_path: /v1
+  docs: https://ext.gojiberry.ai/documentation
+deprecation:
+  policy_url: null
+  sunset_header: false
+  note: No published deprecation/Sunset policy found. One legacy operation is flagged in-spec (UniboxExternalController_getMessagesByContactId, summary "Legacy").
+sla:
+  url: null
+  uptime_target: null
+status_page: https://status.gojiberry.ai/
+rate_limits:
+  summary: 100 requests/minute per API key
+  see: rate-limits/gojiberry-ai-rate-limits.yml
+deprecated_operations:
+- openapi/gojiberry-ai-external-openapi-original.json#UniboxExternalController_getMessagesByContactId

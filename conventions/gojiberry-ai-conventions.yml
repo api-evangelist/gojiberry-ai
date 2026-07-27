@@ -1,0 +1,53 @@
+generated: '2026-07-19'
+method: searched
+source: https://ext.gojiberry.ai/documentation (OpenAPI info.description) + openapi/gojiberry-ai-external-openapi-original.json
+summary: Cross-cutting request/response semantics for the Gojiberry AI External API.
+authentication:
+  style: bearer-token
+  header: 'Authorization: Bearer <API_KEY>'
+  format: JWT
+  provisioning: app.gojiberry.ai -> Settings -> API -> Create API Key
+  see: authentication/gojiberry-ai-authentication.yml
+impersonation:
+  supported: true
+  header: x-impersonate-user-id
+  rule: API key must belong to the organization owner; the impersonated user must be in the same organization.
+  helpers:
+  - GET /v1/organization/members  # list member user IDs
+  - GET /v1/user/me               # verify acting user
+pagination:
+  style: page-number
+  params:
+  - page
+  - limit
+  applies_to:
+  - GET /v1/contact
+  filtering:
+    examples:
+    - search
+    - agent
+    - dateFrom
+idempotency:
+  supported: false
+  note: No Idempotency-Key header or parameter is documented or present in the OpenAPI. Do NOT emit an Idempotency pointer.
+versioning:
+  scheme: uri-path
+  current: v1
+  base_path: /v1
+error_envelope:
+  format: nest-error-envelope
+  shape: '{"message": string | string[], "statusCode": integer, "error"?: string}'
+  rfc9457: false
+  see: errors/gojiberry-ai-problem-types.yml
+rate_limiting:
+  documented: true
+  limit: 100 requests per minute per API key
+  headers_observed: none exposed on unauthenticated probe
+  see: rate-limits/gojiberry-ai-rate-limits.yml
+webhooks:
+  supported: true
+  direction: outbound
+  verification_header: x-gojiberry-user-id
+  see: asyncapi/gojiberry-ai-webhooks.yml
+support:
+  email: hello@gojiberry.ai

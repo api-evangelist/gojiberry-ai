@@ -1,0 +1,30 @@
+generated: '2026-07-19'
+method: generated
+source: openapi/gojiberry-ai-external-openapi-original.json
+api: openapi/gojiberry-ai-external-openapi-original.json
+skills:
+- file: gojiberry-ai-find-and-list-warm-leads.md
+  name: Find warm leads and build a list
+  api: openapi/gojiberry-ai-external-openapi-original.json
+  operations:
+  - ContactExternalController_findMany
+  - ContactExternalController_getIntentTypeCounts
+  - ListExternalController_create
+  - ContactExternalController_addManyToList
+- file: gojiberry-ai-enrich-and-message-contact.md
+  name: Enrich a contact and send a LinkedIn message
+  api: openapi/gojiberry-ai-external-openapi-original.json
+  operations:
+  - ContactExternalController_findOne
+  - ContactExternalController_enrichEmail
+  - UniboxExternalController_getThreads
+  - UniboxExternalController_sendMessage
+- file: gojiberry-ai-manage-campaigns-and-agents.md
+  name: Manage campaigns and lead-source agents
+  api: openapi/gojiberry-ai-external-openapi-original.json
+  operations:
+  - CampaignExternalController_findAll
+  - CampaignExternalController_update
+  - AgentExternalController_findAll
+  - AgentExternalController_update
+  - AgentExternalController_findLogs

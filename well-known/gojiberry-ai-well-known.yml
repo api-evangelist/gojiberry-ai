@@ -1,0 +1,18 @@
+generated: '2026-07-19'
+method: searched
+note: >-
+  Probed the standard /.well-known/ discovery surface on the website, app, and
+  API hosts. None are published (all 404) — a valid, expected result recorded
+  here for auditability. No WellKnown/SecurityTxt pointer is emitted.
+hosts:
+- host: https://gojiberry.ai
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+- host: https://ext.gojiberry.ai
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+- host: https://api.gojiberry.ai
+  documents:
+  - {path: /.well-known/security.txt, status: 404}

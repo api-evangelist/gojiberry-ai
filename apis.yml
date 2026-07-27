@@ -1,22 +1,275 @@
 aid: gojiberry-ai
-name: Gojiberry Ai
-description: Gojiberry Ai is a company surfaced as a portfolio company of y-combinator and added to the
-  API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+name: Gojiberry AI
+description: >-
+  Gojiberry AI is a Y Combinator-backed (P26), EU-hosted AI sales development
+  platform that turns a company website into an autonomous go-to-market agent.
+  The agent detects buying and social intent signals, scores prospects against
+  an ideal customer profile, builds warm-lead lists, and runs multichannel
+  (email and LinkedIn) outreach automatically. Gojiberry exposes a REST External
+  API at ext.gojiberry.ai for programmatic access to contacts, campaigns, lists,
+  lead-source agents, and the unified LinkedIn/email inbox (Unibox), plus a
+  hosted Model Context Protocol (MCP) server so agents like Claude can run
+  outreach and pull pipeline insights conversationally. Trusted by 2,000+ sales
+  and GTM teams worldwide.
 url: https://raw.githubusercontent.com/api-evangelist/gojiberry-ai/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - y-combinator
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: profiled
+x-tier-reason: real-api-and-mcp-discovered
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://framerusercontent.com/images/0PsnqRXKIijGaB8ooIkfAThxHs.png
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-19'
 tags:
 - Company
-apis: []
+- Sales
+- Lead Generation
+- Sales Intelligence
+- AI Agents
+- Outbound
+- Go-To-Market
+- Prospecting
+- LinkedIn
+- CRM
+apis:
+- aid: gojiberry-ai:gojiberry-ai-appexternal-api
+  name: Gojiberry AI AppExternal API
+  description: The AppExternal API from Gojiberry AI — 2 operation(s) for appexternal.
+  humanURL: https://ext.gojiberry.ai/documentation
+  baseURL: https://ext.gojiberry.ai
+  tags:
+  - AppExternal
+  properties:
+  - type: OpenAPI
+    url: openapi/gojiberry-ai-appexternal-api-openapi.yml
+  - type: Documentation
+    url: https://ext.gojiberry.ai/documentation
+  - type: APIReference
+    url: https://ext.gojiberry.ai/documentation
+  - type: ErrorCatalog
+    url: errors/gojiberry-ai-problem-types.yml
+  - type: DataModel
+    url: data-model/gojiberry-ai-data-model.yml
+  - type: Webhooks
+    url: asyncapi/gojiberry-ai-webhooks.yml
+- aid: gojiberry-ai:gojiberry-ai-campaigns-api
+  name: Gojiberry AI Campaigns API
+  description: The Campaigns API from Gojiberry AI — 2 operation(s) for campaigns.
+  humanURL: https://ext.gojiberry.ai/documentation
+  baseURL: https://ext.gojiberry.ai
+  tags:
+  - Campaigns
+  properties:
+  - type: OpenAPI
+    url: openapi/gojiberry-ai-campaigns-api-openapi.yml
+  - type: Documentation
+    url: https://ext.gojiberry.ai/documentation
+  - type: APIReference
+    url: https://ext.gojiberry.ai/documentation
+  - type: ErrorCatalog
+    url: errors/gojiberry-ai-problem-types.yml
+  - type: DataModel
+    url: data-model/gojiberry-ai-data-model.yml
+  - type: Webhooks
+    url: asyncapi/gojiberry-ai-webhooks.yml
+- aid: gojiberry-ai:gojiberry-ai-contacts-api
+  name: Gojiberry AI Contacts API
+  description: The Contacts API from Gojiberry AI — 5 operation(s) for contacts.
+  humanURL: https://ext.gojiberry.ai/documentation
+  baseURL: https://ext.gojiberry.ai
+  tags:
+  - Contacts
+  properties:
+  - type: OpenAPI
+    url: openapi/gojiberry-ai-contacts-api-openapi.yml
+  - type: Documentation
+    url: https://ext.gojiberry.ai/documentation
+  - type: APIReference
+    url: https://ext.gojiberry.ai/documentation
+  - type: ErrorCatalog
+    url: errors/gojiberry-ai-problem-types.yml
+  - type: DataModel
+    url: data-model/gojiberry-ai-data-model.yml
+  - type: Webhooks
+    url: asyncapi/gojiberry-ai-webhooks.yml
+- aid: gojiberry-ai:gojiberry-ai-lead-source-agents-api
+  name: Gojiberry AI Lead source agents API
+  description: The Lead source agents API from Gojiberry AI — 3 operation(s) for lead source agents.
+  humanURL: https://ext.gojiberry.ai/documentation
+  baseURL: https://ext.gojiberry.ai
+  tags:
+  - Lead source agents
+  properties:
+  - type: OpenAPI
+    url: openapi/gojiberry-ai-lead-source-agents-api-openapi.yml
+  - type: Documentation
+    url: https://ext.gojiberry.ai/documentation
+  - type: APIReference
+    url: https://ext.gojiberry.ai/documentation
+  - type: ErrorCatalog
+    url: errors/gojiberry-ai-problem-types.yml
+  - type: DataModel
+    url: data-model/gojiberry-ai-data-model.yml
+  - type: Webhooks
+    url: asyncapi/gojiberry-ai-webhooks.yml
+- aid: gojiberry-ai:gojiberry-ai-lists-api
+  name: Gojiberry AI Lists API
+  description: The Lists API from Gojiberry AI — 2 operation(s) for lists.
+  humanURL: https://ext.gojiberry.ai/documentation
+  baseURL: https://ext.gojiberry.ai
+  tags:
+  - Lists
+  properties:
+  - type: OpenAPI
+    url: openapi/gojiberry-ai-lists-api-openapi.yml
+  - type: Documentation
+    url: https://ext.gojiberry.ai/documentation
+  - type: APIReference
+    url: https://ext.gojiberry.ai/documentation
+  - type: ErrorCatalog
+    url: errors/gojiberry-ai-problem-types.yml
+  - type: DataModel
+    url: data-model/gojiberry-ai-data-model.yml
+  - type: Webhooks
+    url: asyncapi/gojiberry-ai-webhooks.yml
+- aid: gojiberry-ai:gojiberry-ai-organization-api
+  name: Gojiberry AI Organization API
+  description: The Organization API from Gojiberry AI — 2 operation(s) for organization.
+  humanURL: https://ext.gojiberry.ai/documentation
+  baseURL: https://ext.gojiberry.ai
+  tags:
+  - Organization
+  properties:
+  - type: OpenAPI
+    url: openapi/gojiberry-ai-organization-api-openapi.yml
+  - type: Documentation
+    url: https://ext.gojiberry.ai/documentation
+  - type: APIReference
+    url: https://ext.gojiberry.ai/documentation
+  - type: ErrorCatalog
+    url: errors/gojiberry-ai-problem-types.yml
+  - type: DataModel
+    url: data-model/gojiberry-ai-data-model.yml
+  - type: Webhooks
+    url: asyncapi/gojiberry-ai-webhooks.yml
+- aid: gojiberry-ai:gojiberry-ai-unibox-api
+  name: Gojiberry AI Unibox API
+  description: The Unibox API from Gojiberry AI — 4 operation(s) for unibox.
+  humanURL: https://ext.gojiberry.ai/documentation
+  baseURL: https://ext.gojiberry.ai
+  tags:
+  - Unibox
+  properties:
+  - type: OpenAPI
+    url: openapi/gojiberry-ai-unibox-api-openapi.yml
+  - type: Documentation
+    url: https://ext.gojiberry.ai/documentation
+  - type: APIReference
+    url: https://ext.gojiberry.ai/documentation
+  - type: ErrorCatalog
+    url: errors/gojiberry-ai-problem-types.yml
+  - type: DataModel
+    url: data-model/gojiberry-ai-data-model.yml
+  - type: Webhooks
+    url: asyncapi/gojiberry-ai-webhooks.yml
+- aid: gojiberry-ai:gojiberry-ai-user-api
+  name: Gojiberry AI User API
+  description: The User API from Gojiberry AI — 2 operation(s) for user.
+  humanURL: https://ext.gojiberry.ai/documentation
+  baseURL: https://ext.gojiberry.ai
+  tags:
+  - User
+  properties:
+  - type: OpenAPI
+    url: openapi/gojiberry-ai-user-api-openapi.yml
+  - type: Documentation
+    url: https://ext.gojiberry.ai/documentation
+  - type: APIReference
+    url: https://ext.gojiberry.ai/documentation
+  - type: ErrorCatalog
+    url: errors/gojiberry-ai-problem-types.yml
+  - type: DataModel
+    url: data-model/gojiberry-ai-data-model.yml
+  - type: Webhooks
+    url: asyncapi/gojiberry-ai-webhooks.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+common:
+- type: Website
+  url: https://gojiberry.ai
+- type: DeveloperPortal
+  url: https://ext.gojiberry.ai/documentation
+- type: Portal
+  url: https://app.gojiberry.ai
+- type: Documentation
+  url: https://ext.gojiberry.ai/documentation
+- type: APIReference
+  url: https://ext.gojiberry.ai/documentation
+- type: Authentication
+  url: authentication/gojiberry-ai-authentication.yml
+- type: MCPServer
+  url: mcp/gojiberry-ai-mcp.yml
+- type: Conventions
+  url: conventions/gojiberry-ai-conventions.yml
+- type: RateLimits
+  url: rate-limits/gojiberry-ai-rate-limits.yml
+- type: Lifecycle
+  url: lifecycle/gojiberry-ai-lifecycle.yml
+- type: StatusPage
+  url: https://status.gojiberry.ai/
+- type: Conformance
+  url: conformance/gojiberry-ai-conformance.yml
+- type: DataModel
+  url: data-model/gojiberry-ai-data-model.yml
+- type: Webhooks
+  url: asyncapi/gojiberry-ai-webhooks.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: DomainSecurity
+  url: security/gojiberry-ai-domain-security.yml
+- type: LLMsTxt
+  url: llms/gojiberry-ai-llms.txt
+- type: Overlay
+  url: overlays/gojiberry-ai-external-overlay.yaml
+- type: ErrorCatalog
+  url: errors/gojiberry-ai-problem-types.yml
+- type: Pricing
+  url: https://gojiberry.ai/#pricing
+- type: SignUp
+  url: https://app.gojiberry.ai/registration
+- type: Login
+  url: https://app.gojiberry.ai/login
+- type: TermsOfService
+  url: https://gojiberry.ai/general-terms
+- type: PrivacyPolicy
+  url: https://gojiberry.ai/privacy-policy
+- type: Support
+  url: https://gojiberry.ai/faq
+- type: Blog
+  url: https://blog.gojiberry.ai
+- type: GitHubOrganization
+  url: https://github.com/Gojiberry-ai
+- type: X
+  url: https://x.com/gojiberryai
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence
