@@ -19,21 +19,22 @@ x-backed-by:
 x-tier: profiled
 x-tier-reason: real-api-and-mcp-discovered
 accessModel:
-  pricing: unknown
+  pricing: paid
   onboarding: self-serve
-  trial: false
+  trial: true
   try_now: false
   public: false
-  label: Self-serve signup
-  confidence: medium
+  label: Self-serve signup, paid from $99/month
+  confidence: high
   source:
   - authentication
-  generated: '2026-07-22'
-  method: derived
+  - plans
+  generated: '2026-08-13'
+  method: searched
 image: https://framerusercontent.com/images/0PsnqRXKIijGaB8ooIkfAThxHs.png
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-19'
+modified: '2026-08-13'
 tags:
 - Company
 - Sales
@@ -212,6 +213,8 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: AgenticAccess
+  url: agentic-access/gojiberry-ai-agentic-access.yml
 - type: Website
   url: https://gojiberry.ai
 - type: DeveloperPortal
@@ -226,6 +229,16 @@ common:
   url: authentication/gojiberry-ai-authentication.yml
 - type: MCPServer
   url: mcp/gojiberry-ai-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/gojiberry-ai-tool-crosswalk.yml
+- type: OAuthScopes
+  url: scopes/gojiberry-ai-scopes.yml
+- type: WellKnown
+  url: well-known/gojiberry-ai-well-known.yml
+- type: Packages
+  url: packages/gojiberry-ai-packages.yml
+- type: Plans
+  url: plans/gojiberry-ai-plans-pricing.yml
 - type: Conventions
   url: conventions/gojiberry-ai-conventions.yml
 - type: RateLimits
@@ -269,7 +282,7 @@ common:
 - type: X
   url: https://x.com/gojiberryai
 x-enrichment:
-  date: '2026-07-19'
-  status: backfilled
+  date: '2026-08-13'
+  status: enriched
+  artifacts_added: 7
   pass: local-v1
-  note: backfilled from .gitignore signal + verified work evidence
