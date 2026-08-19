@@ -1,0 +1,38 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Gojiberry AI - External AppExternal API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "AppExternal",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "AppExternalController_getHello",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/"
+          }
+        },
+        {
+          "info": {
+            "name": "AppExternalController_healthCheck",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/health"
+          }
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

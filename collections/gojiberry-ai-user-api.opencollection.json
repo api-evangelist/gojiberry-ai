@@ -1,0 +1,52 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Gojiberry AI - External AppExternal User API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "User",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get the authenticated user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/user/me",
+            "headers": [
+              {
+                "name": "x-impersonate-user-id",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Retrieve the profile of the authenticated user. When impersonating with the x-impersonate-user-id header, the impersonated user is returned."
+        },
+        {
+          "info": {
+            "name": "Get the permissions of the authenticated user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/user/me/permissions",
+            "headers": [
+              {
+                "name": "x-impersonate-user-id",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Retrieve the organization permissions of the authenticated user. When impersonating with the x-impersonate-user-id header, the impersonated user permissions are returned."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

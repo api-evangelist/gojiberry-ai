@@ -1,0 +1,622 @@
+{
+  "item": [
+    {
+      "id": "4d90e6ee-d1b6-441e-9aa8-6fa27ca219f7",
+      "name": "Lead source agents",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "14a1f96d-ea17-4fa6-aa74-4adb356c27e0",
+          "name": "Get all source agents",
+          "request": {
+            "name": "Get all source agents",
+            "description": {
+              "content": "Retrieve all source agents for the authenticated user",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "agent"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                "key": "x-impersonate-user-id",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "573a5eec-e38a-48f2-9918-5acb69612720",
+              "name": "List of agents",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 7447.222952007883,\n    \"name\": \"string\",\n    \"targetJobTitles\": [\n      \"string\",\n      \"string\"\n    ],\n    \"targetIndustries\": [\n      \"string\",\n      \"string\"\n    ],\n    \"targetCompanySizes\": [\n      \"string\",\n      \"string\"\n    ],\n    \"targetLocations\": [\n      \"string\",\n      \"string\"\n    ],\n    \"targetCompanyTypes\": [\n      \"string\",\n      \"string\"\n    ],\n    \"agentType\": \"autopilot\",\n    \"paused\": false,\n    \"excludeServiceProviders\": false,\n    \"skipIcpFilter\": false,\n    \"includeOpenToWorkProfiles\": false,\n    \"leadWaterfall\": true,\n    \"userId\": 9623.321439714466,\n    \"createdAt\": \"1996-02-11T18:41:42.556Z\",\n    \"updatedAt\": \"1998-06-06T09:00:17.659Z\",\n    \"additionalCriteria\": \"string\",\n    \"variables\": [\n      \"string\",\n      \"string\"\n    ],\n    \"ignoredCompanies\": [\n      \"string\",\n      \"string\"\n    ],\n    \"mandatoryKeywords\": [\n      \"string\",\n      \"string\"\n    ],\n    \"lastRun\": \"1974-12-15T22:07:08.330Z\",\n    \"minLeadScore\": 0.75,\n    \"listId\": 1618.1881179573509\n  },\n  {\n    \"id\": 6740.50532906139,\n    \"name\": \"string\",\n    \"targetJobTitles\": [\n      \"string\",\n      \"string\"\n    ],\n    \"targetIndustries\": [\n      \"string\",\n      \"string\"\n    ],\n    \"targetCompanySizes\": [\n      \"string\",\n      \"string\"\n    ],\n    \"targetLocations\": [\n      \"string\",\n      \"string\"\n    ],\n    \"targetCompanyTypes\": [\n      \"string\",\n      \"string\"\n    ],\n    \"agentType\": \"autopilot\",\n    \"paused\": false,\n    \"excludeServiceProviders\": false,\n    \"skipIcpFilter\": false,\n    \"includeOpenToWorkProfiles\": false,\n    \"leadWaterfall\": true,\n    \"userId\": 1755.8769101413884,\n    \"createdAt\": \"1962-12-31T11:29:29.045Z\",\n    \"updatedAt\": \"1976-05-16T08:59:39.758Z\",\n    \"additionalCriteria\": \"string\",\n    \"variables\": [\n      \"string\",\n      \"string\"\n    ],\n    \"ignoredCompanies\": [\n      \"string\",\n      \"string\"\n    ],\n    \"mandatoryKeywords\": [\n      \"string\",\n      \"string\"\n    ],\n    \"lastRun\": \"2023-08-26T07:17:06.467Z\",\n    \"minLeadScore\": 0.75,\n    \"listId\": 5746.192811563\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "160c3cb0-2630-48e6-a9a4-edeb4de62616",
+          "name": "Get one source agent",
+          "request": {
+            "name": "Get one source agent",
+            "description": {
+              "content": "Retrieve a single source agent by ID",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "agent",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                "key": "x-impersonate-user-id",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "096f1534-bca0-4265-b872-cc645e7146c6",
+              "name": "Agent found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agent",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 4285.695727804425,\n  \"name\": \"string\",\n  \"targetJobTitles\": [\n    \"string\",\n    \"string\"\n  ],\n  \"targetIndustries\": [\n    \"string\",\n    \"string\"\n  ],\n  \"targetCompanySizes\": [\n    \"string\",\n    \"string\"\n  ],\n  \"targetLocations\": [\n    \"string\",\n    \"string\"\n  ],\n  \"targetCompanyTypes\": [\n    \"string\",\n    \"string\"\n  ],\n  \"agentType\": \"autopilot\",\n  \"paused\": false,\n  \"excludeServiceProviders\": false,\n  \"skipIcpFilter\": false,\n  \"includeOpenToWorkProfiles\": false,\n  \"leadWaterfall\": true,\n  \"userId\": 477.6069193532384,\n  \"createdAt\": \"1976-01-11T12:04:01.791Z\",\n  \"updatedAt\": \"1988-09-19T03:57:55.014Z\",\n  \"additionalCriteria\": \"string\",\n  \"variables\": [\n    \"string\",\n    \"string\"\n  ],\n  \"ignoredCompanies\": [\n    \"string\",\n    \"string\"\n  ],\n  \"mandatoryKeywords\": [\n    \"string\",\n    \"string\"\n  ],\n  \"lastRun\": \"1989-01-09T17:46:25.226Z\",\n  \"minLeadScore\": 0.75,\n  \"listId\": 8618.475447934643\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6dfd6682-5609-43a7-98da-de297a14c92e",
+              "name": "Agent not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agent",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cf44acc4-cd54-479a-a76f-c962b2bc95b9",
+          "name": "Update a source agent",
+          "request": {
+            "name": "Update a source agent",
+            "description": {
+              "content": "Update a source agent by ID",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "agent",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                "key": "x-impersonate-user-id",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"targetJobTitles\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"targetIndustries\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"targetCompanySizes\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"targetLocations\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"targetCompanyTypes\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"additionalCriteria\": \"<string>\",\n  \"agentType\": \"<string>\",\n  \"ignoredCompanies\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"mandatoryKeywords\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"listId\": \"<number>\",\n  \"excludeServiceProviders\": \"<boolean>\",\n  \"skipIcpFilter\": \"<boolean>\",\n  \"includeOpenToWorkProfiles\": \"<boolean>\",\n  \"leadWaterfall\": \"<boolean>\",\n  \"paused\": \"<boolean>\",\n  \"minLeadScore\": \"<number>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c88b9b57-8224-48ec-a23e-8910b2c67647",
+              "name": "Agent updated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agent",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"targetJobTitles\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"targetIndustries\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"targetCompanySizes\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"targetLocations\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"targetCompanyTypes\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"additionalCriteria\": \"<string>\",\n  \"agentType\": \"<string>\",\n  \"ignoredCompanies\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"mandatoryKeywords\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"listId\": \"<number>\",\n  \"excludeServiceProviders\": \"<boolean>\",\n  \"skipIcpFilter\": \"<boolean>\",\n  \"includeOpenToWorkProfiles\": \"<boolean>\",\n  \"leadWaterfall\": \"<boolean>\",\n  \"paused\": \"<boolean>\",\n  \"minLeadScore\": \"<number>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 4285.695727804425,\n  \"name\": \"string\",\n  \"targetJobTitles\": [\n    \"string\",\n    \"string\"\n  ],\n  \"targetIndustries\": [\n    \"string\",\n    \"string\"\n  ],\n  \"targetCompanySizes\": [\n    \"string\",\n    \"string\"\n  ],\n  \"targetLocations\": [\n    \"string\",\n    \"string\"\n  ],\n  \"targetCompanyTypes\": [\n    \"string\",\n    \"string\"\n  ],\n  \"agentType\": \"autopilot\",\n  \"paused\": false,\n  \"excludeServiceProviders\": false,\n  \"skipIcpFilter\": false,\n  \"includeOpenToWorkProfiles\": false,\n  \"leadWaterfall\": true,\n  \"userId\": 477.6069193532384,\n  \"createdAt\": \"1976-01-11T12:04:01.791Z\",\n  \"updatedAt\": \"1988-09-19T03:57:55.014Z\",\n  \"additionalCriteria\": \"string\",\n  \"variables\": [\n    \"string\",\n    \"string\"\n  ],\n  \"ignoredCompanies\": [\n    \"string\",\n    \"string\"\n  ],\n  \"mandatoryKeywords\": [\n    \"string\",\n    \"string\"\n  ],\n  \"lastRun\": \"1989-01-09T17:46:25.226Z\",\n  \"minLeadScore\": 0.75,\n  \"listId\": 8618.475447934643\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2c52b1b3-2f59-49c1-9cf2-cf8747f55fda",
+              "name": "Agent not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agent",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"targetJobTitles\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"targetIndustries\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"targetCompanySizes\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"targetLocations\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"targetCompanyTypes\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"additionalCriteria\": \"<string>\",\n  \"agentType\": \"<string>\",\n  \"ignoredCompanies\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"mandatoryKeywords\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"listId\": \"<number>\",\n  \"excludeServiceProviders\": \"<boolean>\",\n  \"skipIcpFilter\": \"<boolean>\",\n  \"includeOpenToWorkProfiles\": \"<boolean>\",\n  \"leadWaterfall\": \"<boolean>\",\n  \"paused\": \"<boolean>\",\n  \"minLeadScore\": \"<number>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b4064b39-340f-41d2-8499-ec7f95c32f16",
+          "name": "Get logs for a source agent",
+          "request": {
+            "name": "Get logs for a source agent",
+            "description": {
+              "content": "Retrieve the run logs for one AI Agent. Each log entry corresponds to one signal run and reports how many leads were sourced vs. how many ended up imported into the platform after AI scoring & filtering. Use this to answer questions like \"how many leads did this agent create last week?\", \"which signals are producing the most leads?\", or \"did any of this agent's signals fail recently?\". Optionally narrow the window with dateFrom / dateTo (ISO 8601). Capped at the most recent 100 logs (newest first).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "agent",
+                ":id",
+                "logs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "dateFrom",
+                  "value": "<string>",
+                  "description": "Start of the time window (ISO 8601, e.g. 2025-04-01T00:00:00Z). Used together with dateTo."
+                },
+                {
+                  "disabled": false,
+                  "key": "dateTo",
+                  "value": "<string>",
+                  "description": "End of the time window (ISO 8601). Used together with dateFrom."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                "key": "x-impersonate-user-id",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "48b8518d-156f-44ee-8e37-563d4337699a",
+              "name": "Up to 100 most recent log entries for the agent (newest first).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agent",
+                    ":id",
+                    "logs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "dateFrom",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "dateTo",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 236.43676000953516,\n    \"leadsCreated\": 9251.14459771791,\n    \"totalLeads\": 1922.1006019870078,\n    \"userId\": 9067.41501146336,\n    \"createdAt\": \"1962-05-07T06:29:26.663Z\",\n    \"errorMessage\": \"string\",\n    \"agentType\": {},\n    \"agentKeyword\": \"string\",\n    \"agentId\": 9949.945864010351\n  },\n  {\n    \"id\": 626.2239480171016,\n    \"leadsCreated\": 2262.3648385227934,\n    \"totalLeads\": 7426.312570663402,\n    \"userId\": 7554.475763786187,\n    \"createdAt\": \"2001-08-26T09:40:32.540Z\",\n    \"errorMessage\": \"string\",\n    \"agentType\": {},\n    \"agentKeyword\": \"string\",\n    \"agentId\": 5501.479588959408\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "069abe1d-551a-4268-bf67-c871c2ebc50e",
+              "name": "Agent not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agent",
+                    ":id",
+                    "logs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "dateFrom",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "dateTo",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "c863f9c8-e518-4063-a405-70bca5f28b26",
+    "name": "Gojiberry AI - External AppExternal Lead source agents API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "\n# Gojiberry AI External API\n\nThis API allows you to programmatically access your Gojiberry AI data and integrate it with your applications.\n\n## Authentication\n\nAll API requests require authentication using a Bearer token. To get your API key:\n\n1. **Log in to your Gojiberry AI account** at [https://app.gojiberry.ai](https://app.gojiberry.ai)\n2. **Navigate to Settings** → **API** section\n3. **Click \"Create API Key\"** to generate a new token\n4. **Copy the API key** when it's displayed (you won't be able to see it again)\n5. **Use the token** in your requests by adding the header: `Authorization: Bearer YOUR_API_KEY`\n\n## Impersonation (organization owners)\n\nIf your API key belongs to the **owner of an organization**, you can perform any API call on behalf of another member of your organization by adding the `x-impersonate-user-id` header with the member's user ID:\n\n```bash\n# Get the contacts of the organization member with user ID 123\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     -H \"x-impersonate-user-id: 123\" \\\n     https://ext.gojiberry.ai/v1/contact\n```\n\nWhen impersonating, the request behaves exactly as if it was made by that member: you read and write their data (contacts, campaigns, lists, unibox, etc.).\n\nRules:\n- Your API key must belong to the **organization owner**; other members cannot impersonate.\n- The impersonated user must belong to the **same organization** as the API key user.\n- Requests that don't meet these rules are rejected with a `401 Unauthorized`.\n\nTip: use `GET /v1/organization/members` to list the members of your organization and their user IDs, and `GET /v1/user/me` to verify which user the current request acts as.\n\n## Rate Limits\n\n- **100 requests per minute** per API key\n\n## Base URL\n- **Production**: `https://ext.gojiberry.ai`\n\n## Endpoints\n\n### Contacts\n- `GET /v1/contact` - Get all contacts with filtering and pagination\n- `GET /v1/contact/{id}` - Get a specific contact\n- `GET /v1/contact/health` - Health check endpoint\n\n## Example Usage\n\n```bash\n# Get all contacts\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     https://ext.gojiberry.ai/v1/contact\n\n# Get contacts with filtering\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     \"https://ext.gojiberry.ai/v1/contact?search=john&agent=1&dateFrom=2024-01-01\"\n\n# Get a specific contact\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     https://ext.gojiberry.ai/v1/contact/123\n```\n\n## Webhooks\n\nGojiberry allows you to receive real-time notifications when new contacts are created or updated by configuring a webhook URL.\n\n### How to Configure Webhooks\n\n1. **Log in to your Gojiberry AI account** at [https://app.gojiberry.ai](https://app.gojiberry.ai)\n2. **Navigate to the Integrations page** at [https://app.gojiberry.ai/integrations](https://app.gojiberry.ai/integrations)\n3. **Add a Webhook integration** by clicking the Webhook option\n4. **Enter your webhook URL** where you want to receive notifications\n5. **Save the configuration**\n\nOnce configured, Gojiberry will send POST requests to your webhook URL whenever:\n- A new contact is created\n- A contact is updated\n- Other relevant events occur in your account\n\nThe webhook payload will include the full contact data in JSON format. Each webhook request includes a custom header `x-gojiberry-user-id` containing your user ID for verification purposes.\n\n## Support\n\nFor API support, please contact us at [hello@gojiberry.ai](mailto:hello@gojiberry.ai)\n      ",
+      "type": "text/plain"
+    }
+  }
+}

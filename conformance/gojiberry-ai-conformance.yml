@@ -1,15 +1,62 @@
-generated: '2026-07-19'
+generated: '2026-08-13'
 method: derived
-source: openapi/gojiberry-ai-external-openapi-original.json + https://ext.gojiberry.ai/documentation
+source: >-
+  openapi/_original/gojiberry-ai-external-openapi-original.json +
+  https://ext.gojiberry.ai/documentation +
+  https://mcp.gojiberry.ai/.well-known/oauth-authorization-server (probed) +
+  https://mcp.gojiberry.ai/.well-known/oauth-protected-resource (probed)
+note: >-
+  Two surfaces are assessed separately: the REST External API (bearer API key,
+  no OAuth) and the hosted MCP server (OAuth 2.1 + PKCE + dynamic client
+  registration, with both RFC 8414 and RFC 9728 metadata served anonymously).
+  Gojiberry publishes no formal compliance certifications — no SOC 2, ISO 27001,
+  PCI DSS, HIPAA or FedRAMP claim and no trust center was found (probed
+  2026-08-13) — so NO Compliance pointer is emitted. The product does advertise
+  "Made & Hosted in the EU" and ships GDPR machinery in-product (a global
+  do-not-contact "red list" field on Contact, an Opt-out & Privacy Request page),
+  which is a posture, not a certification.
 standards:
 - id: oauth2
-  conforms: false
-  evidence: securityScheme is http bearer (API key / JWT), not an oauth2 flow.
+  conforms: partial
+  surface: mcp
+  evidence: >-
+    mcp.gojiberry.ai serves RFC 8414 authorization server metadata with an
+    authorization_code + refresh_token grant. The REST API at ext.gojiberry.ai
+    has no oauth2 securityScheme — it is http bearer only.
+- id: rfc8414-authorization-server-metadata
+  conforms: true
+  surface: mcp
+  evidence: 200 at /.well-known/oauth-authorization-server with issuer, authorization_endpoint, token_endpoint.
+- id: rfc9728-protected-resource-metadata
+  conforms: true
+  surface: mcp
+  evidence: >-
+    200 at /.well-known/oauth-protected-resource; the 401 on POST /mcp carries a
+    WWW-Authenticate Bearer challenge naming resource_metadata and scope.
+- id: rfc7591-dynamic-client-registration
+  conforms: true
+  surface: mcp
+  evidence: registration_endpoint https://mcp.gojiberry.ai/register advertised in the metadata.
+- id: oauth-pkce-rfc7636
+  conforms: partial
+  surface: mcp
+  evidence: >-
+    code_challenge_methods_supported = [S256, plain]. S256 is present, but
+    advertising "plain" is discouraged by OAuth 2.1 / MCP guidance.
 - id: openid-connect
   conforms: false
+  evidence: /.well-known/openid-configuration 404s on every host; no id_token support advertised.
 - id: bearer-token-auth
   conforms: true
+  surface: rest
   evidence: components.securitySchemes.API-Key = http bearer, bearerFormat JWT.
+- id: mcp
+  conforms: true
+  surface: mcp
+  evidence: >-
+    Streamable HTTP MCP endpoint at https://mcp.gojiberry.ai/mcp; enforces the
+    initialize-first handshake (-32600 "First request must be MCP initialize")
+    and returns JSON-RPC 2.0 errors.
 - id: rfc9457-problem-details
   conforms: false
   evidence: errors use a NestJS-style {message, statusCode} envelope, not application/problem+json.
@@ -18,12 +65,31 @@ standards:
 - id: pagination
   conforms: true
   evidence: page + limit query parameters on collection endpoints.
+- id: idempotency
+  conforms: false
+  evidence: no Idempotency-Key header or parameter in the OpenAPI or the docs.
 - id: rate-limiting
-  conforms: true
-  evidence: documented 100 requests/minute per API key.
+  conforms: partial
+  evidence: >-
+    100 requests/minute per API key is documented, but no RateLimit-* /
+    X-RateLimit-* / Retry-After response headers are published or observed.
 - id: webhooks
   conforms: true
   evidence: outbound webhooks on contact created/updated with x-gojiberry-user-id verification header.
+- id: asyncapi
+  conforms: false
+  evidence: webhooks are documented in prose only; no AsyncAPI document is published.
+- id: a2a-agent-card
+  conforms: false
+  evidence: >-
+    /.well-known/agent-card.json and /.well-known/agent.json 404 on
+    gojiberry.ai, ext.gojiberry.ai and mcp.gojiberry.ai (probed 2026-08-13).
+- id: gdpr
+  conforms: unverified
+  evidence: >-
+    "Made & Hosted in the EU" claim in the site footer; privacy policy and an
+    Opt-out & Privacy Request page are published; Contact.redListed implements a
+    global do-not-contact list. No DPA or certification page was found.
 - id: fhir
   conforms: false
 - id: scim
@@ -34,8 +100,3 @@ standards:
   conforms: false
 - id: psd2
   conforms: false
-note: >-
-  Derived assertions only. Gojiberry publishes no formal compliance certifications
-  (no SOC 2 / ISO 27001 / PCI / HIPAA / FedRAMP trust center was found); the product
-  advertises "Made & Hosted in the EU" (GDPR posture). No Compliance pointer is
-  emitted because no certified compliance program is published.

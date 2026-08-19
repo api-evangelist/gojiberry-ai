@@ -1,0 +1,199 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Gojiberry AI - External AppExternal Unibox API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Unibox",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Legacy - Get unibox chats and messages for a contact",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/unibox/contact/:contactId",
+            "headers": [
+              {
+                "name": "x-impersonate-user-id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "contactId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Legacy endpoint. Returns all unibox chats (with their messages) associated with the given contact for the authenticated user."
+        },
+        {
+          "info": {
+            "name": "Get unibox threads",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/unibox/threads",
+            "headers": [
+              {
+                "name": "x-impersonate-user-id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "dateTo",
+                "value": "",
+                "type": "query",
+                "description": "Filter threads with lastMessageDate on or before this ISO date string."
+              },
+              {
+                "name": "dateFrom",
+                "value": "",
+                "type": "query",
+                "description": "Filter threads with lastMessageDate on or after this ISO date string."
+              },
+              {
+                "name": "seen",
+                "value": "",
+                "type": "query",
+                "description": "Filter threads by seen/read status. Use true or false."
+              },
+              {
+                "name": "interested",
+                "value": "",
+                "type": "query",
+                "description": "Filter threads by interested status. Use true or false."
+              },
+              {
+                "name": "attendeeFullName",
+                "value": "",
+                "type": "query",
+                "description": "Filter threads by attendee full name. Partial matches are supported."
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction by last message date. Default: DESC."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of threads per page. Default: 20. Minimum: 1. Maximum: 100."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number. Default: 1. Minimum: 1."
+              },
+              {
+                "name": "seatId",
+                "value": "",
+                "type": "query",
+                "description": "Optional LinkedIn seat ID. If omitted, returns threads for all seats in the account."
+              }
+            ]
+          },
+          "docs": "Returns paginated unibox threads for a specific LinkedIn seat when seatId is provided. If no seatId is provided, it returns threads for all LinkedIn seats in the account."
+        },
+        {
+          "info": {
+            "name": "Get unibox messages from a thread",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/unibox/threads/:threadId/messages",
+            "headers": [
+              {
+                "name": "x-impersonate-user-id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "threadId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction by message creation date. Default: ASC."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of messages per page. Default: 50. Minimum: 1. Maximum: 200."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number. Default: 1. Minimum: 1."
+              }
+            ]
+          },
+          "docs": "Returns paginated unibox messages for a thread owned by the authenticated user."
+        },
+        {
+          "info": {
+            "name": "Send a unibox LinkedIn message",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/unibox/messages/send-message",
+            "headers": [
+              {
+                "name": "x-impersonate-user-id",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "chatId",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "message",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "voiceMessage",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Sends a LinkedIn message in a unibox thread. Provide chatId and message in the body. chatId is the internal unibox thread id returned as id by GET /v1/unibox/threads; it is not the LinkedIn conversationUrn. Optional multipart fields: file, voiceMessage."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

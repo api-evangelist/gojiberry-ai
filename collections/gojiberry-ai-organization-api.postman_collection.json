@@ -1,0 +1,277 @@
+{
+  "item": [
+    {
+      "id": "8012eb96-4d3d-49f1-b682-4c1bec752d00",
+      "name": "Organization",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "47003a1e-4042-4c90-8def-e3711276aa6c",
+          "name": "Get the organization",
+          "request": {
+            "name": "Get the organization",
+            "description": {
+              "content": "Retrieve the organization of the authenticated user.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "organization"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                "key": "x-impersonate-user-id",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "0a007be7-dda4-40f9-964f-3fae697665b7",
+              "name": "Organization information",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "organization"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 430.1441151321228,\n  \"companyName\": \"string\",\n  \"website\": \"string\",\n  \"industry\": \"string\",\n  \"companySize\": \"string\",\n  \"description\": \"string\",\n  \"linkedinPage\": \"string\",\n  \"ownerId\": 7422.018577509314,\n  \"createdAt\": \"1972-05-10T03:19:28.224Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "00026f69-e5b3-45d3-9a10-0844a82fd000",
+              "name": "Organization not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "organization"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f50e5d17-bb17-4c72-981d-6702da4c31ef",
+          "name": "Get all organization members",
+          "request": {
+            "name": "Get all organization members",
+            "description": {
+              "content": "Retrieve all members of the organization of the authenticated user. The member IDs can be used in the x-impersonate-user-id header to act on behalf of a member.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "organization",
+                "members"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                "key": "x-impersonate-user-id",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "2e31e916-7f4c-48b2-a295-bc48e8dbe82f",
+              "name": "List of organization members",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "organization",
+                    "members"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 7343.05992935112,\n    \"email\": \"string\",\n    \"firstName\": \"string\",\n    \"lastName\": \"string\",\n    \"organizationRole\": \"member\",\n    \"isActive\": true,\n    \"createdAt\": \"1955-08-17T12:04:01.860Z\"\n  },\n  {\n    \"id\": 3259.273573724466,\n    \"email\": \"string\",\n    \"firstName\": \"string\",\n    \"lastName\": \"string\",\n    \"organizationRole\": \"member\",\n    \"isActive\": true,\n    \"createdAt\": \"1993-06-10T16:04:04.120Z\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a55b45e9-d9c4-452f-8e40-b16f20077cb3",
+              "name": "Organization not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "organization",
+                    "members"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "d5e8a573-84a3-4779-905c-622f8d9a68ef",
+    "name": "Gojiberry AI - External AppExternal Organization API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "\n# Gojiberry AI External API\n\nThis API allows you to programmatically access your Gojiberry AI data and integrate it with your applications.\n\n## Authentication\n\nAll API requests require authentication using a Bearer token. To get your API key:\n\n1. **Log in to your Gojiberry AI account** at [https://app.gojiberry.ai](https://app.gojiberry.ai)\n2. **Navigate to Settings** → **API** section\n3. **Click \"Create API Key\"** to generate a new token\n4. **Copy the API key** when it's displayed (you won't be able to see it again)\n5. **Use the token** in your requests by adding the header: `Authorization: Bearer YOUR_API_KEY`\n\n## Impersonation (organization owners)\n\nIf your API key belongs to the **owner of an organization**, you can perform any API call on behalf of another member of your organization by adding the `x-impersonate-user-id` header with the member's user ID:\n\n```bash\n# Get the contacts of the organization member with user ID 123\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     -H \"x-impersonate-user-id: 123\" \\\n     https://ext.gojiberry.ai/v1/contact\n```\n\nWhen impersonating, the request behaves exactly as if it was made by that member: you read and write their data (contacts, campaigns, lists, unibox, etc.).\n\nRules:\n- Your API key must belong to the **organization owner**; other members cannot impersonate.\n- The impersonated user must belong to the **same organization** as the API key user.\n- Requests that don't meet these rules are rejected with a `401 Unauthorized`.\n\nTip: use `GET /v1/organization/members` to list the members of your organization and their user IDs, and `GET /v1/user/me` to verify which user the current request acts as.\n\n## Rate Limits\n\n- **100 requests per minute** per API key\n\n## Base URL\n- **Production**: `https://ext.gojiberry.ai`\n\n## Endpoints\n\n### Contacts\n- `GET /v1/contact` - Get all contacts with filtering and pagination\n- `GET /v1/contact/{id}` - Get a specific contact\n- `GET /v1/contact/health` - Health check endpoint\n\n## Example Usage\n\n```bash\n# Get all contacts\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     https://ext.gojiberry.ai/v1/contact\n\n# Get contacts with filtering\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     \"https://ext.gojiberry.ai/v1/contact?search=john&agent=1&dateFrom=2024-01-01\"\n\n# Get a specific contact\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     https://ext.gojiberry.ai/v1/contact/123\n```\n\n## Webhooks\n\nGojiberry allows you to receive real-time notifications when new contacts are created or updated by configuring a webhook URL.\n\n### How to Configure Webhooks\n\n1. **Log in to your Gojiberry AI account** at [https://app.gojiberry.ai](https://app.gojiberry.ai)\n2. **Navigate to the Integrations page** at [https://app.gojiberry.ai/integrations](https://app.gojiberry.ai/integrations)\n3. **Add a Webhook integration** by clicking the Webhook option\n4. **Enter your webhook URL** where you want to receive notifications\n5. **Save the configuration**\n\nOnce configured, Gojiberry will send POST requests to your webhook URL whenever:\n- A new contact is created\n- A contact is updated\n- Other relevant events occur in your account\n\nThe webhook payload will include the full contact data in JSON format. Each webhook request includes a custom header `x-gojiberry-user-id` containing your user ID for verification purposes.\n\n## Support\n\nFor API support, please contact us at [hello@gojiberry.ai](mailto:hello@gojiberry.ai)\n      ",
+      "type": "text/plain"
+    }
+  }
+}

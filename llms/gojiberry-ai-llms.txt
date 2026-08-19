@@ -14,8 +14,17 @@
 
 ## Auth
 
-- Bearer token: `Authorization: Bearer <API_KEY>`. Create a key at https://app.gojiberry.ai (Settings -> API).
+- REST: bearer token — `Authorization: Bearer <API_KEY>`. Create a key at https://app.gojiberry.ai (Settings -> API).
 - Org owners can impersonate a member with the `x-impersonate-user-id` header.
+- MCP: OAuth 2.1 authorization code + PKCE with dynamic client registration. Scopes `mcp:tools`, `claudeai`.
+  - [Protected resource metadata (RFC 9728)](https://mcp.gojiberry.ai/.well-known/oauth-protected-resource)
+  - [Authorization server metadata (RFC 8414)](https://mcp.gojiberry.ai/.well-known/oauth-authorization-server)
+
+## Pricing
+
+- PRO — $99/month: 2 AI agents, up to 1,800 prospects contacted/month, unified inbox, lead scoring, email waterfall enrichment, CRM + API + MCP integrations.
+- CUSTOM — contact sales, for teams of 5+ and agencies.
+- Free trial offered; no published per-call API pricing.
 
 ## Events
 

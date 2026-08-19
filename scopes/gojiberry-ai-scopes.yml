@@ -1,0 +1,42 @@
+generated: '2026-08-13'
+method: probed
+source: https://mcp.gojiberry.ai/.well-known/oauth-authorization-server
+note: >-
+  The External REST API at ext.gojiberry.ai has NO OAuth surface — it is a
+  bearer API key (JWT) only, so derive-oauth-scopes.py finds zero oauth2
+  securitySchemes in the OpenAPI. The OAuth scopes recorded here belong to the
+  hosted MCP server at mcp.gojiberry.ai, which publishes RFC 8414 authorization
+  server metadata and RFC 9728 protected resource metadata anonymously. Gojiberry
+  publishes no human-readable scope reference page; these values are read
+  verbatim from the machine-readable metadata.
+schemes:
+- name: MCP OAuth 2.1
+  surface: mcp
+  source: well-known/gojiberry-ai-oauth-authorization-server.json
+  issuer: https://mcp.gojiberry.ai
+  dynamic_client_registration: https://mcp.gojiberry.ai/register  # RFC 7591
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://mcp.gojiberry.ai/authorize
+    tokenUrl: https://mcp.gojiberry.ai/token
+    pkce: [S256, plain]
+    grant_types: [authorization_code, refresh_token]
+    token_endpoint_auth_methods: [none, client_secret_post]
+scopes:
+- scope: mcp:tools
+  description: >-
+    Advertised scope granting an MCP client access to the Gojiberry tool
+    surface. No published description; name read from scopes_supported.
+  flows: [authorizationCode]
+  sources: [well-known/gojiberry-ai-oauth-authorization-server.json]
+- scope: claudeai
+  description: >-
+    Advertised scope used by the Claude MCP connector flow documented at
+    https://gojiberry.ai/how-to-do-outreach-claude-linkedin-mcp. No published
+    description; name read from scopes_supported.
+  flows: [authorizationCode]
+  sources: [well-known/gojiberry-ai-oauth-authorization-server.json]
+gaps:
+- No scopes/permissions reference page is published on the docs site.
+- The REST External API has no scope model; access is all-or-nothing per API key,
+  with organization-owner impersonation via x-impersonate-user-id.

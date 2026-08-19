@@ -1,0 +1,80 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Gojiberry AI - External AppExternal Lists API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Lists",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all lists",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/list",
+            "headers": [
+              {
+                "name": "x-impersonate-user-id",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Retrieve all lists with contact counts"
+        },
+        {
+          "info": {
+            "name": "Create a list",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/list",
+            "headers": [
+              {
+                "name": "x-impersonate-user-id",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new list for the authenticated user"
+        },
+        {
+          "info": {
+            "name": "Get one list",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/list/:id",
+            "headers": [
+              {
+                "name": "x-impersonate-user-id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve a single list by ID with its contacts"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

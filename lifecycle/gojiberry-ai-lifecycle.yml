@@ -1,4 +1,4 @@
-generated: '2026-07-19'
+generated: '2026-08-13'
 method: searched
 source: https://gojiberry.ai + https://status.gojiberry.ai/ + https://ext.gojiberry.ai/documentation
 versioning:
@@ -9,11 +9,30 @@ versioning:
 deprecation:
   policy_url: null
   sunset_header: false
-  note: No published deprecation/Sunset policy found. One legacy operation is flagged in-spec (UniboxExternalController_getMessagesByContactId, summary "Legacy").
+  note: No published deprecation/Sunset policy found. One legacy operation is flagged in-spec (UniboxExternalController_getMessagesByContactId, summary "Legacy"). One schema field is flagged deprecated in-spec (UpdateAgentDto.additionalCriteria).
 sla:
   url: null
   uptime_target: null
+  note: No SLA or uptime commitment is published; the status page reports observed uptime only.
 status_page: https://status.gojiberry.ai/
+status:
+  url: https://status.gojiberry.ai/
+  provider: Better Stack
+  checked: '2026-08-13'
+  state: All services online
+  monitored_services:
+  - {name: gojiberry.ai, uptime_90d: 100%}
+  - {name: api.gojiberry.ai, uptime_90d: 100%}
+  history_window: 90 days (from 2026-05-16)
+  incidents_90d: 0
+  note: >-
+    The External API host (ext.gojiberry.ai) and the MCP server
+    (mcp.gojiberry.ai) are NOT among the monitored components — only the
+    marketing site and the internal app API are.
+  subscribe: null
+changelog:
+  published: false
+  note: No dated changelog or release-notes page is published (/changelog 404s).
 rate_limits:
   summary: 100 requests/minute per API key
   see: rate-limits/gojiberry-ai-rate-limits.yml

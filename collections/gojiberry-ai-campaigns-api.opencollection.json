@@ -1,0 +1,95 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Gojiberry AI - External AppExternal Campaigns API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Campaigns",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all campaigns",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/campaign",
+            "headers": [
+              {
+                "name": "x-impersonate-user-id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "activeOnly",
+                "value": "",
+                "type": "query",
+                "description": "Filter by active status (true/false)"
+              }
+            ]
+          },
+          "docs": "Retrieve all campaigns with optional filtering by active status"
+        },
+        {
+          "info": {
+            "name": "Get one campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/campaign/:id",
+            "headers": [
+              {
+                "name": "x-impersonate-user-id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get one campaign"
+        },
+        {
+          "info": {
+            "name": "Update one campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v1/campaign/:id",
+            "headers": [
+              {
+                "name": "x-impersonate-user-id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update campaign name, associated list IDs, and existing step messages or same/AI mode. **Steps must keep the same length and type order; only the message content and mode can be edited in the steps.**"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

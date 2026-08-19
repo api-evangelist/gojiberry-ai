@@ -1,0 +1,37 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  registry.npmjs.org search, pypi.org, rubygems.org, crates.io,
+  api.github.com/users/Gojiberry-ai, https://ext.gojiberry.ai/documentation
+package_count: 0
+official_package_count: 0
+packages: []
+note: >-
+  No first-party Gojiberry AI client library exists in any public registry as of
+  2026-08-13. The docs teach the API with raw curl only, and the company's
+  GitHub organization (https://github.com/Gojiberry-ai, created 2026-05-25)
+  has 0 public repositories. This is an honest zero, not an unchecked field —
+  no SDKs pointer is emitted.
+registries_checked:
+- registry: npm
+  query: gojiberry
+  result: >-
+    1 unrelated result (@openpets/gojiberry 0.0.1, third-party, unrelated
+    namespace). No Gojiberry-published package.
+  version: null
+- registry: pypi
+  query: gojiberry
+  result: 404 — no project
+  version: null
+- registry: rubygems
+  query: gojiberry
+  result: empty result set
+  version: null
+- registry: crates.io
+  query: gojiberry
+  result: 0 crates
+  version: null
+- registry: github
+  query: github.com/Gojiberry-ai
+  result: organization exists, 0 public repositories
+  version: null

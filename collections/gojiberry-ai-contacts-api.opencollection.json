@@ -1,0 +1,267 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Gojiberry AI - External AppExternal Contacts API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Contacts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all contacts with pagination and filtering",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/contact",
+            "headers": [
+              {
+                "name": "x-impersonate-user-id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (starts from 1)"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of contacts per page (default: 20)"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search term for firstName, lastName, email, company, website, location, or jobTitle"
+              },
+              {
+                "name": "agent",
+                "value": "",
+                "type": "query",
+                "description": "Filter by agent id"
+              },
+              {
+                "name": "dateFrom",
+                "value": "",
+                "type": "query",
+                "description": "Filter contacts created from this date (YYYY-MM-DD or YYYY-MM-DDTHH:MM)"
+              },
+              {
+                "name": "dateTo",
+                "value": "",
+                "type": "query",
+                "description": "Filter contacts created until this date (YYYY-MM-DD or YYYY-MM-DDTHH:MM)"
+              },
+              {
+                "name": "scoreFrom",
+                "value": "",
+                "type": "query",
+                "description": "Filter contacts with total scoring >= this value (0-3 range)"
+              },
+              {
+                "name": "scoreTo",
+                "value": "",
+                "type": "query",
+                "description": "Filter contacts with total scoring <= this value (0-3 range)"
+              },
+              {
+                "name": "intentType",
+                "value": "",
+                "type": "query",
+                "description": "Filter contacts with intent type"
+              },
+              {
+                "name": "listId",
+                "value": "",
+                "type": "query",
+                "description": "Filter contacts by list id"
+              }
+            ]
+          },
+          "docs": "Retrieve contacts with optional pagination, search, and filtering options"
+        },
+        {
+          "info": {
+            "name": "Create a new contact",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/contact",
+            "headers": [
+              {
+                "name": "x-impersonate-user-id",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new contact"
+        },
+        {
+          "info": {
+            "name": "Get one contact",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/contact/:id",
+            "headers": [
+              {
+                "name": "x-impersonate-user-id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get one contact"
+        },
+        {
+          "info": {
+            "name": "Update a contact",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v1/contact/:id",
+            "headers": [
+              {
+                "name": "x-impersonate-user-id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a contact"
+        },
+        {
+          "info": {
+            "name": "Add contacts to a list",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/contact/list/:listId/contacts",
+            "headers": [
+              {
+                "name": "x-impersonate-user-id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "listId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add contacts to a list"
+        },
+        {
+          "info": {
+            "name": "Remove contacts from a list",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/contact/list/:listId/contacts",
+            "headers": [
+              {
+                "name": "x-impersonate-user-id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "listId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Remove contacts from a list"
+        },
+        {
+          "info": {
+            "name": "Get contact counts by intent type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/contact/intent-type-counts",
+            "headers": [
+              {
+                "name": "x-impersonate-user-id",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Get contact counts by intent type"
+        },
+        {
+          "info": {
+            "name": "Enrich a contact's email",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/contact/:id/enrich/email",
+            "headers": [
+              {
+                "name": "x-impersonate-user-id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Attempts to find a verified email for the given contact. Each email enrichment that returns an email consumes 1 credit; failed enrichments do not consume any credit."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

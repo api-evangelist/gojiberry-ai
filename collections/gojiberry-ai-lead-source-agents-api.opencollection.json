@@ -1,0 +1,123 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Gojiberry AI - External AppExternal Lead source agents API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Lead source agents",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all source agents",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/agent",
+            "headers": [
+              {
+                "name": "x-impersonate-user-id",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Retrieve all source agents for the authenticated user"
+        },
+        {
+          "info": {
+            "name": "Get one source agent",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/agent/:id",
+            "headers": [
+              {
+                "name": "x-impersonate-user-id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve a single source agent by ID"
+        },
+        {
+          "info": {
+            "name": "Update a source agent",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v1/agent/:id",
+            "headers": [
+              {
+                "name": "x-impersonate-user-id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a source agent by ID"
+        },
+        {
+          "info": {
+            "name": "Get logs for a source agent",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/agent/:id/logs",
+            "headers": [
+              {
+                "name": "x-impersonate-user-id",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "dateFrom",
+                "value": "",
+                "type": "query",
+                "description": "Start of the time window (ISO 8601, e.g. 2025-04-01T00:00:00Z). Used together with dateTo."
+              },
+              {
+                "name": "dateTo",
+                "value": "",
+                "type": "query",
+                "description": "End of the time window (ISO 8601). Used together with dateFrom."
+              }
+            ]
+          },
+          "docs": "Retrieve the run logs for one AI Agent. Each log entry corresponds to one signal run and reports how many leads were sourced vs. how many ended up imported into the platform after AI scoring & filtering. Use this to answer questions like \"how many leads did this agent create last week?\", \"which signals are producing the most leads?\", or \"did any of this agent's signals fail recently?\". Optionally narrow the window with dateFrom / dateTo (ISO 8601). Capped at the most recent 100 logs (newest firs"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

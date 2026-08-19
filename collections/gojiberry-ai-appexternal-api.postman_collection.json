@@ -1,0 +1,140 @@
+{
+  "item": [
+    {
+      "id": "e904ec71-ba8d-4adc-87f4-dca0eb10bbe5",
+      "name": "AppExternal",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "74fa7b05-ea44-4e68-9d6c-42a83abcbf94",
+          "name": "App External Controller get Hello",
+          "request": {
+            "name": "App External Controller get Hello",
+            "description": {},
+            "url": {
+              "path": [
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "eece3ea2-374c-458d-ad1a-4ce3b1971381",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3a4a3c88-fbce-4555-8fa1-e4f507874e01",
+          "name": "App External Controller health Check",
+          "request": {
+            "name": "App External Controller health Check",
+            "description": {},
+            "url": {
+              "path": [
+                "health"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a0530148-0121-4794-ad71-a522b79aa67c",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "health"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "2aaff5de-e263-49a4-986a-eedcb4ff42b2",
+    "name": "Gojiberry AI - External AppExternal API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "\n# Gojiberry AI External API\n\nThis API allows you to programmatically access your Gojiberry AI data and integrate it with your applications.\n\n## Authentication\n\nAll API requests require authentication using a Bearer token. To get your API key:\n\n1. **Log in to your Gojiberry AI account** at [https://app.gojiberry.ai](https://app.gojiberry.ai)\n2. **Navigate to Settings** → **API** section\n3. **Click \"Create API Key\"** to generate a new token\n4. **Copy the API key** when it's displayed (you won't be able to see it again)\n5. **Use the token** in your requests by adding the header: `Authorization: Bearer YOUR_API_KEY`\n\n## Impersonation (organization owners)\n\nIf your API key belongs to the **owner of an organization**, you can perform any API call on behalf of another member of your organization by adding the `x-impersonate-user-id` header with the member's user ID:\n\n```bash\n# Get the contacts of the organization member with user ID 123\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     -H \"x-impersonate-user-id: 123\" \\\n     https://ext.gojiberry.ai/v1/contact\n```\n\nWhen impersonating, the request behaves exactly as if it was made by that member: you read and write their data (contacts, campaigns, lists, unibox, etc.).\n\nRules:\n- Your API key must belong to the **organization owner**; other members cannot impersonate.\n- The impersonated user must belong to the **same organization** as the API key user.\n- Requests that don't meet these rules are rejected with a `401 Unauthorized`.\n\nTip: use `GET /v1/organization/members` to list the members of your organization and their user IDs, and `GET /v1/user/me` to verify which user the current request acts as.\n\n## Rate Limits\n\n- **100 requests per minute** per API key\n\n## Base URL\n- **Production**: `https://ext.gojiberry.ai`\n\n## Endpoints\n\n### Contacts\n- `GET /v1/contact` - Get all contacts with filtering and pagination\n- `GET /v1/contact/{id}` - Get a specific contact\n- `GET /v1/contact/health` - Health check endpoint\n\n## Example Usage\n\n```bash\n# Get all contacts\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     https://ext.gojiberry.ai/v1/contact\n\n# Get contacts with filtering\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     \"https://ext.gojiberry.ai/v1/contact?search=john&agent=1&dateFrom=2024-01-01\"\n\n# Get a specific contact\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     https://ext.gojiberry.ai/v1/contact/123\n```\n\n## Webhooks\n\nGojiberry allows you to receive real-time notifications when new contacts are created or updated by configuring a webhook URL.\n\n### How to Configure Webhooks\n\n1. **Log in to your Gojiberry AI account** at [https://app.gojiberry.ai](https://app.gojiberry.ai)\n2. **Navigate to the Integrations page** at [https://app.gojiberry.ai/integrations](https://app.gojiberry.ai/integrations)\n3. **Add a Webhook integration** by clicking the Webhook option\n4. **Enter your webhook URL** where you want to receive notifications\n5. **Save the configuration**\n\nOnce configured, Gojiberry will send POST requests to your webhook URL whenever:\n- A new contact is created\n- A contact is updated\n- Other relevant events occur in your account\n\nThe webhook payload will include the full contact data in JSON format. Each webhook request includes a custom header `x-gojiberry-user-id` containing your user ID for verification purposes.\n\n## Support\n\nFor API support, please contact us at [hello@gojiberry.ai](mailto:hello@gojiberry.ai)\n      ",
+      "type": "text/plain"
+    }
+  }
+}

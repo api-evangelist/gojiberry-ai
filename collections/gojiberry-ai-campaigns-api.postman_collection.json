@@ -1,0 +1,457 @@
+{
+  "item": [
+    {
+      "id": "a162269a-c4b3-4a57-ae22-0bd56a0315d8",
+      "name": "Campaigns",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "5b1195f4-bb87-4f32-83ba-c53e5bd6de2e",
+          "name": "Get all campaigns",
+          "request": {
+            "name": "Get all campaigns",
+            "description": {
+              "content": "Retrieve all campaigns with optional filtering by active status",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "campaign"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "activeOnly",
+                  "value": "<boolean>",
+                  "description": "Filter by active status (true/false)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                "key": "x-impersonate-user-id",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "0da75a56-5a55-4c96-bd0f-3214088f91ca",
+              "name": "List of campaigns",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "campaign"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "activeOnly",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 6993.354690987527,\n    \"name\": \"string\",\n    \"userId\": 3568.4217973082223,\n    \"active\": true,\n    \"excludeFirstDegreeFromCampaigns\": true,\n    \"isManual\": false,\n    \"createdAt\": \"1990-10-16T22:41:57.488Z\",\n    \"updatedAt\": \"2014-12-05T10:34:02.554Z\",\n    \"skipInvitationAfterDays\": 9998.757536217327,\n    \"language\": \"string\",\n    \"tone\": \"conversational\",\n    \"goal\": \"demos\",\n    \"linkedinSeatId\": 3346.0890882622953\n  },\n  {\n    \"id\": 2285.8072241921814,\n    \"name\": \"string\",\n    \"userId\": 7564.05479315374,\n    \"active\": true,\n    \"excludeFirstDegreeFromCampaigns\": true,\n    \"isManual\": false,\n    \"createdAt\": \"1982-04-07T03:14:12.047Z\",\n    \"updatedAt\": \"1965-01-04T03:36:04.733Z\",\n    \"skipInvitationAfterDays\": 7613.488934606047,\n    \"language\": \"string\",\n    \"tone\": \"direct\",\n    \"goal\": \"demos\",\n    \"linkedinSeatId\": 5764.5102922863625\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1bb4b03c-19ab-4291-869d-4dfb5a29c6c1",
+          "name": "Get one campaign",
+          "request": {
+            "name": "Get one campaign",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "campaign",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                "key": "x-impersonate-user-id",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "7b308fd8-d12a-465d-8960-467a467e2296",
+              "name": "Get one campaign",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "campaign",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 7939.794650639082,\n  \"name\": \"string\",\n  \"userId\": 8217.537329469433,\n  \"active\": true,\n  \"excludeFirstDegreeFromCampaigns\": true,\n  \"isManual\": false,\n  \"createdAt\": \"2019-01-25T12:05:12.235Z\",\n  \"updatedAt\": \"2002-06-11T03:09:48.646Z\",\n  \"skipInvitationAfterDays\": 2302.2481322423637,\n  \"language\": \"string\",\n  \"tone\": \"direct\",\n  \"goal\": \"demos\",\n  \"linkedinSeatId\": 333.5727348544537\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3d9d34ae-6e81-4905-b0de-41fc19b27f56",
+          "name": "Update one campaign",
+          "request": {
+            "name": "Update one campaign",
+            "description": {
+              "content": "Update campaign name, associated list IDs, and existing step messages or same/AI mode. **Steps must keep the same length and type order; only the message content and mode can be edited in the steps.**",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "campaign",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                "key": "x-impersonate-user-id",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"listIds\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"steps\": \"<array>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "454b4b99-d23e-48a1-84eb-cee64fb27fd1",
+              "name": "Campaign updated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "campaign",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Q1 Sales Campaign\",\n  \"listIds\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"steps\": \"<array>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 7939.794650639082,\n  \"name\": \"string\",\n  \"userId\": 8217.537329469433,\n  \"active\": true,\n  \"excludeFirstDegreeFromCampaigns\": true,\n  \"isManual\": false,\n  \"createdAt\": \"2019-01-25T12:05:12.235Z\",\n  \"updatedAt\": \"2002-06-11T03:09:48.646Z\",\n  \"skipInvitationAfterDays\": 2302.2481322423637,\n  \"language\": \"string\",\n  \"tone\": \"direct\",\n  \"goal\": \"demos\",\n  \"linkedinSeatId\": 333.5727348544537\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fe591210-def1-43e5-ac11-d80ad5b8abe8",
+              "name": "Invalid step update or list assignment",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "campaign",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Q1 Sales Campaign\",\n  \"listIds\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"steps\": \"<array>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "74e44b25-8ed6-4270-a4ca-da1e9b01389e",
+              "name": "Campaign or list not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "campaign",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Q1 Sales Campaign\",\n  \"listIds\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"steps\": \"<array>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "2a687518-655d-43a9-b49b-35580f7a8769",
+    "name": "Gojiberry AI - External AppExternal Campaigns API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "\n# Gojiberry AI External API\n\nThis API allows you to programmatically access your Gojiberry AI data and integrate it with your applications.\n\n## Authentication\n\nAll API requests require authentication using a Bearer token. To get your API key:\n\n1. **Log in to your Gojiberry AI account** at [https://app.gojiberry.ai](https://app.gojiberry.ai)\n2. **Navigate to Settings** → **API** section\n3. **Click \"Create API Key\"** to generate a new token\n4. **Copy the API key** when it's displayed (you won't be able to see it again)\n5. **Use the token** in your requests by adding the header: `Authorization: Bearer YOUR_API_KEY`\n\n## Impersonation (organization owners)\n\nIf your API key belongs to the **owner of an organization**, you can perform any API call on behalf of another member of your organization by adding the `x-impersonate-user-id` header with the member's user ID:\n\n```bash\n# Get the contacts of the organization member with user ID 123\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     -H \"x-impersonate-user-id: 123\" \\\n     https://ext.gojiberry.ai/v1/contact\n```\n\nWhen impersonating, the request behaves exactly as if it was made by that member: you read and write their data (contacts, campaigns, lists, unibox, etc.).\n\nRules:\n- Your API key must belong to the **organization owner**; other members cannot impersonate.\n- The impersonated user must belong to the **same organization** as the API key user.\n- Requests that don't meet these rules are rejected with a `401 Unauthorized`.\n\nTip: use `GET /v1/organization/members` to list the members of your organization and their user IDs, and `GET /v1/user/me` to verify which user the current request acts as.\n\n## Rate Limits\n\n- **100 requests per minute** per API key\n\n## Base URL\n- **Production**: `https://ext.gojiberry.ai`\n\n## Endpoints\n\n### Contacts\n- `GET /v1/contact` - Get all contacts with filtering and pagination\n- `GET /v1/contact/{id}` - Get a specific contact\n- `GET /v1/contact/health` - Health check endpoint\n\n## Example Usage\n\n```bash\n# Get all contacts\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     https://ext.gojiberry.ai/v1/contact\n\n# Get contacts with filtering\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     \"https://ext.gojiberry.ai/v1/contact?search=john&agent=1&dateFrom=2024-01-01\"\n\n# Get a specific contact\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     https://ext.gojiberry.ai/v1/contact/123\n```\n\n## Webhooks\n\nGojiberry allows you to receive real-time notifications when new contacts are created or updated by configuring a webhook URL.\n\n### How to Configure Webhooks\n\n1. **Log in to your Gojiberry AI account** at [https://app.gojiberry.ai](https://app.gojiberry.ai)\n2. **Navigate to the Integrations page** at [https://app.gojiberry.ai/integrations](https://app.gojiberry.ai/integrations)\n3. **Add a Webhook integration** by clicking the Webhook option\n4. **Enter your webhook URL** where you want to receive notifications\n5. **Save the configuration**\n\nOnce configured, Gojiberry will send POST requests to your webhook URL whenever:\n- A new contact is created\n- A contact is updated\n- Other relevant events occur in your account\n\nThe webhook payload will include the full contact data in JSON format. Each webhook request includes a custom header `x-gojiberry-user-id` containing your user ID for verification purposes.\n\n## Support\n\nFor API support, please contact us at [hello@gojiberry.ai](mailto:hello@gojiberry.ai)\n      ",
+      "type": "text/plain"
+    }
+  }
+}

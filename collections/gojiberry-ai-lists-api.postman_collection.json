@@ -1,0 +1,320 @@
+{
+  "item": [
+    {
+      "id": "d93adf45-347d-4f1d-9f7d-6ea58dd9eaaa",
+      "name": "Lists",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3d64b6b8-01d1-4179-9203-ec015b6425a0",
+          "name": "Create a list",
+          "request": {
+            "name": "Create a list",
+            "description": {
+              "content": "Create a new list for the authenticated user",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "list"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                "key": "x-impersonate-user-id",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"campaignId\": \"<number>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2565b83d-0f3f-40ec-b70c-d5956de8add2",
+              "name": "List created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"campaignId\": \"<number>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 2638.1469154157844,\n  \"name\": \"string\",\n  \"userId\": 4984.979111175662,\n  \"user\": {},\n  \"createdAt\": \"1987-12-15T08:35:36.791Z\",\n  \"updatedAt\": \"1953-04-10T12:40:08.520Z\",\n  \"campaignId\": 1605.4322109210373,\n  \"campaign\": {\n    \"id\": 997.0806253809184,\n    \"name\": \"string\",\n    \"userId\": 842.0913041666556,\n    \"active\": true,\n    \"excludeFirstDegreeFromCampaigns\": true,\n    \"isManual\": false,\n    \"createdAt\": \"1954-08-06T04:07:30.910Z\",\n    \"updatedAt\": \"1974-08-21T02:14:13.409Z\",\n    \"skipInvitationAfterDays\": 7715.172086016655,\n    \"language\": \"string\",\n    \"tone\": \"direct\",\n    \"goal\": \"conversations\",\n    \"linkedinSeatId\": 4010.308516260749\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bfd6ff95-d96b-41f1-af02-a440d1f153e0",
+          "name": "Get all lists",
+          "request": {
+            "name": "Get all lists",
+            "description": {
+              "content": "Retrieve all lists with contact counts",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "list"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                "key": "x-impersonate-user-id",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "e65ef14c-ffd5-468c-93d5-409e8ccbf474",
+              "name": "List of lists with contact counts",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 6083.581711555173,\n    \"name\": \"string\",\n    \"userId\": 6899.466536777918,\n    \"user\": {},\n    \"createdAt\": \"1964-10-12T00:47:43.944Z\",\n    \"updatedAt\": \"1977-01-20T16:40:00.659Z\",\n    \"campaignId\": 2876.156748418424,\n    \"campaign\": {\n      \"id\": 9393.409232278029,\n      \"name\": \"string\",\n      \"userId\": 4403.551291185796,\n      \"active\": true,\n      \"excludeFirstDegreeFromCampaigns\": true,\n      \"isManual\": false,\n      \"createdAt\": \"1959-04-21T05:48:39.594Z\",\n      \"updatedAt\": \"1973-01-02T22:54:15.794Z\",\n      \"skipInvitationAfterDays\": 1748.4572104275742,\n      \"language\": \"string\",\n      \"tone\": \"professional\",\n      \"goal\": \"demos\",\n      \"linkedinSeatId\": 5343.0696874868845\n    }\n  },\n  {\n    \"id\": 2116.808885316744,\n    \"name\": \"string\",\n    \"userId\": 1471.3055751196534,\n    \"user\": {},\n    \"createdAt\": \"2000-07-31T20:14:10.504Z\",\n    \"updatedAt\": \"1996-10-22T03:15:19.800Z\",\n    \"campaignId\": 7315.7594933442015,\n    \"campaign\": {\n      \"id\": 3232.13432651414,\n      \"name\": \"string\",\n      \"userId\": 2699.624504600907,\n      \"active\": true,\n      \"excludeFirstDegreeFromCampaigns\": true,\n      \"isManual\": false,\n      \"createdAt\": \"1953-02-05T18:27:35.306Z\",\n      \"updatedAt\": \"1953-09-21T01:04:20.958Z\",\n      \"skipInvitationAfterDays\": 718.7188877927986,\n      \"language\": \"string\",\n      \"tone\": \"direct\",\n      \"goal\": \"conversations\",\n      \"linkedinSeatId\": 4126.3033391744975\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d183f9bc-1175-476c-9fbb-fb5119adce7e",
+          "name": "Get one list",
+          "request": {
+            "name": "Get one list",
+            "description": {
+              "content": "Retrieve a single list by ID with its contacts",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "list",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                "key": "x-impersonate-user-id",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "f806251a-5247-4f07-9f88-a8d05d48dbd9",
+              "name": "Get one list with contacts",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "list",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 2638.1469154157844,\n  \"name\": \"string\",\n  \"userId\": 4984.979111175662,\n  \"user\": {},\n  \"createdAt\": \"1987-12-15T08:35:36.791Z\",\n  \"updatedAt\": \"1953-04-10T12:40:08.520Z\",\n  \"campaignId\": 1605.4322109210373,\n  \"campaign\": {\n    \"id\": 997.0806253809184,\n    \"name\": \"string\",\n    \"userId\": 842.0913041666556,\n    \"active\": true,\n    \"excludeFirstDegreeFromCampaigns\": true,\n    \"isManual\": false,\n    \"createdAt\": \"1954-08-06T04:07:30.910Z\",\n    \"updatedAt\": \"1974-08-21T02:14:13.409Z\",\n    \"skipInvitationAfterDays\": 7715.172086016655,\n    \"language\": \"string\",\n    \"tone\": \"direct\",\n    \"goal\": \"conversations\",\n    \"linkedinSeatId\": 4010.308516260749\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "a841ea58-b15f-4725-a443-05ede210a1b1",
+    "name": "Gojiberry AI - External AppExternal Lists API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "\n# Gojiberry AI External API\n\nThis API allows you to programmatically access your Gojiberry AI data and integrate it with your applications.\n\n## Authentication\n\nAll API requests require authentication using a Bearer token. To get your API key:\n\n1. **Log in to your Gojiberry AI account** at [https://app.gojiberry.ai](https://app.gojiberry.ai)\n2. **Navigate to Settings** → **API** section\n3. **Click \"Create API Key\"** to generate a new token\n4. **Copy the API key** when it's displayed (you won't be able to see it again)\n5. **Use the token** in your requests by adding the header: `Authorization: Bearer YOUR_API_KEY`\n\n## Impersonation (organization owners)\n\nIf your API key belongs to the **owner of an organization**, you can perform any API call on behalf of another member of your organization by adding the `x-impersonate-user-id` header with the member's user ID:\n\n```bash\n# Get the contacts of the organization member with user ID 123\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     -H \"x-impersonate-user-id: 123\" \\\n     https://ext.gojiberry.ai/v1/contact\n```\n\nWhen impersonating, the request behaves exactly as if it was made by that member: you read and write their data (contacts, campaigns, lists, unibox, etc.).\n\nRules:\n- Your API key must belong to the **organization owner**; other members cannot impersonate.\n- The impersonated user must belong to the **same organization** as the API key user.\n- Requests that don't meet these rules are rejected with a `401 Unauthorized`.\n\nTip: use `GET /v1/organization/members` to list the members of your organization and their user IDs, and `GET /v1/user/me` to verify which user the current request acts as.\n\n## Rate Limits\n\n- **100 requests per minute** per API key\n\n## Base URL\n- **Production**: `https://ext.gojiberry.ai`\n\n## Endpoints\n\n### Contacts\n- `GET /v1/contact` - Get all contacts with filtering and pagination\n- `GET /v1/contact/{id}` - Get a specific contact\n- `GET /v1/contact/health` - Health check endpoint\n\n## Example Usage\n\n```bash\n# Get all contacts\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     https://ext.gojiberry.ai/v1/contact\n\n# Get contacts with filtering\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     \"https://ext.gojiberry.ai/v1/contact?search=john&agent=1&dateFrom=2024-01-01\"\n\n# Get a specific contact\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     https://ext.gojiberry.ai/v1/contact/123\n```\n\n## Webhooks\n\nGojiberry allows you to receive real-time notifications when new contacts are created or updated by configuring a webhook URL.\n\n### How to Configure Webhooks\n\n1. **Log in to your Gojiberry AI account** at [https://app.gojiberry.ai](https://app.gojiberry.ai)\n2. **Navigate to the Integrations page** at [https://app.gojiberry.ai/integrations](https://app.gojiberry.ai/integrations)\n3. **Add a Webhook integration** by clicking the Webhook option\n4. **Enter your webhook URL** where you want to receive notifications\n5. **Save the configuration**\n\nOnce configured, Gojiberry will send POST requests to your webhook URL whenever:\n- A new contact is created\n- A contact is updated\n- Other relevant events occur in your account\n\nThe webhook payload will include the full contact data in JSON format. Each webhook request includes a custom header `x-gojiberry-user-id` containing your user ID for verification purposes.\n\n## Support\n\nFor API support, please contact us at [hello@gojiberry.ai](mailto:hello@gojiberry.ai)\n      ",
+      "type": "text/plain"
+    }
+  }
+}

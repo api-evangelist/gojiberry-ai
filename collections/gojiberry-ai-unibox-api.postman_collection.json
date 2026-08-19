@@ -1,0 +1,631 @@
+{
+  "item": [
+    {
+      "id": "770a010f-467a-4f6f-a4dc-a5266d8d0187",
+      "name": "Unibox",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "00c17871-bc07-432b-ac0b-5aceed59710c",
+          "name": "Legacy - Get unibox chats and messages for a contact",
+          "request": {
+            "name": "Legacy - Get unibox chats and messages for a contact",
+            "description": {
+              "content": "Legacy endpoint. Returns all unibox chats (with their messages) associated with the given contact for the authenticated user.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "unibox",
+                "contact",
+                ":contactId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "contactId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                "key": "x-impersonate-user-id",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "fc2b1847-49be-4d1f-9fd3-ddc5f429b96a",
+              "name": "List of unibox chats for the contact, ordered by most recent message first",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "unibox",
+                    "contact",
+                    ":contactId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "contactId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"string\",\n    \"seen\": false,\n    \"createdAt\": \"1998-11-01T23:08:24.179Z\",\n    \"updatedAt\": \"2017-12-02T01:04:01.209Z\",\n    \"subject\": \"string\",\n    \"lastMessage\": \"string\",\n    \"lastMessageDate\": \"1996-04-22T16:09:21.953Z\",\n    \"sender\": {},\n    \"attendeeId\": \"string\",\n    \"accountId\": \"string\",\n    \"interested\": true,\n    \"tag\": \"string\",\n    \"contactId\": 5058.126793894064,\n    \"contact\": {\n      \"id\": 5480.944933094846,\n      \"firstName\": \"string\",\n      \"lastName\": \"string\",\n      \"fullName\": \"string\",\n      \"bounced\": false,\n      \"unsubscribed\": false,\n      \"emailEnriched\": false,\n      \"phoneEnriched\": false,\n      \"userId\": 5269.90463669822,\n      \"user\": {},\n      \"readyForCampaign\": false,\n      \"hasStartedCampaign\": false,\n      \"createdAt\": \"1948-11-06T04:41:39.480Z\",\n      \"updatedAt\": \"2017-06-19T20:29:39.637Z\",\n      \"profileBaseline\": \"string\",\n      \"location\": \"string\",\n      \"jobTitle\": \"string\",\n      \"positionDates\": \"string\",\n      \"company\": \"string\",\n      \"companySize\": \"string\",\n      \"companyUrl\": \"string\",\n      \"website\": \"string\",\n      \"industry\": \"string\",\n      \"email\": \"string\",\n      \"email_2\": \"string\",\n      \"email_3\": \"string\",\n      \"secondEmail\": \"string\",\n      \"thirdEmail\": \"string\",\n      \"phone\": \"string\",\n      \"phone_2\": \"string\",\n      \"phone_3\": \"string\",\n      \"secondPhone\": \"string\",\n      \"thirdPhone\": \"string\",\n      \"profileId\": \"string\",\n      \"linkedinMemberId\": 8735.721148793313,\n      \"profileUrl\": \"string\",\n      \"picture\": \"string\",\n      \"openToWork\": false,\n      \"skills\": [\n        \"string\",\n        \"string\"\n      ],\n      \"linkedinIdentifier\": \"string\",\n      \"note\": \"string\",\n      \"user_note\": \"string\",\n      \"intent\": \"string\",\n      \"intent_scoring\": 8482.268059489119,\n      \"total_scoring\": 8500.781614414875,\n      \"intent_type\": {},\n      \"intent_keyword\": \"string\",\n      \"scoring\": 9200.159845834429,\n      \"score_reasoning\": \"string\",\n      \"fit\": \"qualified\",\n      \"email_template\": {},\n      \"linkedin_template\": \"string\",\n      \"personalizedMessages\": [\n        \"string\",\n        \"string\"\n      ],\n      \"destinationStatus\": [\n        \"string\",\n        \"string\"\n      ],\n      \"campaignStatus\": [\n        \"string\",\n        \"string\"\n      ],\n      \"agentId\": 219.8454226167712,\n      \"agent\": {\n        \"id\": 407.4570449701509,\n        \"name\": \"string\",\n        \"targetJobTitles\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"targetIndustries\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"targetCompanySizes\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"targetLocations\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"targetCompanyTypes\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"agentType\": \"autopilot\",\n        \"paused\": false,\n        \"excludeServiceProviders\": false,\n        \"skipIcpFilter\": false,\n        \"includeOpenToWorkProfiles\": false,\n        \"leadWaterfall\": true,\n        \"userId\": 1390.9115014947793,\n        \"createdAt\": \"1953-02-21T07:49:58.224Z\",\n        \"updatedAt\": \"1987-11-10T12:25:02.553Z\",\n        \"additionalCriteria\": \"string\",\n        \"variables\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"ignoredCompanies\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"mandatoryKeywords\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"lastRun\": \"1994-06-03T09:12:34.609Z\",\n        \"minLeadScore\": 0.75,\n        \"listId\": 5996.2361188992945\n      },\n      \"listId\": 7527.0202858887005,\n      \"list\": {\n        \"id\": 6092.825803228626,\n        \"name\": \"string\",\n        \"userId\": 8278.242079837924,\n        \"user\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"createdAt\": \"2023-07-16T06:41:21.513Z\",\n        \"updatedAt\": \"2004-10-17T22:26:40.817Z\",\n        \"campaignId\": 8176.180552693329,\n        \"campaign\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"state\": \"paused\"\n    },\n    \"seatId\": 4351.532067888206,\n    \"seat\": {},\n    \"userId\": 8169.422598346926,\n    \"user\": {}\n  },\n  {\n    \"id\": \"string\",\n    \"seen\": false,\n    \"createdAt\": \"1980-06-17T20:14:17.579Z\",\n    \"updatedAt\": \"2001-03-13T01:08:58.234Z\",\n    \"subject\": \"string\",\n    \"lastMessage\": \"string\",\n    \"lastMessageDate\": \"1972-01-06T21:28:21.296Z\",\n    \"sender\": {},\n    \"attendeeId\": \"string\",\n    \"accountId\": \"string\",\n    \"interested\": true,\n    \"tag\": \"string\",\n    \"contactId\": 3707.5606683891137,\n    \"contact\": {\n      \"id\": 8699.491188367854,\n      \"firstName\": \"string\",\n      \"lastName\": \"string\",\n      \"fullName\": \"string\",\n      \"bounced\": false,\n      \"unsubscribed\": false,\n      \"emailEnriched\": false,\n      \"phoneEnriched\": false,\n      \"userId\": 4138.287447892857,\n      \"user\": {},\n      \"readyForCampaign\": false,\n      \"hasStartedCampaign\": false,\n      \"createdAt\": \"2010-02-09T12:47:10.328Z\",\n      \"updatedAt\": \"1959-02-21T20:58:17.336Z\",\n      \"profileBaseline\": \"string\",\n      \"location\": \"string\",\n      \"jobTitle\": \"string\",\n      \"positionDates\": \"string\",\n      \"company\": \"string\",\n      \"companySize\": \"string\",\n      \"companyUrl\": \"string\",\n      \"website\": \"string\",\n      \"industry\": \"string\",\n      \"email\": \"string\",\n      \"email_2\": \"string\",\n      \"email_3\": \"string\",\n      \"secondEmail\": \"string\",\n      \"thirdEmail\": \"string\",\n      \"phone\": \"string\",\n      \"phone_2\": \"string\",\n      \"phone_3\": \"string\",\n      \"secondPhone\": \"string\",\n      \"thirdPhone\": \"string\",\n      \"profileId\": \"string\",\n      \"linkedinMemberId\": 1950.6581003548952,\n      \"profileUrl\": \"string\",\n      \"picture\": \"string\",\n      \"openToWork\": false,\n      \"skills\": [\n        \"string\",\n        \"string\"\n      ],\n      \"linkedinIdentifier\": \"string\",\n      \"note\": \"string\",\n      \"user_note\": \"string\",\n      \"intent\": \"string\",\n      \"intent_scoring\": 6346.633762753545,\n      \"total_scoring\": 1587.1429728290886,\n      \"intent_type\": {},\n      \"intent_keyword\": \"string\",\n      \"scoring\": 5555.293744872909,\n      \"score_reasoning\": \"string\",\n      \"fit\": \"qualified\",\n      \"email_template\": {},\n      \"linkedin_template\": \"string\",\n      \"personalizedMessages\": [\n        \"string\",\n        \"string\"\n      ],\n      \"destinationStatus\": [\n        \"string\",\n        \"string\"\n      ],\n      \"campaignStatus\": [\n        \"string\",\n        \"string\"\n      ],\n      \"agentId\": 1666.2599361335572,\n      \"agent\": {\n        \"id\": 6116.660158103459,\n        \"name\": \"string\",\n        \"targetJobTitles\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"targetIndustries\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"targetCompanySizes\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"targetLocations\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"targetCompanyTypes\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"agentType\": \"autopilot\",\n        \"paused\": false,\n        \"excludeServiceProviders\": false,\n        \"skipIcpFilter\": false,\n        \"includeOpenToWorkProfiles\": false,\n        \"leadWaterfall\": true,\n        \"userId\": 6031.2386720923405,\n        \"createdAt\": \"2015-05-30T19:49:58.739Z\",\n        \"updatedAt\": \"1972-10-13T05:23:22.988Z\",\n        \"additionalCriteria\": \"string\",\n        \"variables\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"ignoredCompanies\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"mandatoryKeywords\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"lastRun\": \"2010-02-06T18:33:13.266Z\",\n        \"minLeadScore\": 0.75,\n        \"listId\": 6062.847212734922\n      },\n      \"listId\": 1230.610483207556,\n      \"list\": {\n        \"id\": 4201.477246986517,\n        \"name\": \"string\",\n        \"userId\": 7463.508657624379,\n        \"user\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"createdAt\": \"2008-10-16T22:26:48.036Z\",\n        \"updatedAt\": \"1974-10-04T20:34:42.159Z\",\n        \"campaignId\": 9527.4085007359,\n        \"campaign\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"state\": \"paused\"\n    },\n    \"seatId\": 7099.4177491532255,\n    \"seat\": {},\n    \"userId\": 12.683332574928707,\n    \"user\": {}\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d8de8a8c-84c1-475b-b7dd-fc70bbd0d73d",
+              "name": "Contact not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "unibox",
+                    "contact",
+                    ":contactId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "contactId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "46aa411f-8b2a-4691-a240-ae463a3a7030",
+          "name": "Get unibox threads",
+          "request": {
+            "name": "Get unibox threads",
+            "description": {
+              "content": "Returns paginated unibox threads for a specific LinkedIn seat when seatId is provided. If no seatId is provided, it returns threads for all LinkedIn seats in the account.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "unibox",
+                "threads"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "dateTo",
+                  "value": "<string>",
+                  "description": "Filter threads with lastMessageDate on or before this ISO date string."
+                },
+                {
+                  "disabled": false,
+                  "key": "dateFrom",
+                  "value": "<string>",
+                  "description": "Filter threads with lastMessageDate on or after this ISO date string."
+                },
+                {
+                  "disabled": false,
+                  "key": "seen",
+                  "value": "<boolean>",
+                  "description": "Filter threads by seen/read status. Use true or false."
+                },
+                {
+                  "disabled": false,
+                  "key": "interested",
+                  "value": "<boolean>",
+                  "description": "Filter threads by interested status. Use true or false."
+                },
+                {
+                  "disabled": false,
+                  "key": "attendeeFullName",
+                  "value": "<string>",
+                  "description": "Filter threads by attendee full name. Partial matches are supported."
+                },
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "<string>",
+                  "description": "Sort direction by last message date. Default: DESC."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<number>",
+                  "description": "Number of threads per page. Default: 20. Minimum: 1. Maximum: 100."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<number>",
+                  "description": "Page number. Default: 1. Minimum: 1."
+                },
+                {
+                  "disabled": false,
+                  "key": "seatId",
+                  "value": "<number>",
+                  "description": "Optional LinkedIn seat ID. If omitted, returns threads for all seats in the account."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                "key": "x-impersonate-user-id",
+                "value": "<string>"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "2a08f1e9-2f64-4f36-896f-124d4f7661f7",
+              "name": "Paginated unibox threads retrieved successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "unibox",
+                    "threads"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "dateTo",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "dateFrom",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "seen",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "interested",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "attendeeFullName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "seatId",
+                      "value": "<number>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "474ec278-4392-465a-b30b-ae897a6adfb6",
+          "name": "Get unibox messages from a thread",
+          "request": {
+            "name": "Get unibox messages from a thread",
+            "description": {
+              "content": "Returns paginated unibox messages for a thread owned by the authenticated user.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "unibox",
+                "threads",
+                ":threadId",
+                "messages"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "<string>",
+                  "description": "Sort direction by message creation date. Default: ASC."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<number>",
+                  "description": "Number of messages per page. Default: 50. Minimum: 1. Maximum: 200."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<number>",
+                  "description": "Page number. Default: 1. Minimum: 1."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "threadId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                "key": "x-impersonate-user-id",
+                "value": "<string>"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "9846aa4d-d7b4-4936-96f8-18149d10bf5d",
+              "name": "Paginated unibox messages retrieved successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "unibox",
+                    "threads",
+                    ":threadId",
+                    "messages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<number>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "threadId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "530fc5d3-7476-4fc1-b2ac-b96088a27916",
+          "name": "Send a unibox LinkedIn message",
+          "request": {
+            "name": "Send a unibox LinkedIn message",
+            "description": {
+              "content": "Sends a LinkedIn message in a unibox thread. Provide chatId and message in the body. chatId is the internal unibox thread id returned as id by GET /v1/unibox/threads; it is not the LinkedIn conversationUrn. Optional multipart fields: file, voiceMessage.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "unibox",
+                "messages",
+                "send-message"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                "key": "x-impersonate-user-id",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "chatId",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) Internal unibox thread id returned as id by GET /v1/unibox/threads. This is not the LinkedIn conversationUrn."
+                },
+                {
+                  "key": "message",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Text message to send. Optional only when sending a file or voiceMessage."
+                },
+                {
+                  "key": "file",
+                  "type": "file",
+                  "description": "Optional file attachment. Do not send together with voiceMessage."
+                },
+                {
+                  "key": "voiceMessage",
+                  "type": "file",
+                  "description": "Optional voice message attachment. Do not send together with file."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "0f3f3e2b-e1e8-49dd-a347-1b95262602df",
+              "name": "Message sent successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "unibox",
+                    "messages",
+                    "send-message"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Internal unibox thread id returned as id by GET /v1/unibox/threads. This is not the LinkedIn conversationUrn.",
+                        "type": "text/plain"
+                      },
+                      "key": "chatId",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Text message to send. Optional only when sending a file or voiceMessage.",
+                        "type": "text/plain"
+                      },
+                      "key": "message",
+                      "value": "Hi, thanks for your reply.",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Optional file attachment. Do not send together with voiceMessage.",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Optional voice message attachment. Do not send together with file.",
+                        "type": "text/plain"
+                      },
+                      "key": "voiceMessage",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "8427bd20-3748-427b-8ed9-86a1363156fa",
+    "name": "Gojiberry AI - External AppExternal Unibox API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "\n# Gojiberry AI External API\n\nThis API allows you to programmatically access your Gojiberry AI data and integrate it with your applications.\n\n## Authentication\n\nAll API requests require authentication using a Bearer token. To get your API key:\n\n1. **Log in to your Gojiberry AI account** at [https://app.gojiberry.ai](https://app.gojiberry.ai)\n2. **Navigate to Settings** → **API** section\n3. **Click \"Create API Key\"** to generate a new token\n4. **Copy the API key** when it's displayed (you won't be able to see it again)\n5. **Use the token** in your requests by adding the header: `Authorization: Bearer YOUR_API_KEY`\n\n## Impersonation (organization owners)\n\nIf your API key belongs to the **owner of an organization**, you can perform any API call on behalf of another member of your organization by adding the `x-impersonate-user-id` header with the member's user ID:\n\n```bash\n# Get the contacts of the organization member with user ID 123\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     -H \"x-impersonate-user-id: 123\" \\\n     https://ext.gojiberry.ai/v1/contact\n```\n\nWhen impersonating, the request behaves exactly as if it was made by that member: you read and write their data (contacts, campaigns, lists, unibox, etc.).\n\nRules:\n- Your API key must belong to the **organization owner**; other members cannot impersonate.\n- The impersonated user must belong to the **same organization** as the API key user.\n- Requests that don't meet these rules are rejected with a `401 Unauthorized`.\n\nTip: use `GET /v1/organization/members` to list the members of your organization and their user IDs, and `GET /v1/user/me` to verify which user the current request acts as.\n\n## Rate Limits\n\n- **100 requests per minute** per API key\n\n## Base URL\n- **Production**: `https://ext.gojiberry.ai`\n\n## Endpoints\n\n### Contacts\n- `GET /v1/contact` - Get all contacts with filtering and pagination\n- `GET /v1/contact/{id}` - Get a specific contact\n- `GET /v1/contact/health` - Health check endpoint\n\n## Example Usage\n\n```bash\n# Get all contacts\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     https://ext.gojiberry.ai/v1/contact\n\n# Get contacts with filtering\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     \"https://ext.gojiberry.ai/v1/contact?search=john&agent=1&dateFrom=2024-01-01\"\n\n# Get a specific contact\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     https://ext.gojiberry.ai/v1/contact/123\n```\n\n## Webhooks\n\nGojiberry allows you to receive real-time notifications when new contacts are created or updated by configuring a webhook URL.\n\n### How to Configure Webhooks\n\n1. **Log in to your Gojiberry AI account** at [https://app.gojiberry.ai](https://app.gojiberry.ai)\n2. **Navigate to the Integrations page** at [https://app.gojiberry.ai/integrations](https://app.gojiberry.ai/integrations)\n3. **Add a Webhook integration** by clicking the Webhook option\n4. **Enter your webhook URL** where you want to receive notifications\n5. **Save the configuration**\n\nOnce configured, Gojiberry will send POST requests to your webhook URL whenever:\n- A new contact is created\n- A contact is updated\n- Other relevant events occur in your account\n\nThe webhook payload will include the full contact data in JSON format. Each webhook request includes a custom header `x-gojiberry-user-id` containing your user ID for verification purposes.\n\n## Support\n\nFor API support, please contact us at [hello@gojiberry.ai](mailto:hello@gojiberry.ai)\n      ",
+      "type": "text/plain"
+    }
+  }
+}

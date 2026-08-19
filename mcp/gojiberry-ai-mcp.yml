@@ -1,4 +1,4 @@
-generated: '2026-07-19'
+generated: '2026-08-13'
 method: searched
 status: published
 source: https://mcp.gojiberry.ai/ (live probe) + https://gojiberry.ai/how-to-do-outreach-claude-linkedin-mcp
@@ -13,9 +13,32 @@ server:
   connect_guide: https://gojiberry.ai/how-to-do-outreach-claude-linkedin-mcp
   description: Hosted MCP server that lets an AI client (e.g. Claude) run multichannel outbound, find
     and score warm leads, draft personalized messages, and pull pipeline insights from Gojiberry conversationally.
-notes: Server verified live (GET / returns {"name":"Gojiberry AI","version":"1.0.0","status":"ok"}). Tool
-  list below is DERIVED from the External API operations as candidates; the authenticated server may expose
-  a curated subset/superset.
+authorization:
+  model: OAuth 2.1 authorization code + PKCE, with dynamic client registration
+  protected_resource_metadata: https://mcp.gojiberry.ai/.well-known/oauth-protected-resource
+  authorization_server_metadata: https://mcp.gojiberry.ai/.well-known/oauth-authorization-server
+  issuer: https://mcp.gojiberry.ai
+  authorization_endpoint: https://mcp.gojiberry.ai/authorize
+  token_endpoint: https://mcp.gojiberry.ai/token
+  registration_endpoint: https://mcp.gojiberry.ai/register
+  code_challenge_methods: [S256, plain]
+  scopes: [mcp:tools, claudeai]
+  www_authenticate: 'Bearer resource_metadata="https://mcp.gojiberry.ai/.well-known/oauth-protected-resource/mcp",
+    scope="mcp:tools claudeai"'
+  see: scopes/gojiberry-ai-scopes.yml
+introspection:
+  tools_list: gated
+  probe: >-
+    POST /mcp {"jsonrpc":"2.0","id":1,"method":"tools/list"} returns HTTP 400
+    -32600 "First request must be MCP initialize"; POST initialize returns HTTP
+    401 -32001 "Authentication required" with a WWW-Authenticate Bearer
+    challenge. The real tool set and its inputSchemas require an authenticated
+    OAuth session and could not be enumerated anonymously.
+  checked: '2026-08-13'
+notes: Server verified live (GET / returns {"name":"Gojiberry AI","version":"1.0.0","status":"ok","docs":"https://ext.gojiberry.ai/documentation"}).
+  The tool list below is DERIVED from the External API operations as candidates — it is NOT the server's
+  published tools/list, which is OAuth-gated; the authenticated server may expose a curated subset/superset.
+  See mcp/gojiberry-ai-tool-crosswalk.yml for the capability-level mapping.
 tools:
 - name: ContactExternalController_create
   description: Create a new contact
@@ -95,3 +118,15 @@ tools:
 - name: UserExternalController_getMyPermissions
   description: Get the permissions of the authenticated user
   source_operation: openapi/gojiberry-ai-external-openapi-original.json#UserExternalController_getMyPermissions
+deployment:
+  mode: remote
+  endpoint: https://mcp.gojiberry.ai/mcp
+  auth: oauth
+  verified: probed
+  probe: gated
+  checked: '2026-08-13'
+  source: >-
+    Live probe of https://mcp.gojiberry.ai/ and POST /mcp, plus the connect
+    guide at https://gojiberry.ai/how-to-do-outreach-claude-linkedin-mcp
+    ("one URL, one setting" — a remote URL a client connects to, no package to
+    install). No npm/PyPI stdio package is published, so this is remote-only.

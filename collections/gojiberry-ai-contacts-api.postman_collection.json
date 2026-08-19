@@ -1,0 +1,1151 @@
+{
+  "item": [
+    {
+      "id": "4af7c7e7-6cc7-4bda-9662-3d31deb60b2f",
+      "name": "Contacts",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "84e27f69-d3ee-4571-ba34-4e40d314f8b3",
+          "name": "Create a new contact",
+          "request": {
+            "name": "Create a new contact",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "contact"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                "key": "x-impersonate-user-id",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"profileUrl\": \"<string>\",\n  \"profileBaseline\": \"<string>\",\n  \"location\": \"<string>\",\n  \"jobTitle\": \"<string>\",\n  \"positionDates\": \"<string>\",\n  \"company\": \"<string>\",\n  \"companySize\": \"<string>\",\n  \"companyUrl\": \"<string>\",\n  \"website\": \"<string>\",\n  \"industry\": \"<string>\",\n  \"email\": \"<string>\",\n  \"phone\": \"<string>\",\n  \"profileId\": \"<string>\",\n  \"picture\": \"<string>\",\n  \"linkedinIdentifier\": \"<string>\",\n  \"intent\": \"<string>\",\n  \"note\": \"<string>\",\n  \"user_note\": \"<string>\",\n  \"agentId\": \"<number>\",\n  \"listId\": \"<number>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "db496727-d8a1-40ef-851b-75fea6b1314b",
+              "name": "Contact successfully created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "contact"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"profileUrl\": \"https://linkedin.com/in/johndoe\",\n  \"profileBaseline\": \"<string>\",\n  \"location\": \"New York, NY\",\n  \"jobTitle\": \"Software Engineer\",\n  \"positionDates\": \"2020 - Present\",\n  \"company\": \"Tech Corp\",\n  \"companySize\": \"51-200\",\n  \"companyUrl\": \"https://www.linkedin.com/company/gojiberryai\",\n  \"website\": \"https://johndoe.com\",\n  \"industry\": \"Technology\",\n  \"email\": \"john@example.com\",\n  \"phone\": \"+1234567890\",\n  \"profileId\": \"<string>\",\n  \"picture\": \"<string>\",\n  \"linkedinIdentifier\": \"<string>\",\n  \"intent\": \"<string>\",\n  \"note\": \"<string>\",\n  \"user_note\": \"<string>\",\n  \"agentId\": \"<number>\",\n  \"listId\": \"<number>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 1547.298485321308,\n  \"firstName\": \"string\",\n  \"lastName\": \"string\",\n  \"fullName\": \"string\",\n  \"bounced\": false,\n  \"unsubscribed\": false,\n  \"emailEnriched\": false,\n  \"phoneEnriched\": false,\n  \"userId\": 593.3605123069607,\n  \"user\": {},\n  \"readyForCampaign\": false,\n  \"hasStartedCampaign\": false,\n  \"createdAt\": \"1948-03-06T02:56:44.068Z\",\n  \"updatedAt\": \"1988-09-15T18:19:14.847Z\",\n  \"profileBaseline\": \"string\",\n  \"location\": \"string\",\n  \"jobTitle\": \"string\",\n  \"positionDates\": \"string\",\n  \"company\": \"string\",\n  \"companySize\": \"string\",\n  \"companyUrl\": \"string\",\n  \"website\": \"string\",\n  \"industry\": \"string\",\n  \"email\": \"string\",\n  \"email_2\": \"string\",\n  \"email_3\": \"string\",\n  \"secondEmail\": \"string\",\n  \"thirdEmail\": \"string\",\n  \"phone\": \"string\",\n  \"phone_2\": \"string\",\n  \"phone_3\": \"string\",\n  \"secondPhone\": \"string\",\n  \"thirdPhone\": \"string\",\n  \"profileId\": \"string\",\n  \"linkedinMemberId\": 2353.9915763476984,\n  \"profileUrl\": \"string\",\n  \"picture\": \"string\",\n  \"openToWork\": false,\n  \"skills\": [\n    \"string\",\n    \"string\"\n  ],\n  \"linkedinIdentifier\": \"string\",\n  \"note\": \"string\",\n  \"user_note\": \"string\",\n  \"intent\": \"string\",\n  \"intent_scoring\": 3860.3737853653984,\n  \"total_scoring\": 2228.4940466902203,\n  \"intent_type\": {},\n  \"intent_keyword\": \"string\",\n  \"scoring\": 6189.078395194818,\n  \"score_reasoning\": \"string\",\n  \"fit\": \"qualified\",\n  \"email_template\": {},\n  \"linkedin_template\": \"string\",\n  \"personalizedMessages\": [\n    \"string\",\n    \"string\"\n  ],\n  \"destinationStatus\": [\n    \"string\",\n    \"string\"\n  ],\n  \"campaignStatus\": [\n    \"string\",\n    \"string\"\n  ],\n  \"agentId\": 8926.771414073244,\n  \"agent\": {\n    \"id\": 7434.646571661749,\n    \"name\": \"string\",\n    \"targetJobTitles\": [\n      \"string\",\n      \"string\"\n    ],\n    \"targetIndustries\": [\n      \"string\",\n      \"string\"\n    ],\n    \"targetCompanySizes\": [\n      \"string\",\n      \"string\"\n    ],\n    \"targetLocations\": [\n      \"string\",\n      \"string\"\n    ],\n    \"targetCompanyTypes\": [\n      \"string\",\n      \"string\"\n    ],\n    \"agentType\": \"autopilot\",\n    \"paused\": false,\n    \"excludeServiceProviders\": false,\n    \"skipIcpFilter\": false,\n    \"includeOpenToWorkProfiles\": false,\n    \"leadWaterfall\": true,\n    \"userId\": 3491.3283930682837,\n    \"createdAt\": \"1965-05-16T14:43:03.640Z\",\n    \"updatedAt\": \"2019-07-12T01:02:00.388Z\",\n    \"additionalCriteria\": \"string\",\n    \"variables\": [\n      \"string\",\n      \"string\"\n    ],\n    \"ignoredCompanies\": [\n      \"string\",\n      \"string\"\n    ],\n    \"mandatoryKeywords\": [\n      \"string\",\n      \"string\"\n    ],\n    \"lastRun\": \"1988-01-27T14:07:40.052Z\",\n    \"minLeadScore\": 0.75,\n    \"listId\": 4730.409759792125\n  },\n  \"listId\": 9750.709211537718,\n  \"list\": {\n    \"id\": 8235.739414340671,\n    \"name\": \"string\",\n    \"userId\": 1052.1113214532286,\n    \"user\": {},\n    \"createdAt\": \"2024-07-18T03:56:41.053Z\",\n    \"updatedAt\": \"1957-01-23T05:15:34.387Z\",\n    \"campaignId\": 9289.090163110768,\n    \"campaign\": {\n      \"id\": 5040.555199839381,\n      \"name\": \"string\",\n      \"userId\": 2254.082197066202,\n      \"active\": true,\n      \"excludeFirstDegreeFromCampaigns\": true,\n      \"isManual\": false,\n      \"createdAt\": \"1968-02-12T10:25:57.470Z\",\n      \"updatedAt\": \"2019-08-21T22:09:43.167Z\",\n      \"skipInvitationAfterDays\": 3516.444040283716,\n      \"language\": \"string\",\n      \"tone\": \"conversational\",\n      \"goal\": \"demos\",\n      \"linkedinSeatId\": 2809.3570039472324\n    }\n  },\n  \"state\": \"paused\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "eec0348e-6f75-4ff1-b32e-cb80aada5885",
+              "name": "Contact already excluded or already exists",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "contact"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"profileUrl\": \"https://linkedin.com/in/johndoe\",\n  \"profileBaseline\": \"<string>\",\n  \"location\": \"New York, NY\",\n  \"jobTitle\": \"Software Engineer\",\n  \"positionDates\": \"2020 - Present\",\n  \"company\": \"Tech Corp\",\n  \"companySize\": \"51-200\",\n  \"companyUrl\": \"https://www.linkedin.com/company/gojiberryai\",\n  \"website\": \"https://johndoe.com\",\n  \"industry\": \"Technology\",\n  \"email\": \"john@example.com\",\n  \"phone\": \"+1234567890\",\n  \"profileId\": \"<string>\",\n  \"picture\": \"<string>\",\n  \"linkedinIdentifier\": \"<string>\",\n  \"intent\": \"<string>\",\n  \"note\": \"<string>\",\n  \"user_note\": \"<string>\",\n  \"agentId\": \"<number>\",\n  \"listId\": \"<number>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f074d508-dd96-4726-bfd6-8343cd3ac231",
+          "name": "Get all contacts with pagination and filtering",
+          "request": {
+            "name": "Get all contacts with pagination and filtering",
+            "description": {
+              "content": "Retrieve contacts with optional pagination, search, and filtering options",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "contact"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<number>",
+                  "description": "Page number (starts from 1)"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<number>",
+                  "description": "Number of contacts per page (default: 20)"
+                },
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "<string>",
+                  "description": "Search term for firstName, lastName, email, company, website, location, or jobTitle"
+                },
+                {
+                  "disabled": false,
+                  "key": "agent",
+                  "value": "<string>",
+                  "description": "Filter by agent id"
+                },
+                {
+                  "disabled": false,
+                  "key": "dateFrom",
+                  "value": "<string>",
+                  "description": "Filter contacts created from this date (YYYY-MM-DD or YYYY-MM-DDTHH:MM)"
+                },
+                {
+                  "disabled": false,
+                  "key": "dateTo",
+                  "value": "<string>",
+                  "description": "Filter contacts created until this date (YYYY-MM-DD or YYYY-MM-DDTHH:MM)"
+                },
+                {
+                  "disabled": false,
+                  "key": "scoreFrom",
+                  "value": "<number>",
+                  "description": "Filter contacts with total scoring >= this value (0-3 range)"
+                },
+                {
+                  "disabled": false,
+                  "key": "scoreTo",
+                  "value": "<number>",
+                  "description": "Filter contacts with total scoring <= this value (0-3 range)"
+                },
+                {
+                  "disabled": false,
+                  "key": "intentType",
+                  "value": "<string>",
+                  "description": "Filter contacts with intent type"
+                },
+                {
+                  "disabled": false,
+                  "key": "listId",
+                  "value": "<number>",
+                  "description": "Filter contacts by list id"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                "key": "x-impersonate-user-id",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "1b1c7d84-2d04-4e63-ba1d-00d524217785",
+              "name": "List of contacts with pagination information",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "contact"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "agent",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "dateFrom",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "dateTo",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "scoreFrom",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "scoreTo",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "intentType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "listId",
+                      "value": "<number>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"contacts\": [\n    {\n      \"id\": 4711.457689926789,\n      \"firstName\": \"string\",\n      \"lastName\": \"string\",\n      \"fullName\": \"string\",\n      \"bounced\": false,\n      \"unsubscribed\": false,\n      \"emailEnriched\": false,\n      \"phoneEnriched\": false,\n      \"userId\": 6648.378690403033,\n      \"user\": {},\n      \"readyForCampaign\": false,\n      \"hasStartedCampaign\": false,\n      \"createdAt\": \"2024-08-29T18:06:43.694Z\",\n      \"updatedAt\": \"2006-02-14T12:29:57.166Z\",\n      \"profileBaseline\": \"string\",\n      \"location\": \"string\",\n      \"jobTitle\": \"string\",\n      \"positionDates\": \"string\",\n      \"company\": \"string\",\n      \"companySize\": \"string\",\n      \"companyUrl\": \"string\",\n      \"website\": \"string\",\n      \"industry\": \"string\",\n      \"email\": \"string\",\n      \"email_2\": \"string\",\n      \"email_3\": \"string\",\n      \"secondEmail\": \"string\",\n      \"thirdEmail\": \"string\",\n      \"phone\": \"string\",\n      \"phone_2\": \"string\",\n      \"phone_3\": \"string\",\n      \"secondPhone\": \"string\",\n      \"thirdPhone\": \"string\",\n      \"profileId\": \"string\",\n      \"linkedinMemberId\": 6332.45308352945,\n      \"profileUrl\": \"string\",\n      \"picture\": \"string\",\n      \"openToWork\": true,\n      \"skills\": [\n        \"string\",\n        \"string\"\n      ],\n      \"linkedinIdentifier\": \"string\",\n      \"note\": \"string\",\n      \"user_note\": \"string\",\n      \"intent\": \"string\",\n      \"intent_scoring\": 893.6568304167102,\n      \"total_scoring\": 9437.077934662098,\n      \"intent_type\": {},\n      \"intent_keyword\": \"string\",\n      \"scoring\": 2668.6229377083337,\n      \"score_reasoning\": \"string\",\n      \"fit\": \"unknown\",\n      \"email_template\": {},\n      \"linkedin_template\": \"string\",\n      \"personalizedMessages\": [\n        \"string\",\n        \"string\"\n      ],\n      \"destinationStatus\": [\n        \"string\",\n        \"string\"\n      ],\n      \"campaignStatus\": [\n        \"string\",\n        \"string\"\n      ],\n      \"agentId\": 8082.134433113181,\n      \"agent\": {\n        \"id\": 2290.3842273106,\n        \"name\": \"string\",\n        \"targetJobTitles\": [\n          \"string\",\n          \"string\"\n        ],\n        \"targetIndustries\": [\n          \"string\",\n          \"string\"\n        ],\n        \"targetCompanySizes\": [\n          \"string\",\n          \"string\"\n        ],\n        \"targetLocations\": [\n          \"string\",\n          \"string\"\n        ],\n        \"targetCompanyTypes\": [\n          \"string\",\n          \"string\"\n        ],\n        \"agentType\": \"autopilot\",\n        \"paused\": false,\n        \"excludeServiceProviders\": false,\n        \"skipIcpFilter\": false,\n        \"includeOpenToWorkProfiles\": false,\n        \"leadWaterfall\": true,\n        \"userId\": 5317.8877643667865,\n        \"createdAt\": \"2019-11-15T07:14:47.877Z\",\n        \"updatedAt\": \"1948-05-24T04:05:07.598Z\",\n        \"additionalCriteria\": \"string\",\n        \"variables\": [\n          \"string\",\n          \"string\"\n        ],\n        \"ignoredCompanies\": [\n          \"string\",\n          \"string\"\n        ],\n        \"mandatoryKeywords\": [\n          \"string\",\n          \"string\"\n        ],\n        \"lastRun\": \"1965-11-20T12:07:27.761Z\",\n        \"minLeadScore\": 0.75,\n        \"listId\": 201.05401834908943\n      },\n      \"listId\": 7257.136268732925,\n      \"list\": {\n        \"id\": 6879.650470844219,\n        \"name\": \"string\",\n        \"userId\": 2754.2005463208607,\n        \"user\": {},\n        \"createdAt\": \"1978-12-18T10:27:36.871Z\",\n        \"updatedAt\": \"1956-02-03T04:51:10.057Z\",\n        \"campaignId\": 3871.5761351992905,\n        \"campaign\": {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"userId\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"active\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"excludeFirstDegreeFromCampaigns\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"isManual\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"createdAt\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"updatedAt\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"steps\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"skipInvitationAfterDays\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"language\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tone\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"goal\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"linkedinSeatId\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      },\n      \"state\": \"excluded\"\n    },\n    {\n      \"id\": 9049.092919804078,\n      \"firstName\": \"string\",\n      \"lastName\": \"string\",\n      \"fullName\": \"string\",\n      \"bounced\": false,\n      \"unsubscribed\": false,\n      \"emailEnriched\": false,\n      \"phoneEnriched\": false,\n      \"userId\": 7940.564281404972,\n      \"user\": {},\n      \"readyForCampaign\": false,\n      \"hasStartedCampaign\": false,\n      \"createdAt\": \"2015-12-03T22:30:59.076Z\",\n      \"updatedAt\": \"2000-12-10T02:24:15.003Z\",\n      \"profileBaseline\": \"string\",\n      \"location\": \"string\",\n      \"jobTitle\": \"string\",\n      \"positionDates\": \"string\",\n      \"company\": \"string\",\n      \"companySize\": \"string\",\n      \"companyUrl\": \"string\",\n      \"website\": \"string\",\n      \"industry\": \"string\",\n      \"email\": \"string\",\n      \"email_2\": \"string\",\n      \"email_3\": \"string\",\n      \"secondEmail\": \"string\",\n      \"thirdEmail\": \"string\",\n      \"phone\": \"string\",\n      \"phone_2\": \"string\",\n      \"phone_3\": \"string\",\n      \"secondPhone\": \"string\",\n      \"thirdPhone\": \"string\",\n      \"profileId\": \"string\",\n      \"linkedinMemberId\": 1943.0990658226565,\n      \"profileUrl\": \"string\",\n      \"picture\": \"string\",\n      \"openToWork\": true,\n      \"skills\": [\n        \"string\",\n        \"string\"\n      ],\n      \"linkedinIdentifier\": \"string\",\n      \"note\": \"string\",\n      \"user_note\": \"string\",\n      \"intent\": \"string\",\n      \"intent_scoring\": 3717.7204362631824,\n      \"total_scoring\": 3346.3879392051554,\n      \"intent_type\": {},\n      \"intent_keyword\": \"string\",\n      \"scoring\": 2865.338402386276,\n      \"score_reasoning\": \"string\",\n      \"fit\": \"out-of-scope\",\n      \"email_template\": {},\n      \"linkedin_template\": \"string\",\n      \"personalizedMessages\": [\n        \"string\",\n        \"string\"\n      ],\n      \"destinationStatus\": [\n        \"string\",\n        \"string\"\n      ],\n      \"campaignStatus\": [\n        \"string\",\n        \"string\"\n      ],\n      \"agentId\": 5040.165041122769,\n      \"agent\": {\n        \"id\": 8734.358985500594,\n        \"name\": \"string\",\n        \"targetJobTitles\": [\n          \"string\",\n          \"string\"\n        ],\n        \"targetIndustries\": [\n          \"string\",\n          \"string\"\n        ],\n        \"targetCompanySizes\": [\n          \"string\",\n          \"string\"\n        ],\n        \"targetLocations\": [\n          \"string\",\n          \"string\"\n        ],\n        \"targetCompanyTypes\": [\n          \"string\",\n          \"string\"\n        ],\n        \"agentType\": \"autopilot\",\n        \"paused\": false,\n        \"excludeServiceProviders\": false,\n        \"skipIcpFilter\": false,\n        \"includeOpenToWorkProfiles\": false,\n        \"leadWaterfall\": true,\n        \"userId\": 1167.0891754132374,\n        \"createdAt\": \"2000-09-20T04:04:09.398Z\",\n        \"updatedAt\": \"1965-07-28T10:19:59.493Z\",\n        \"additionalCriteria\": \"string\",\n        \"variables\": [\n          \"string\",\n          \"string\"\n        ],\n        \"ignoredCompanies\": [\n          \"string\",\n          \"string\"\n        ],\n        \"mandatoryKeywords\": [\n          \"string\",\n          \"string\"\n        ],\n        \"lastRun\": \"1976-09-02T01:32:26.038Z\",\n        \"minLeadScore\": 0.75,\n        \"listId\": 9318.698898978093\n      },\n      \"listId\": 7716.636833812479,\n      \"list\": {\n        \"id\": 9054.589965898418,\n        \"name\": \"string\",\n        \"userId\": 1345.8164622953227,\n        \"user\": {},\n        \"createdAt\": \"1984-10-08T23:32:53.910Z\",\n        \"updatedAt\": \"1987-06-27T01:34:51.665Z\",\n        \"campaignId\": 8876.625482042762,\n        \"campaign\": {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"userId\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"active\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"excludeFirstDegreeFromCampaigns\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"isManual\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"createdAt\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"updatedAt\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"steps\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"skipInvitationAfterDays\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"language\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tone\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"goal\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"linkedinSeatId\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      },\n      \"state\": \"finished\"\n    }\n  ],\n  \"total\": 8393.07336982042,\n  \"page\": 1671.2160118827223,\n  \"limit\": 2314.7314968193177,\n  \"totalPages\": 1288.7623121983095\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "22bf7e9c-d582-4390-b8be-b290477cc0dd",
+          "name": "Update a contact",
+          "request": {
+            "name": "Update a contact",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "contact",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                "key": "x-impersonate-user-id",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"profileUrl\": \"<string>\",\n  \"profileId\": \"<string>\",\n  \"profileBaseline\": \"<string>\",\n  \"location\": \"<string>\",\n  \"jobTitle\": \"<string>\",\n  \"positionDates\": \"<string>\",\n  \"company\": \"<string>\",\n  \"companySize\": \"<string>\",\n  \"companyUrl\": \"<string>\",\n  \"website\": \"<string>\",\n  \"industry\": \"<string>\",\n  \"email\": \"<string>\",\n  \"picture\": \"<string>\",\n  \"openToWork\": \"<boolean>\",\n  \"linkedinIdentifier\": \"<string>\",\n  \"intent\": \"<string>\",\n  \"fit\": \"<string>\",\n  \"state\": \"<string>\",\n  \"personalizedMessages\": [\n    {\n      \"content\": \"<string>\",\n      \"stepNumber\": \"<number>\"\n    },\n    {\n      \"content\": \"<string>\",\n      \"stepNumber\": \"<number>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e63cb8a1-3961-4206-b434-ae1b66f76195",
+              "name": "Contact successfully updated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "contact",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"firstName\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"profileUrl\": \"<string>\",\n  \"profileId\": \"<string>\",\n  \"profileBaseline\": \"<string>\",\n  \"location\": \"<string>\",\n  \"jobTitle\": \"<string>\",\n  \"positionDates\": \"<string>\",\n  \"company\": \"<string>\",\n  \"companySize\": \"<string>\",\n  \"companyUrl\": \"<string>\",\n  \"website\": \"<string>\",\n  \"industry\": \"<string>\",\n  \"email\": \"<string>\",\n  \"picture\": \"<string>\",\n  \"openToWork\": \"<boolean>\",\n  \"linkedinIdentifier\": \"<string>\",\n  \"intent\": \"<string>\",\n  \"fit\": \"<string>\",\n  \"state\": \"<string>\",\n  \"personalizedMessages\": [\n    {\n      \"content\": \"<string>\",\n      \"stepNumber\": \"<number>\"\n    },\n    {\n      \"content\": \"<string>\",\n      \"stepNumber\": \"<number>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 276.15222068596233,\n  \"firstName\": \"string\",\n  \"lastName\": \"string\",\n  \"fullName\": \"string\",\n  \"bounced\": false,\n  \"unsubscribed\": false,\n  \"emailEnriched\": false,\n  \"phoneEnriched\": false,\n  \"userId\": 8376.166766370583,\n  \"user\": {},\n  \"readyForCampaign\": false,\n  \"hasStartedCampaign\": false,\n  \"createdAt\": \"2020-10-22T20:53:03.642Z\",\n  \"updatedAt\": \"1959-01-19T05:01:17.128Z\",\n  \"profileBaseline\": \"string\",\n  \"location\": \"string\",\n  \"jobTitle\": \"string\",\n  \"positionDates\": \"string\",\n  \"company\": \"string\",\n  \"companySize\": \"string\",\n  \"companyUrl\": \"string\",\n  \"website\": \"string\",\n  \"industry\": \"string\",\n  \"email\": \"string\",\n  \"email_2\": \"string\",\n  \"email_3\": \"string\",\n  \"secondEmail\": \"string\",\n  \"thirdEmail\": \"string\",\n  \"phone\": \"string\",\n  \"phone_2\": \"string\",\n  \"phone_3\": \"string\",\n  \"secondPhone\": \"string\",\n  \"thirdPhone\": \"string\",\n  \"profileId\": \"string\",\n  \"linkedinMemberId\": 9383.346109154083,\n  \"profileUrl\": \"string\",\n  \"picture\": \"string\",\n  \"openToWork\": true,\n  \"skills\": [\n    \"string\",\n    \"string\"\n  ],\n  \"linkedinIdentifier\": \"string\",\n  \"note\": \"string\",\n  \"user_note\": \"string\",\n  \"intent\": \"string\",\n  \"intent_scoring\": 133.1483608516748,\n  \"total_scoring\": 4237.700910570597,\n  \"intent_type\": {},\n  \"intent_keyword\": \"string\",\n  \"scoring\": 8529.453640394024,\n  \"score_reasoning\": \"string\",\n  \"fit\": \"unknown\",\n  \"email_template\": {},\n  \"linkedin_template\": \"string\",\n  \"personalizedMessages\": [\n    \"string\",\n    \"string\"\n  ],\n  \"destinationStatus\": [\n    \"string\",\n    \"string\"\n  ],\n  \"campaignStatus\": [\n    \"string\",\n    \"string\"\n  ],\n  \"agentId\": 1108.3622657206195,\n  \"agent\": {\n    \"id\": 4891.820435180359,\n    \"name\": \"string\",\n    \"targetJobTitles\": [\n      \"string\",\n      \"string\"\n    ],\n    \"targetIndustries\": [\n      \"string\",\n      \"string\"\n    ],\n    \"targetCompanySizes\": [\n      \"string\",\n      \"string\"\n    ],\n    \"targetLocations\": [\n      \"string\",\n      \"string\"\n    ],\n    \"targetCompanyTypes\": [\n      \"string\",\n      \"string\"\n    ],\n    \"agentType\": \"autopilot\",\n    \"paused\": false,\n    \"excludeServiceProviders\": false,\n    \"skipIcpFilter\": false,\n    \"includeOpenToWorkProfiles\": false,\n    \"leadWaterfall\": true,\n    \"userId\": 2673.4479305351365,\n    \"createdAt\": \"1979-10-22T00:08:11.586Z\",\n    \"updatedAt\": \"2000-05-19T19:00:35.274Z\",\n    \"additionalCriteria\": \"string\",\n    \"variables\": [\n      \"string\",\n      \"string\"\n    ],\n    \"ignoredCompanies\": [\n      \"string\",\n      \"string\"\n    ],\n    \"mandatoryKeywords\": [\n      \"string\",\n      \"string\"\n    ],\n    \"lastRun\": \"2012-11-15T16:04:53.646Z\",\n    \"minLeadScore\": 0.75,\n    \"listId\": 4503.307009278154\n  },\n  \"listId\": 3687.630554943062,\n  \"list\": {\n    \"id\": 7643.835767720843,\n    \"name\": \"string\",\n    \"userId\": 5169.83484757404,\n    \"user\": {},\n    \"createdAt\": \"1957-01-18T07:22:58.661Z\",\n    \"updatedAt\": \"1994-10-18T03:10:23.651Z\",\n    \"campaignId\": 7453.713597246009,\n    \"campaign\": {\n      \"id\": 111.67676663263792,\n      \"name\": \"string\",\n      \"userId\": 7282.665639896728,\n      \"active\": true,\n      \"excludeFirstDegreeFromCampaigns\": true,\n      \"isManual\": false,\n      \"createdAt\": \"2013-01-22T13:24:21.147Z\",\n      \"updatedAt\": \"1973-05-01T12:37:59.374Z\",\n      \"skipInvitationAfterDays\": 2448.3431887465936,\n      \"language\": \"string\",\n      \"tone\": \"professional\",\n      \"goal\": \"demos\",\n      \"linkedinSeatId\": 9451.848696052228\n    }\n  },\n  \"state\": \"1stnetwork\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "076c86b1-a2f6-45d7-bcfe-628c53ad1fc0",
+              "name": "Contact not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "contact",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"firstName\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"profileUrl\": \"<string>\",\n  \"profileId\": \"<string>\",\n  \"profileBaseline\": \"<string>\",\n  \"location\": \"<string>\",\n  \"jobTitle\": \"<string>\",\n  \"positionDates\": \"<string>\",\n  \"company\": \"<string>\",\n  \"companySize\": \"<string>\",\n  \"companyUrl\": \"<string>\",\n  \"website\": \"<string>\",\n  \"industry\": \"<string>\",\n  \"email\": \"<string>\",\n  \"picture\": \"<string>\",\n  \"openToWork\": \"<boolean>\",\n  \"linkedinIdentifier\": \"<string>\",\n  \"intent\": \"<string>\",\n  \"fit\": \"<string>\",\n  \"state\": \"<string>\",\n  \"personalizedMessages\": [\n    {\n      \"content\": \"<string>\",\n      \"stepNumber\": \"<number>\"\n    },\n    {\n      \"content\": \"<string>\",\n      \"stepNumber\": \"<number>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "279a29db-80eb-4253-8ea0-92827548a2fb",
+          "name": "Get one contact",
+          "request": {
+            "name": "Get one contact",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "contact",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                "key": "x-impersonate-user-id",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "5ba2c2f5-0c05-47ca-930e-8f7907445cf1",
+              "name": "Get one contact",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "contact",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 276.15222068596233,\n  \"firstName\": \"string\",\n  \"lastName\": \"string\",\n  \"fullName\": \"string\",\n  \"bounced\": false,\n  \"unsubscribed\": false,\n  \"emailEnriched\": false,\n  \"phoneEnriched\": false,\n  \"userId\": 8376.166766370583,\n  \"user\": {},\n  \"readyForCampaign\": false,\n  \"hasStartedCampaign\": false,\n  \"createdAt\": \"2020-10-22T20:53:03.642Z\",\n  \"updatedAt\": \"1959-01-19T05:01:17.128Z\",\n  \"profileBaseline\": \"string\",\n  \"location\": \"string\",\n  \"jobTitle\": \"string\",\n  \"positionDates\": \"string\",\n  \"company\": \"string\",\n  \"companySize\": \"string\",\n  \"companyUrl\": \"string\",\n  \"website\": \"string\",\n  \"industry\": \"string\",\n  \"email\": \"string\",\n  \"email_2\": \"string\",\n  \"email_3\": \"string\",\n  \"secondEmail\": \"string\",\n  \"thirdEmail\": \"string\",\n  \"phone\": \"string\",\n  \"phone_2\": \"string\",\n  \"phone_3\": \"string\",\n  \"secondPhone\": \"string\",\n  \"thirdPhone\": \"string\",\n  \"profileId\": \"string\",\n  \"linkedinMemberId\": 9383.346109154083,\n  \"profileUrl\": \"string\",\n  \"picture\": \"string\",\n  \"openToWork\": true,\n  \"skills\": [\n    \"string\",\n    \"string\"\n  ],\n  \"linkedinIdentifier\": \"string\",\n  \"note\": \"string\",\n  \"user_note\": \"string\",\n  \"intent\": \"string\",\n  \"intent_scoring\": 133.1483608516748,\n  \"total_scoring\": 4237.700910570597,\n  \"intent_type\": {},\n  \"intent_keyword\": \"string\",\n  \"scoring\": 8529.453640394024,\n  \"score_reasoning\": \"string\",\n  \"fit\": \"unknown\",\n  \"email_template\": {},\n  \"linkedin_template\": \"string\",\n  \"personalizedMessages\": [\n    \"string\",\n    \"string\"\n  ],\n  \"destinationStatus\": [\n    \"string\",\n    \"string\"\n  ],\n  \"campaignStatus\": [\n    \"string\",\n    \"string\"\n  ],\n  \"agentId\": 1108.3622657206195,\n  \"agent\": {\n    \"id\": 4891.820435180359,\n    \"name\": \"string\",\n    \"targetJobTitles\": [\n      \"string\",\n      \"string\"\n    ],\n    \"targetIndustries\": [\n      \"string\",\n      \"string\"\n    ],\n    \"targetCompanySizes\": [\n      \"string\",\n      \"string\"\n    ],\n    \"targetLocations\": [\n      \"string\",\n      \"string\"\n    ],\n    \"targetCompanyTypes\": [\n      \"string\",\n      \"string\"\n    ],\n    \"agentType\": \"autopilot\",\n    \"paused\": false,\n    \"excludeServiceProviders\": false,\n    \"skipIcpFilter\": false,\n    \"includeOpenToWorkProfiles\": false,\n    \"leadWaterfall\": true,\n    \"userId\": 2673.4479305351365,\n    \"createdAt\": \"1979-10-22T00:08:11.586Z\",\n    \"updatedAt\": \"2000-05-19T19:00:35.274Z\",\n    \"additionalCriteria\": \"string\",\n    \"variables\": [\n      \"string\",\n      \"string\"\n    ],\n    \"ignoredCompanies\": [\n      \"string\",\n      \"string\"\n    ],\n    \"mandatoryKeywords\": [\n      \"string\",\n      \"string\"\n    ],\n    \"lastRun\": \"2012-11-15T16:04:53.646Z\",\n    \"minLeadScore\": 0.75,\n    \"listId\": 4503.307009278154\n  },\n  \"listId\": 3687.630554943062,\n  \"list\": {\n    \"id\": 7643.835767720843,\n    \"name\": \"string\",\n    \"userId\": 5169.83484757404,\n    \"user\": {},\n    \"createdAt\": \"1957-01-18T07:22:58.661Z\",\n    \"updatedAt\": \"1994-10-18T03:10:23.651Z\",\n    \"campaignId\": 7453.713597246009,\n    \"campaign\": {\n      \"id\": 111.67676663263792,\n      \"name\": \"string\",\n      \"userId\": 7282.665639896728,\n      \"active\": true,\n      \"excludeFirstDegreeFromCampaigns\": true,\n      \"isManual\": false,\n      \"createdAt\": \"2013-01-22T13:24:21.147Z\",\n      \"updatedAt\": \"1973-05-01T12:37:59.374Z\",\n      \"skipInvitationAfterDays\": 2448.3431887465936,\n      \"language\": \"string\",\n      \"tone\": \"professional\",\n      \"goal\": \"demos\",\n      \"linkedinSeatId\": 9451.848696052228\n    }\n  },\n  \"state\": \"1stnetwork\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f07b2f05-8adf-4b14-89a6-b624a9164057",
+          "name": "Add contacts to a list",
+          "request": {
+            "name": "Add contacts to a list",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "contact",
+                "list",
+                ":listId",
+                "contacts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "listId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                "key": "x-impersonate-user-id",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"contactIds\": [\n    \"<number>\",\n    \"<number>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f2544486-e3df-491e-ba43-284eed618605",
+              "name": "Contacts successfully added to the list",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "contact",
+                    "list",
+                    ":listId",
+                    "contacts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "listId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"contactIds\": [\n    \"<number>\",\n    \"<number>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a3cde085-61ca-4201-929a-454d339e9bbf",
+          "name": "Remove contacts from a list",
+          "request": {
+            "name": "Remove contacts from a list",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "contact",
+                "list",
+                ":listId",
+                "contacts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "listId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                "key": "x-impersonate-user-id",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"contactIds\": [\n    \"<number>\",\n    \"<number>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f808a217-4aeb-4326-a501-38916aae53db",
+              "name": "Contacts successfully removed from the list",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "contact",
+                    "list",
+                    ":listId",
+                    "contacts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "listId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"contactIds\": [\n    \"<number>\",\n    \"<number>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5dd34648-db3b-4cfa-9d67-2a459d7bdaad",
+          "name": "Get contact counts by intent type",
+          "request": {
+            "name": "Get contact counts by intent type",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "contact",
+                "intent-type-counts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                "key": "x-impersonate-user-id",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "6f356f7b-49d3-46c4-924b-8f6dad3d6466",
+              "name": "Contact counts grouped by intent type",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "contact",
+                    "intent-type-counts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"intentType\": \"string\",\n    \"count\": 7873.2437355422735\n  },\n  {\n    \"intentType\": \"string\",\n    \"count\": 6446.8372041993225\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "62bf2443-44dc-4d8b-89b4-2bd92c118206",
+          "name": "Enrich a contact's email",
+          "request": {
+            "name": "Enrich a contact's email",
+            "description": {
+              "content": "Attempts to find a verified email for the given contact. Each email enrichment that returns an email consumes 1 credit; failed enrichments do not consume any credit.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "contact",
+                ":id",
+                "enrich",
+                "email"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                "key": "x-impersonate-user-id",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST"
+          },
+          "response": [
+            {
+              "id": "6b47e42d-9e13-4dc0-99e9-8cdee2e09a43",
+              "name": "Contact updated with the enriched email",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "contact",
+                    ":id",
+                    "enrich",
+                    "email"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 276.15222068596233,\n  \"firstName\": \"string\",\n  \"lastName\": \"string\",\n  \"fullName\": \"string\",\n  \"bounced\": false,\n  \"unsubscribed\": false,\n  \"emailEnriched\": false,\n  \"phoneEnriched\": false,\n  \"userId\": 8376.166766370583,\n  \"user\": {},\n  \"readyForCampaign\": false,\n  \"hasStartedCampaign\": false,\n  \"createdAt\": \"2020-10-22T20:53:03.642Z\",\n  \"updatedAt\": \"1959-01-19T05:01:17.128Z\",\n  \"profileBaseline\": \"string\",\n  \"location\": \"string\",\n  \"jobTitle\": \"string\",\n  \"positionDates\": \"string\",\n  \"company\": \"string\",\n  \"companySize\": \"string\",\n  \"companyUrl\": \"string\",\n  \"website\": \"string\",\n  \"industry\": \"string\",\n  \"email\": \"string\",\n  \"email_2\": \"string\",\n  \"email_3\": \"string\",\n  \"secondEmail\": \"string\",\n  \"thirdEmail\": \"string\",\n  \"phone\": \"string\",\n  \"phone_2\": \"string\",\n  \"phone_3\": \"string\",\n  \"secondPhone\": \"string\",\n  \"thirdPhone\": \"string\",\n  \"profileId\": \"string\",\n  \"linkedinMemberId\": 9383.346109154083,\n  \"profileUrl\": \"string\",\n  \"picture\": \"string\",\n  \"openToWork\": true,\n  \"skills\": [\n    \"string\",\n    \"string\"\n  ],\n  \"linkedinIdentifier\": \"string\",\n  \"note\": \"string\",\n  \"user_note\": \"string\",\n  \"intent\": \"string\",\n  \"intent_scoring\": 133.1483608516748,\n  \"total_scoring\": 4237.700910570597,\n  \"intent_type\": {},\n  \"intent_keyword\": \"string\",\n  \"scoring\": 8529.453640394024,\n  \"score_reasoning\": \"string\",\n  \"fit\": \"unknown\",\n  \"email_template\": {},\n  \"linkedin_template\": \"string\",\n  \"personalizedMessages\": [\n    \"string\",\n    \"string\"\n  ],\n  \"destinationStatus\": [\n    \"string\",\n    \"string\"\n  ],\n  \"campaignStatus\": [\n    \"string\",\n    \"string\"\n  ],\n  \"agentId\": 1108.3622657206195,\n  \"agent\": {\n    \"id\": 4891.820435180359,\n    \"name\": \"string\",\n    \"targetJobTitles\": [\n      \"string\",\n      \"string\"\n    ],\n    \"targetIndustries\": [\n      \"string\",\n      \"string\"\n    ],\n    \"targetCompanySizes\": [\n      \"string\",\n      \"string\"\n    ],\n    \"targetLocations\": [\n      \"string\",\n      \"string\"\n    ],\n    \"targetCompanyTypes\": [\n      \"string\",\n      \"string\"\n    ],\n    \"agentType\": \"autopilot\",\n    \"paused\": false,\n    \"excludeServiceProviders\": false,\n    \"skipIcpFilter\": false,\n    \"includeOpenToWorkProfiles\": false,\n    \"leadWaterfall\": true,\n    \"userId\": 2673.4479305351365,\n    \"createdAt\": \"1979-10-22T00:08:11.586Z\",\n    \"updatedAt\": \"2000-05-19T19:00:35.274Z\",\n    \"additionalCriteria\": \"string\",\n    \"variables\": [\n      \"string\",\n      \"string\"\n    ],\n    \"ignoredCompanies\": [\n      \"string\",\n      \"string\"\n    ],\n    \"mandatoryKeywords\": [\n      \"string\",\n      \"string\"\n    ],\n    \"lastRun\": \"2012-11-15T16:04:53.646Z\",\n    \"minLeadScore\": 0.75,\n    \"listId\": 4503.307009278154\n  },\n  \"listId\": 3687.630554943062,\n  \"list\": {\n    \"id\": 7643.835767720843,\n    \"name\": \"string\",\n    \"userId\": 5169.83484757404,\n    \"user\": {},\n    \"createdAt\": \"1957-01-18T07:22:58.661Z\",\n    \"updatedAt\": \"1994-10-18T03:10:23.651Z\",\n    \"campaignId\": 7453.713597246009,\n    \"campaign\": {\n      \"id\": 111.67676663263792,\n      \"name\": \"string\",\n      \"userId\": 7282.665639896728,\n      \"active\": true,\n      \"excludeFirstDegreeFromCampaigns\": true,\n      \"isManual\": false,\n      \"createdAt\": \"2013-01-22T13:24:21.147Z\",\n      \"updatedAt\": \"1973-05-01T12:37:59.374Z\",\n      \"skipInvitationAfterDays\": 2448.3431887465936,\n      \"language\": \"string\",\n      \"tone\": \"professional\",\n      \"goal\": \"demos\",\n      \"linkedinSeatId\": 9451.848696052228\n    }\n  },\n  \"state\": \"1stnetwork\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2a29690e-3222-41a3-a459-ebe826669e59",
+              "name": "Contact not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "contact",
+                    ":id",
+                    "enrich",
+                    "email"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4d9a9ce0-5f29-4e89-be0b-e57595e0d1a1",
+              "name": "No email could be found for this contact (no credit consumed)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "contact",
+                    ":id",
+                    "enrich",
+                    "email"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.",
+                    "key": "x-impersonate-user-id",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "4b48d73f-73f4-44cf-9f74-bfd2f26cbaa1",
+    "name": "Gojiberry AI - External AppExternal Contacts API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "\n# Gojiberry AI External API\n\nThis API allows you to programmatically access your Gojiberry AI data and integrate it with your applications.\n\n## Authentication\n\nAll API requests require authentication using a Bearer token. To get your API key:\n\n1. **Log in to your Gojiberry AI account** at [https://app.gojiberry.ai](https://app.gojiberry.ai)\n2. **Navigate to Settings** → **API** section\n3. **Click \"Create API Key\"** to generate a new token\n4. **Copy the API key** when it's displayed (you won't be able to see it again)\n5. **Use the token** in your requests by adding the header: `Authorization: Bearer YOUR_API_KEY`\n\n## Impersonation (organization owners)\n\nIf your API key belongs to the **owner of an organization**, you can perform any API call on behalf of another member of your organization by adding the `x-impersonate-user-id` header with the member's user ID:\n\n```bash\n# Get the contacts of the organization member with user ID 123\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     -H \"x-impersonate-user-id: 123\" \\\n     https://ext.gojiberry.ai/v1/contact\n```\n\nWhen impersonating, the request behaves exactly as if it was made by that member: you read and write their data (contacts, campaigns, lists, unibox, etc.).\n\nRules:\n- Your API key must belong to the **organization owner**; other members cannot impersonate.\n- The impersonated user must belong to the **same organization** as the API key user.\n- Requests that don't meet these rules are rejected with a `401 Unauthorized`.\n\nTip: use `GET /v1/organization/members` to list the members of your organization and their user IDs, and `GET /v1/user/me` to verify which user the current request acts as.\n\n## Rate Limits\n\n- **100 requests per minute** per API key\n\n## Base URL\n- **Production**: `https://ext.gojiberry.ai`\n\n## Endpoints\n\n### Contacts\n- `GET /v1/contact` - Get all contacts with filtering and pagination\n- `GET /v1/contact/{id}` - Get a specific contact\n- `GET /v1/contact/health` - Health check endpoint\n\n## Example Usage\n\n```bash\n# Get all contacts\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     https://ext.gojiberry.ai/v1/contact\n\n# Get contacts with filtering\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     \"https://ext.gojiberry.ai/v1/contact?search=john&agent=1&dateFrom=2024-01-01\"\n\n# Get a specific contact\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     https://ext.gojiberry.ai/v1/contact/123\n```\n\n## Webhooks\n\nGojiberry allows you to receive real-time notifications when new contacts are created or updated by configuring a webhook URL.\n\n### How to Configure Webhooks\n\n1. **Log in to your Gojiberry AI account** at [https://app.gojiberry.ai](https://app.gojiberry.ai)\n2. **Navigate to the Integrations page** at [https://app.gojiberry.ai/integrations](https://app.gojiberry.ai/integrations)\n3. **Add a Webhook integration** by clicking the Webhook option\n4. **Enter your webhook URL** where you want to receive notifications\n5. **Save the configuration**\n\nOnce configured, Gojiberry will send POST requests to your webhook URL whenever:\n- A new contact is created\n- A contact is updated\n- Other relevant events occur in your account\n\nThe webhook payload will include the full contact data in JSON format. Each webhook request includes a custom header `x-gojiberry-user-id` containing your user ID for verification purposes.\n\n## Support\n\nFor API support, please contact us at [hello@gojiberry.ai](mailto:hello@gojiberry.ai)\n      ",
+      "type": "text/plain"
+    }
+  }
+}

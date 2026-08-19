@@ -1,6 +1,6 @@
-generated: '2026-07-19'
+generated: '2026-08-13'
 method: searched
-source: https://ext.gojiberry.ai/documentation (OpenAPI info.description) + openapi/gojiberry-ai-external-openapi-original.json
+source: https://ext.gojiberry.ai/documentation (OpenAPI info.description) + openapi/_original/gojiberry-ai-external-openapi-original.json
 summary: Cross-cutting request/response semantics for the Gojiberry AI External API.
 authentication:
   style: bearer-token
@@ -51,3 +51,20 @@ webhooks:
   see: asyncapi/gojiberry-ai-webhooks.yml
 support:
   email: hello@gojiberry.ai
+agent_surface:
+  mcp:
+    endpoint: https://mcp.gojiberry.ai/mcp
+    transport: streamable-http
+    handshake: initialize first; tools/list before initialize returns -32600
+    auth: OAuth 2.1 authorization code + PKCE (dynamic client registration)
+    see: mcp/gojiberry-ai-mcp.yml
+  crosswalk: mcp/gojiberry-ai-tool-crosswalk.yml
+  note: >-
+    The MCP surface and the REST surface do NOT share an auth model — an API key
+    that works against ext.gojiberry.ai cannot be presented to the MCP server,
+    and an MCP OAuth token cannot be presented to the REST API.
+content_type:
+  requests: application/json (multipart/form-data on POST /v1/unibox/messages/send-message)
+  responses: application/json
+tracing:
+  request_id_header: none documented

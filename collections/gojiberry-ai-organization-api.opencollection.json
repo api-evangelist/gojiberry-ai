@@ -1,0 +1,52 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Gojiberry AI - External AppExternal Organization API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Organization",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get the organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/organization",
+            "headers": [
+              {
+                "name": "x-impersonate-user-id",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Retrieve the organization of the authenticated user."
+        },
+        {
+          "info": {
+            "name": "Get all organization members",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/organization/members",
+            "headers": [
+              {
+                "name": "x-impersonate-user-id",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Retrieve all members of the organization of the authenticated user. The member IDs can be used in the x-impersonate-user-id header to act on behalf of a member."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,353 @@
+generated: '2026-08-13'
+method: generated
+source: openapi/gojiberry-ai-appexternal-api-openapi.yml, openapi/gojiberry-ai-campaigns-api-openapi.yml,
+  openapi/gojiberry-ai-contacts-api-openapi.yml, openapi/gojiberry-ai-lead-source-agents-api-openapi.yml,
+  openapi/gojiberry-ai-lists-api-openapi.yml, openapi/gojiberry-ai-organization-api-openapi.yml,
+  openapi/gojiberry-ai-unibox-api-openapi.yml, openapi/gojiberry-ai-user-api-openapi.yml
+description: Recommended x-agentic-access execution contracts, classified heuristically from
+  the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
+  audience per deployment. See research/curity/agentic-governance/.
+summary:
+  operations: 28
+  by_action_class:
+    connected: 19
+    acting: 9
+  by_consequence:
+    read: 19
+    safety-critical: 9
+  human_in_the_loop_required: 9
+operations:
+- path: /
+  method: get
+  operationId: AppExternalController_getHello
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /health
+  method: get
+  operationId: AppExternalController_healthCheck
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/campaign
+  method: get
+  operationId: CampaignExternalController_findAll
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/campaign/{id}
+  method: get
+  operationId: CampaignExternalController_findOne
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/campaign/{id}
+  method: patch
+  operationId: CampaignExternalController_update
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /v1/contact
+  method: post
+  operationId: ContactExternalController_create
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /v1/contact
+  method: get
+  operationId: ContactExternalController_findMany
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/contact/{id}
+  method: patch
+  operationId: ContactExternalController_update
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /v1/contact/{id}
+  method: get
+  operationId: ContactExternalController_findOne
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/contact/list/{listId}/contacts
+  method: post
+  operationId: ContactExternalController_addManyToList
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /v1/contact/list/{listId}/contacts
+  method: delete
+  operationId: ContactExternalController_removeManyFromList
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /v1/contact/intent-type-counts
+  method: get
+  operationId: ContactExternalController_getIntentTypeCounts
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/contact/{id}/enrich/email
+  method: post
+  operationId: ContactExternalController_enrichEmail
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /v1/agent
+  method: get
+  operationId: AgentExternalController_findAll
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/agent/{id}
+  method: get
+  operationId: AgentExternalController_findOne
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/agent/{id}
+  method: patch
+  operationId: AgentExternalController_update
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /v1/agent/{id}/logs
+  method: get
+  operationId: AgentExternalController_findLogs
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/list
+  method: post
+  operationId: ListExternalController_create
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /v1/list
+  method: get
+  operationId: ListExternalController_findAll
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/list/{id}
+  method: get
+  operationId: ListExternalController_findOne
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/organization
+  method: get
+  operationId: OrganizationExternalController_getOrganization
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/organization/members
+  method: get
+  operationId: OrganizationExternalController_getOrganizationMembers
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/unibox/contact/{contactId}
+  method: get
+  operationId: UniboxExternalController_getMessagesByContactId
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/unibox/threads
+  method: get
+  operationId: UniboxExternalController_getThreads
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/unibox/threads/{threadId}/messages
+  method: get
+  operationId: UniboxExternalController_getThreadMessages
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/unibox/messages/send-message
+  method: post
+  operationId: UniboxExternalController_sendMessage
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /v1/user/me
+  method: get
+  operationId: UserExternalController_getMe
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/user/me/permissions
+  method: get
+  operationId: UserExternalController_getMyPermissions
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none

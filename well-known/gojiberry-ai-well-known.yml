@@ -1,18 +1,83 @@
-generated: '2026-07-19'
+generated: '2026-08-13'
 method: searched
+source: live probes of the website, app, External API and MCP hosts
 note: >-
-  Probed the standard /.well-known/ discovery surface on the website, app, and
-  API hosts. None are published (all 404) — a valid, expected result recorded
-  here for auditability. No WellKnown/SecurityTxt pointer is emitted.
+  The website (gojiberry.ai), app (app.gojiberry.ai) and External API
+  (ext.gojiberry.ai) hosts publish nothing under /.well-known/ — every path
+  404s, recorded here for auditability. The hosted MCP server
+  (mcp.gojiberry.ai) DOES serve two real discovery documents: RFC 9728
+  OAuth 2.0 Protected Resource Metadata and RFC 8414 Authorization Server
+  Metadata, both saved verbatim below. Those two 200s are the only reason a
+  WellKnown pointer is emitted; no security.txt is served anywhere, so no
+  SecurityTxt pointer.
 hosts:
+- host: https://mcp.gojiberry.ai
+  documents:
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: application/json
+    file: gojiberry-ai-oauth-protected-resource.json
+    spec: RFC 9728
+  - path: /.well-known/oauth-protected-resource/mcp
+    status: 200
+    content_type: application/json
+    spec: RFC 9728
+    note: >-
+      Per-resource variant advertised in the WWW-Authenticate challenge on
+      POST /mcp; identical body except resource = https://mcp.gojiberry.ai/mcp.
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/json
+    file: gojiberry-ai-oauth-authorization-server.json
+    spec: RFC 8414
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
 - host: https://gojiberry.ai
   documents:
-  - {path: /.well-known/security.txt, status: 404}
-  - {path: /.well-known/openid-configuration, status: 404}
-  - {path: /.well-known/ai-plugin.json, status: 404}
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
 - host: https://ext.gojiberry.ai
   documents:
-  - {path: /.well-known/security.txt, status: 404}
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://app.gojiberry.ai
+  documents:
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: text/html
+    note: >-
+      NOT a document. The app is an Angular single-page app whose catch-all
+      route answers 200 with the index.html shell for every /.well-known/*
+      path. Treated as a miss.
 - host: https://api.gojiberry.ai
   documents:
-  - {path: /.well-known/security.txt, status: 404}
+  - path: /.well-known/security.txt
+    status: 404

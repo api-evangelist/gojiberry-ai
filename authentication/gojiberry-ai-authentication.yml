@@ -1,14 +1,69 @@
-generated: '2026-07-19'
-method: derived
-source: openapi/gojiberry-ai-external-openapi-original.json
+generated: '2026-08-13'
+method: searched
+docs: https://ext.gojiberry.ai/documentation
+source: openapi/gojiberry-ai-appexternal-api-openapi.yml, openapi/gojiberry-ai-campaigns-api-openapi.yml,
+  openapi/gojiberry-ai-contacts-api-openapi.yml, openapi/gojiberry-ai-lead-source-agents-api-openapi.yml,
+  openapi/gojiberry-ai-lists-api-openapi.yml, openapi/gojiberry-ai-organization-api-openapi.yml,
+  openapi/gojiberry-ai-unibox-api-openapi.yml, openapi/gojiberry-ai-user-api-openapi.yml
 summary:
   types:
   - http
+  - oauth2
+  note: >-
+    Two distinct auth surfaces. The REST External API (ext.gojiberry.ai) uses a
+    bearer API key (JWT) issued in-app; the hosted MCP server (mcp.gojiberry.ai)
+    uses OAuth 2.1 authorization code + PKCE with dynamic client registration.
+  oauth2_flows: [authorizationCode]
+  surfaces: [rest, mcp]
+provisioning:
+  rest_api_key:
+    steps:
+    - Log in at https://app.gojiberry.ai
+    - Navigate to Settings -> API
+    - Click "Create API Key"
+    - Copy the key (shown once)
+    - 'Send it as: Authorization: Bearer YOUR_API_KEY'
+    docs: https://ext.gojiberry.ai/documentation
+impersonation:
+  supported: true
+  header: x-impersonate-user-id
+  rule: >-
+    The API key must belong to the organization OWNER and the impersonated user
+    must belong to the same organization; violations return 401. Present as an
+    optional header parameter on every External API operation.
+  helpers: [GET /v1/organization/members, GET /v1/user/me]
 schemes:
 - name: API-Key
   type: http
   scheme: bearer
   bearerFormat: JWT
   description: Enter API Key
+  surface: rest
   sources:
-  - openapi/gojiberry-ai-external-openapi-original.json
+  - openapi/gojiberry-ai-appexternal-api-openapi.yml
+  - openapi/gojiberry-ai-campaigns-api-openapi.yml
+  - openapi/gojiberry-ai-contacts-api-openapi.yml
+  - openapi/gojiberry-ai-lead-source-agents-api-openapi.yml
+  - openapi/gojiberry-ai-lists-api-openapi.yml
+  - openapi/gojiberry-ai-organization-api-openapi.yml
+  - openapi/gojiberry-ai-unibox-api-openapi.yml
+  - openapi/gojiberry-ai-user-api-openapi.yml
+- name: MCP OAuth 2.1
+  type: oauth2
+  surface: mcp
+  description: >-
+    Hosted MCP server authorization, discovered anonymously from RFC 8414
+    authorization server metadata and RFC 9728 protected resource metadata.
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://mcp.gojiberry.ai/authorize
+    tokenUrl: https://mcp.gojiberry.ai/token
+    registrationUrl: https://mcp.gojiberry.ai/register
+    code_challenge_methods: [S256, plain]
+    grant_types: [authorization_code, refresh_token]
+    token_endpoint_auth_methods: [none, client_secret_post]
+    scopes: [mcp:tools, claudeai]
+  sources:
+  - well-known/gojiberry-ai-oauth-authorization-server.json
+  - well-known/gojiberry-ai-oauth-protected-resource.json
+  see: scopes/gojiberry-ai-scopes.yml

@@ -1,0 +1,62 @@
+generated: '2026-08-13'
+method: searched
+source: https://gojiberry.ai/#pricing
+checked: '2026-08-13'
+currency: USD
+plan_count: 2
+note: >-
+  Gojiberry publishes a single self-serve price point plus an enterprise
+  "talk with us" tier. There is no dedicated /pricing page (it 404s); the
+  pricing block is an anchor section on the homepage. API and MCP access are
+  bundled into the PRO tier — there is no separate API plan, no published
+  per-call pricing, and no published overage rate.
+plans:
+- name: PRO
+  price: 99
+  currency: USD
+  period: month
+  tagline: Your first AI sales rep. For founders and operators running their own outbound.
+  channels: [email, socials]
+  included:
+  - 2 AI agents prospecting 24/7
+  - Up to 1,800 prospects contacted per month ("more available")
+  - Warm leads sourced automatically (intent signals + lookalikes)
+  - Unified inbox (Unibox)
+  - Smart lead scoring
+  - AI Copilot mode
+  - Email waterfall enrichment (15+ data providers)
+  - CRM, API and MCP integrations (HubSpot, Pipedrive, Claude)
+  - Live chat support
+  api_access: true
+  mcp_access: true
+  overage: >-
+    Not published as a rate; the page says more than 1,800 prospects/month is
+    "available" without stating a price.
+  cta: https://app.gojiberry.ai/registration
+- name: CUSTOM
+  price: null
+  currency: null
+  period: null
+  contact_sales: true
+  tagline: For sales teams (5+) and outbound agencies scaling multichannel outreach with AI.
+  included:
+  - Everything in Pro
+  - Custom number of AI agents prospecting 24/7
+  - Custom number of prospects contacted per month
+  - More senders across all channels
+  - Dedicated customer success manager
+  - Deep and custom integrations
+  - Admin access and view
+  cta: https://gojiberry.ai/#pricing
+trial:
+  offered: true
+  label: Free trial
+  terms: >-
+    "Free Trial - Live in 5 minutes - Cancel anytime" (site footer CTA);
+    no trial length, credit-card requirement, or included quota is published.
+  signup: https://app.gojiberry.ai/registration
+credits:
+  note: >-
+    The External API models a monthly credit ceiling per lead-source agent
+    (Agent.maxCreditUsage, "Max number of credits per month"), but Gojiberry
+    does not publish how many credits a plan includes or what a credit costs.

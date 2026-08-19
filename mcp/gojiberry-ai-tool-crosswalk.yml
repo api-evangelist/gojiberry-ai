@@ -1,0 +1,154 @@
+generated: '2026-08-13'
+method: derived
+source: >-
+  https://gojiberry.ai/how-to-do-outreach-claude-linkedin-mcp (published MCP
+  capabilities) bound to openapi/_original/gojiberry-ai-external-openapi-original.json
+  operationIds
+note: >-
+  The live tools/list on https://mcp.gojiberry.ai/mcp is OAuth-gated (HTTP 401,
+  -32001 "Authentication required"), so the real tool NAMES and inputSchemas
+  could not be enumerated. This crosswalk therefore maps the four MCP
+  capabilities Gojiberry publishes on its connect page to the REST operations
+  that back them, at honestly-stated confidence. No tool name here is asserted
+  to be the server's actual tool name; where a capability is bound to a REST
+  operation, that operation's parameters + requestBody are the real input
+  contract.
+surfaces:
+  openapi:
+    file: openapi/_original/gojiberry-ai-external-openapi-original.json
+    base: https://ext.gojiberry.ai
+    operations: 28
+    gated: false
+  mcp:
+    url: https://mcp.gojiberry.ai/mcp
+    gated: true
+    gate: OAuth 2.1 (authorization_code + PKCE, dynamic client registration)
+    tools_list: not enumerable anonymously
+  graphql:
+    present: false
+crosswalk:
+- tool: find_warm_leads
+  capability: >-
+    "Find me 20 SaaS founders hiring SDRs in the US" — find warm leads scored by
+    intent signal and push them into Gojiberry.
+  category: lead-discovery
+  rest:
+  - ContactExternalController_findMany
+  - ContactExternalController_getIntentTypeCounts
+  binding: rest
+  confidence: medium
+  note: >-
+    The REST surface can READ and filter already-sourced contacts (search,
+    agent, dateFrom, page, limit) and count them by intent type. Net-new
+    sourcing from a natural-language brief has no public REST operation — it is
+    performed by the lead-source agent, configured via AgentExternalController_update
+    (AgentVariableV2Dto types HIRING, JOB_SEARCH, SEARCH_KEYWORD, LOOKALIKE, ...).
+- tool: build_list
+  capability: Build lists and add the found leads to them.
+  category: list-management
+  rest:
+  - ListExternalController_create
+  - ListExternalController_findAll
+  - ListExternalController_findOne
+  - ContactExternalController_addManyToList
+  - ContactExternalController_removeManyFromList
+  binding: rest
+  confidence: high
+  note: Exact 1:1 REST coverage of the documented list-building capability.
+- tool: enrich_contact
+  capability: >-
+    "Drop a company name and Claude finds the right contact, enriches it, and
+    adds it to your list."
+  category: enrichment
+  rest:
+  - ContactExternalController_findOne
+  - ContactExternalController_enrichEmail
+  - ContactExternalController_create
+  - ContactExternalController_addManyToList
+  binding: rest
+  confidence: medium
+  note: >-
+    Email waterfall enrichment maps cleanly to enrichEmail; "finds the right
+    contact from a company name" has no public REST operation.
+- tool: write_personalized_message
+  capability: >-
+    "Write a message for each of them" — hyper-personalized copy from social
+    activity and intent data.
+  category: message-generation
+  rest:
+  - ContactExternalController_update
+  - CampaignExternalController_update
+  binding: partial
+  confidence: low
+  note: >-
+    GENERATION is not a REST operation. The REST surface only STORES the result:
+    Contact.personalizedMessages (PersonalizedMessageDto = {content, stepNumber})
+    is writable on the contact/campaign update operations. The copywriting itself
+    is server-side in the agent.
+- tool: send_message
+  capability: Run multichannel outreach; reply from the unified inbox.
+  category: outreach
+  rest:
+  - UniboxExternalController_getThreads
+  - UniboxExternalController_getThreadMessages
+  - UniboxExternalController_sendMessage
+  binding: rest
+  confidence: medium
+  note: >-
+    REST sends LinkedIn messages into an existing unibox thread (chatId from
+    GET /v1/unibox/threads). No public REST operation sends EMAIL — email is
+    dispatched by campaigns, not by an addressable endpoint.
+- tool: pipeline_insights
+  capability: >-
+    "Which job titles replied most this week?" — reply rates, lead breakdowns,
+    intent analysis, weekly campaign reports.
+  category: analytics
+  rest:
+  - ContactExternalController_getIntentTypeCounts
+  - CampaignExternalController_findAll
+  - AgentExternalController_findLogs
+  binding: partial
+  confidence: low
+  note: >-
+    No aggregate analytics endpoint exists. The published REST surface exposes
+    only intent-type counts, campaign objects and agent run logs; reply-rate and
+    job-title breakdowns must be computed server-side or by the agent.
+mcp_only:
+- tool: find_warm_leads (net-new sourcing)
+  reason: >-
+    Sourcing prospects from a natural-language brief is executed by the
+    lead-source agent; no public REST operation performs a prospect search.
+- tool: write_personalized_message (generation)
+  reason: LLM copy generation is server-side; REST only persists the resulting text.
+- tool: pipeline_insights (aggregates)
+  reason: No analytics/reporting operations are published in the External API.
+rest_only:
+- capability: identity and permissions
+  operations:
+  - UserExternalController_getMe
+  - UserExternalController_getMyPermissions
+- capability: organization directory (needed for x-impersonate-user-id)
+  operations:
+  - OrganizationExternalController_getOrganization
+  - OrganizationExternalController_getOrganizationMembers
+- capability: lead-source agent configuration
+  operations:
+  - AgentExternalController_findAll
+  - AgentExternalController_findOne
+  - AgentExternalController_update
+- capability: service health
+  operations:
+  - AppExternalController_getHello
+  - AppExternalController_healthCheck
+- capability: legacy unibox read
+  operations:
+  - UniboxExternalController_getMessagesByContactId
+coverage:
+  capabilities_published: 6
+  capabilities_bound_to_rest: 6
+  bindings_high_confidence: 1
+  bindings_medium_confidence: 3
+  bindings_low_confidence: 2
+  mcp_only_capabilities: 3
+  rest_operations_total: 28
+  rest_operations_with_a_capability: 17
