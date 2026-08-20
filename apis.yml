@@ -133,6 +133,8 @@ apis:
   humanURL: https://ext.gojiberry.ai/documentation
   baseURL: https://ext.gojiberry.ai
   tags:
+  - List
+  tags_raw:
   - Lists
   properties:
   - type: OpenAPI
