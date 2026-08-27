@@ -1,0 +1,170 @@
+---
+kin_checks:
+  slug: gojiberry-ai
+  schema_version: 0.15.1
+  scored_at: '2026-08-27'
+  run_ts: 2026-08-27T123021
+  note: Actionable checks only (missed + partial). earned/na are every other check
+    in rubric/scoring-0.15.1.yml; counts below let you verify that.
+  counts:
+    total: 130
+    earned: 46
+    partial: 16
+    missed: 44
+    na: 24
+  checks:
+  - id: apis_json_self_hosted
+    status: missed
+  - id: openapi_3_2
+    status: missed
+    detail: 0 of 8 openapi documents pass
+  - id: openapi_3_1
+    status: missed
+    detail: 0 of 8 openapi documents pass
+  - id: info_complete
+    status: missed
+    detail: 0 of 8 openapi documents pass
+  - id: servers_defined
+    status: missed
+    detail: 0 of 8 openapi documents pass
+  - id: servers_resolvable
+    status: missed
+  - id: webhooks_or_callbacks
+    status: missed
+    detail: 0 of 8 openapi documents pass
+  - id: json_schema_present
+    status: missed
+  - id: json_schema_per_resource
+    status: missed
+  - id: json_ld_present
+    status: missed
+  - id: json_ld_class_depth
+    status: missed
+  - id: json_ld_property_depth
+    status: missed
+  - id: lifecycle_documented
+    status: missed
+  - id: domain_standard_conformance
+    status: missed
+  - id: rules_present
+    status: missed
+  - id: rules_substantial
+    status: missed
+  - id: balanced_severities
+    status: missed
+  - id: vocabulary_published
+    status: missed
+  - id: change_log_present
+    status: missed
+  - id: status_page_present
+    status: missed
+    detail: pointer liveness 0.0
+  - id: rate_limits_rich
+    status: missed
+  - id: deprecation_policy
+    status: missed
+  - id: security_disclosure
+    status: missed
+  - id: roadmap_present
+    status: missed
+  - id: examples_published
+    status: missed
+  - id: getting_started_present
+    status: missed
+  - id: sdk_count_1
+    status: missed
+  - id: sdk_count_3
+    status: missed
+  - id: cli_present
+    status: missed
+  - id: console_or_sandbox
+    status: missed
+  - id: postman_present
+    status: missed
+  - id: plans_multiple
+    status: missed
+  - id: finops_mapped
+    status: missed
+  - id: compliance_published
+    status: missed
+  - id: trust_center
+    status: missed
+  - id: reg_vulnerability_disclosure
+    status: missed
+  - id: reg_compliance_published
+    status: missed
+  - id: reversibility_documented
+    status: missed
+  - id: idempotency
+    status: missed
+  - id: well_known_catalog
+    status: missed
+  - id: consent_identity
+    status: missed
+  - id: agent_card
+    status: missed
+  - id: dry_run_mode
+    status: missed
+  - id: agentic_commerce
+    status: missed
+  - id: operations_summary_coverage
+    status: partial
+    earned: 5.25
+    detail: 7 of 8 openapi documents pass
+  - id: operations_description_coverage
+    status: partial
+    earned: 3.75
+    detail: 5 of 8 openapi documents pass
+  - id: error_responses_documented
+    status: partial
+    earned: 1.0
+    detail: 2 of 8 openapi documents pass
+  - id: examples_present
+    status: partial
+    earned: 0.44
+  - id: components_reuse
+    status: partial
+    earned: 0.75
+    detail: 2 of 8 openapi documents pass
+  - id: security_applied
+    status: partial
+    earned: 2.63
+    detail: 7 of 8 openapi documents pass
+  - id: conformance_declared
+    status: partial
+    earned: 1.5
+  - id: github_org_present
+    status: partial
+    earned: 1.0
+    detail: pointer liveness 0.5
+  - id: agent_skill_present
+    status: partial
+    earned: 0.75
+  - id: sign_up_present
+    status: partial
+    earned: 2.5
+    detail: pointer liveness 0.5
+  - id: agentic_access
+    status: partial
+    earned: 2.5
+    detail: 'authorship: derived'
+  - id: auth_clarity
+    status: partial
+    earned: 9.0
+    detail: 'grade: served'
+  - id: error_semantics
+    status: partial
+    earned: 4.0
+    detail: 'grade: documented'
+  - id: openapi_examples
+    status: partial
+    earned: 3.5
+    detail: 'grade: partial'
+  - id: rate_limit_signal
+    status: partial
+    earned: 3.5
+    detail: 'grade: documented'
+  - id: agent_skills
+    status: partial
+    earned: 1.25
+    detail: 'authorship: derived'
