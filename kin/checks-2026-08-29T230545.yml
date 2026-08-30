@@ -1,18 +1,20 @@
 ---
 kin_checks:
   slug: gojiberry-ai
-  schema_version: 0.15.1
-  scored_at: '2026-08-28'
-  run_ts: 2026-08-28T221322
+  schema_version: 0.16.0
+  scored_at: '2026-08-29'
+  run_ts: 2026-08-29T230545
   note: Actionable checks only (missed + partial). earned/na are every other check
-    in rubric/scoring-0.15.1.yml; counts below let you verify that.
+    in rubric/scoring-0.16.0.yml; counts below let you verify that.
   counts:
     total: 130
-    earned: 46
+    earned: 44
     partial: 16
-    missed: 44
+    missed: 46
     na: 24
   checks:
+  - id: well_known_published
+    status: missed
   - id: apis_json_self_hosted
     status: missed
   - id: openapi_3_2
@@ -53,6 +55,8 @@ kin_checks:
   - id: balanced_severities
     status: missed
   - id: vocabulary_published
+    status: missed
+  - id: overlay_published
     status: missed
   - id: change_log_present
     status: missed
