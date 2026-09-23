@@ -1,7 +1,10 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Gojiberry AI - External AppExternal Lead source agents API
-  description: "\n# Gojiberry AI External API\n\nThis API allows you to programmatically access your Gojiberry AI data and integrate it with your applications.\n\n## Authentication\n\nAll API requests require authentication using a Bearer token. To get your API key:\n\n1. **Log in to your Gojiberry AI account** at [https://app.gojiberry.ai](https://app.gojiberry.ai)\n2. **Navigate to Settings** → **API** section\n3. **Click \"Create API Key\"** to generate a new token\n4. **Copy the API key** when it's displayed (you won't be able to see it again)\n5. **Use the token** in your requests by adding the header: `Authorization: Bearer YOUR_API_KEY`\n\n## Impersonation (organization owners)\n\nIf your API key belongs to the **owner of an organization**, you can perform any API call on behalf of another member of your organization by adding the `x-impersonate-user-id` header with the member's user ID:\n\n```bash\n# Get the contacts of the organization member with user ID 123\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     -H \"x-impersonate-user-id: 123\" \\\n     https://ext.gojiberry.ai/v1/contact\n```\n\nWhen impersonating, the request behaves exactly as if it was made by that member: you read and write their data (contacts, campaigns, lists, unibox, etc.).\n\nRules:\n- Your API key must belong to the **organization owner**; other members cannot impersonate.\n- The impersonated user must belong to the **same organization** as the API key user.\n- Requests that don't meet these rules are rejected with a `401 Unauthorized`.\n\nTip: use `GET /v1/organization/members` to list the members of your organization and their user IDs, and `GET /v1/user/me` to verify which user the current request acts as.\n\n## Rate Limits\n\n- **100 requests per minute** per API key\n\n## Base URL\n- **Production**: `https://ext.gojiberry.ai`\n\n## Endpoints\n\n### Contacts\n- `GET /v1/contact` - Get all contacts with filtering and pagination\n- `GET /v1/contact/{id}` - Get a specific contact\n- `GET /v1/contact/health` - Health check endpoint\n\n## Example Usage\n\n```bash\n# Get all contacts\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     https://ext.gojiberry.ai/v1/contact\n\n# Get contacts with filtering\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     \"https://ext.gojiberry.ai/v1/contact?search=john&agent=1&dateFrom=2024-01-01\"\n\n# Get a specific contact\ncurl -H \"Authorization: Bearer YOUR_API_KEY\" \\\n     https://ext.gojiberry.ai/v1/contact/123\n```\n\n## Webhooks\n\nGojiberry allows you to receive real-time notifications when new contacts are created or updated by configuring a webhook URL.\n\n### How to Configure Webhooks\n\n1. **Log in to your Gojiberry AI account** at [https://app.gojiberry.ai](https://app.gojiberry.ai)\n2. **Navigate to the Integrations page** at [https://app.gojiberry.ai/integrations](https://app.gojiberry.ai/integrations)\n3. **Add a Webhook integration** by clicking the Webhook option\n4. **Enter your webhook URL** where you want to receive notifications\n5. **Save the configuration**\n\nOnce configured, Gojiberry will send POST requests to your webhook URL whenever:\n- A new contact is created\n- A contact is updated\n- Other relevant events occur in your account\n\nThe webhook payload will include the full contact data in JSON format. Each webhook request includes a custom header `x-gojiberry-user-id` containing your user ID for verification purposes.\n\n## Support\n\nFor API support, please contact us at [hello@gojiberry.ai](mailto:hello@gojiberry.ai)\n      "
+  title: Gojiberry AI - External Lead source agents API
+  description: '# Gojiberry AI External API
+
+
+    This API allows you to programmatically access your Gojiberry AI data and integrate it with your applications.'
   version: '1.0'
   contact: {}
 servers: []
@@ -91,6 +94,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Agent'
+        '400':
+          description: Invalid payload (e.g. fewer than 4 variables)
         '404':
           description: Agent not found
       security:
@@ -178,11 +183,13 @@ components:
         additionalCriteria:
           type: string
           description: Additional search criteria or instructions
+          deprecated: true
+          maxLength: 200
         agentType:
           type: string
-          description: 'Type of agent : "autopilot" or "lookalike"'
+          description: 'Type of agent : "autopilot", "lookalike" or "website-visitor"'
         variables:
-          description: Agent variables configuration
+          description: Agent variables configuration (minimum 4 required)
           type: array
           items:
             $ref: '#/components/schemas/AgentVariableV2Dto'
@@ -217,6 +224,12 @@ components:
         minLeadScore:
           type: number
           description: Minimum lead score threshold (0–1)
+        scriptInstalled:
+          type: boolean
+          description: Whether the visitor tracking script is installed on the website (website-visitor agents)
+        maxCreditUsage:
+          type: number
+          description: Max number of credits per month
     AgentLog:
       type: object
       properties:
@@ -230,24 +243,28 @@ components:
           type: number
           description: Total number of raw leads the agent found from this signal in this run, BEFORE any AI scoring or filtering. Always greater than or equal to leadsCreated.
         errorMessage:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Error message if the run failed for this signal. Null when the run succeeded.
-          nullable: true
         agentType:
-          type: object
+          type:
+          - object
+          - 'null'
           description: Type of signal the agent ran (e.g. SEARCH_KEYWORD, COMPETITOR_PAGE_URL, RECENT_FUNDING_EVENT). Matches the agent's configured signal types.
-          nullable: true
         agentKeyword:
-          type: string
+          type:
+          - string
+          - 'null'
           description: The specific signal value used in this run — e.g. the keyword searched, the competitor page URL watched, or the lookalike seed. Lets you see which signal produced which leads.
-          nullable: true
         userId:
           type: number
           description: Owner user ID.
         agentId:
-          type: number
+          type:
+          - number
+          - 'null'
           description: ID of the agent this log entry belongs to.
-          nullable: true
         createdAt:
           format: date-time
           type: string
@@ -258,9 +275,6 @@ components:
       - totalLeads
       - userId
       - createdAt
-    AgentVariableV2Dto:
-      type: object
-      properties: {}
     Agent:
       type: object
       properties:
@@ -296,36 +310,51 @@ components:
           items:
             type: string
         additionalCriteria:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Additional free-text targeting criteria
-          nullable: true
         variables:
           description: Variables used by the agent to find high intent leads. (Keywords, Competitor Page URL, etc.)
-          nullable: true
-          type: array
+          type:
+          - array
+          - 'null'
           items:
             type: string
         ignoredCompanies:
           description: Company names to exclude from prospecting. Part of the ICP.
-          nullable: true
-          type: array
+          type:
+          - array
+          - 'null'
           items:
             type: string
         mandatoryKeywords:
           description: Keywords that must be present in a lead profile to be included
-          nullable: true
-          type: array
+          type:
+          - array
+          - 'null'
           items:
             type: string
         agentType:
           type: string
-          description: Type of agent (e.g. "autopilot")
+          description: 'Type of agent: "autopilot", "lookalike" or "website-visitor"'
           example: autopilot
+        scriptInstalled:
+          type: boolean
+          description: Whether the visitor tracking script is installed on the website (website-visitor agents)
+          default: false
+        maxCreditUsage:
+          type:
+          - number
+          - 'null'
+          description: Max number of credits per month
+          example: 200
         lastRun:
           format: date-time
-          type: string
+          type:
+          - string
+          - 'null'
           description: Timestamp of the last agent execution
-          nullable: true
         paused:
           type: boolean
           description: Whether the agent is paused and will not run on its next scheduled time
@@ -347,17 +376,19 @@ components:
           description: Whether to use the lead waterfall strategy (cascade through multiple sources)
           default: true
         minLeadScore:
-          type: number
+          type:
+          - number
+          - 'null'
           description: Minimum lead score threshold (0.00–1.00) required to include a lead
-          nullable: true
           example: 0.75
         userId:
           type: number
           description: ID of the account (user) who owns this agent
         listId:
-          type: number
+          type:
+          - number
+          - 'null'
           description: ID of the list this agent sources contacts into
-          nullable: true
         createdAt:
           format: date-time
           type: string
@@ -375,6 +406,7 @@ components:
       - targetLocations
       - targetCompanyTypes
       - agentType
+      - scriptInstalled
       - paused
       - excludeServiceProviders
       - skipIcpFilter
@@ -383,6 +415,50 @@ components:
       - userId
       - createdAt
       - updatedAt
+    AgentVariableV2Dto:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Type of signal this variable configures
+          enum:
+          - SEARCH_KEYWORD
+          - SEARCH_KEYWORD_COMMENT
+          - SEARCH_KEYWORD_LIKE
+          - SEARCH_KEYWORD_POST
+          - EVENT_KEYWORD
+          - GROUP_KEYWORD
+          - COMPETITOR_PAGE_URL
+          - INFLUENCER_PAGE_URL
+          - YOUR_COMPANY
+          - RECENT_ACTIVITY
+          - RECENTLY_CHANGED_JOB
+          - RECENT_FUNDING_EVENT
+          - VISITED_PROFILE
+          - YOUR_PROFILE
+          - YOUR_COMPANY_FOLLOWERS
+          - JOB_SEARCH
+          - HIRING
+          - TECHNOLOGY
+          - LOOKALIKE
+        value:
+          type: string
+          description: Value of the variable; its meaning depends on the type (e.g. a search keyword for SEARCH_KEYWORD, a page URL for COMPETITOR_PAGE_URL)
+        options:
+          type: object
+          description: Type-specific configuration object (e.g. JOB_SEARCH stores { job_type, geocode })
+        enabled:
+          type: boolean
+          description: Whether the variable is enabled and will be used in runs
+        needsUserToken:
+          type: boolean
+          description: Whether running this variable requires a connected LinkedIn account token
+        linkedinSeatId:
+          type: number
+          description: ID of the LinkedIn seat used to run this variable
+      required:
+      - type
+      - value
   securitySchemes:
     API-Key:
       scheme: bearer

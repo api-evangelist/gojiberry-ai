@@ -1,0 +1,30 @@
+# Front Door AI Index — gojiberry-ai — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: gojiberry-ai
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: gojiberry.ai
+  final_host: gojiberry.ai
+  ownership: own
+  owner: gojiberry-ai
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 24
+  host_score: 24
+  density: 18.06
+  words: 1329
+  tiers:
+    agentic: 5
+    core: 17
+    model: 2
+  ambiguous: 45
+  top_terms:
+    agent: 45
+    AI: 17
+    AI agent: 3
+    Claude: 2
+    MCP: 1
+    copilot: 1

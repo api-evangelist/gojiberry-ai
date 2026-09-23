@@ -1,14 +1,7 @@
 {
   "provider": "gojiberry-ai",
   "sources": [
-    "gojiberry-ai-appexternal-api-openapi.yml",
-    "gojiberry-ai-campaigns-api-openapi.yml",
-    "gojiberry-ai-contacts-api-openapi.yml",
-    "gojiberry-ai-lead-source-agents-api-openapi.yml",
-    "gojiberry-ai-lists-api-openapi.yml",
-    "gojiberry-ai-organization-api-openapi.yml",
-    "gojiberry-ai-unibox-api-openapi.yml",
-    "gojiberry-ai-user-api-openapi.yml"
+    "_original/gojiberry-ai-external-openapi-original.json"
   ],
   "outputs": [
     "gojiberry-ai-appexternal-api-openapi.yml",
@@ -23,6 +16,27 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "gojiberry-ai-external-openapi-original.json: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "gojiberry-ai-external-openapi-original.json: declared missing tag: AppExternal",
+    "gojiberry-ai-external-openapi-original.json: declared missing tag: Campaigns",
+    "gojiberry-ai-external-openapi-original.json: declared missing tag: Contacts",
+    "gojiberry-ai-external-openapi-original.json: declared missing tag: Lead source agents",
+    "gojiberry-ai-external-openapi-original.json: declared missing tag: Lists",
+    "gojiberry-ai-external-openapi-original.json: declared missing tag: Organization",
+    "gojiberry-ai-external-openapi-original.json: declared missing tag: Unibox",
+    "gojiberry-ai-external-openapi-original.json: declared missing tag: User",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "gojiberry-ai-appexternal-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "gojiberry-ai-campaigns-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "gojiberry-ai-contacts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "gojiberry-ai-lead-source-agents-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "gojiberry-ai-lists-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "gojiberry-ai-organization-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "gojiberry-ai-unibox-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "gojiberry-ai-user-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

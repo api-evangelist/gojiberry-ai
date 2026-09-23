@@ -21,18 +21,20 @@ authorization:
   authorization_endpoint: https://mcp.gojiberry.ai/authorize
   token_endpoint: https://mcp.gojiberry.ai/token
   registration_endpoint: https://mcp.gojiberry.ai/register
-  code_challenge_methods: [S256, plain]
-  scopes: [mcp:tools, claudeai]
-  www_authenticate: 'Bearer resource_metadata="https://mcp.gojiberry.ai/.well-known/oauth-protected-resource/mcp",
-    scope="mcp:tools claudeai"'
+  code_challenge_methods:
+  - S256
+  - plain
+  scopes:
+  - mcp:tools
+  - claudeai
+  www_authenticate: Bearer resource_metadata="https://mcp.gojiberry.ai/.well-known/oauth-protected-resource/mcp",
+    scope="mcp:tools claudeai"
   see: scopes/gojiberry-ai-scopes.yml
 introspection:
   tools_list: gated
-  probe: >-
-    POST /mcp {"jsonrpc":"2.0","id":1,"method":"tools/list"} returns HTTP 400
-    -32600 "First request must be MCP initialize"; POST initialize returns HTTP
-    401 -32001 "Authentication required" with a WWW-Authenticate Bearer
-    challenge. The real tool set and its inputSchemas require an authenticated
+  probe: POST /mcp {"jsonrpc":"2.0","id":1,"method":"tools/list"} returns HTTP 400 -32600 "First request
+    must be MCP initialize"; POST initialize returns HTTP 401 -32001 "Authentication required" with a
+    WWW-Authenticate Bearer challenge. The real tool set and its inputSchemas require an authenticated
     OAuth session and could not be enumerated anonymously.
   checked: '2026-08-13'
 notes: Server verified live (GET / returns {"name":"Gojiberry AI","version":"1.0.0","status":"ok","docs":"https://ext.gojiberry.ai/documentation"}).
@@ -121,12 +123,7 @@ tools:
 deployment:
   mode: remote
   endpoint: https://mcp.gojiberry.ai/mcp
-  auth: oauth
   verified: probed
   probe: gated
-  checked: '2026-08-13'
-  source: >-
-    Live probe of https://mcp.gojiberry.ai/ and POST /mcp, plus the connect
-    guide at https://gojiberry.ai/how-to-do-outreach-claude-linkedin-mcp
-    ("one URL, one setting" — a remote URL a client connects to, no package to
-    install). No npm/PyPI stdio package is published, so this is remote-only.
+  checked: '2026-08-12'
+  source: catalog MCP census
