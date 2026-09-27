@@ -426,120 +426,29 @@ paths:
       - Contacts
 components:
   schemas:
-    Agent:
+    List:
       type: object
       properties:
         id:
           type: number
-          description: Unique identifier
+          description: Unique identifier for the list
         name:
           type: string
-          description: Display name of the agent
-        targetJobTitles:
-          description: List of target job titles to prospect. Part of the ICP.
-          type: array
-          items:
-            type: string
-        targetIndustries:
-          description: List of target industries to prospect. Part of the ICP.
-          type: array
-          items:
-            type: string
-        targetCompanySizes:
-          description: List of target company sizes (e.g. "1-10", "11-50"). Part of the ICP.
-          type: array
-          items:
-            type: string
-        targetLocations:
-          description: List of target geographic locations. Part of the ICP.
-          type: array
-          items:
-            type: string
-        targetCompanyTypes:
-          description: List of target company types (e.g. "Public", "Private")
-          type: array
-          items:
-            type: string
-        additionalCriteria:
-          type:
-          - string
-          - 'null'
-          description: Additional free-text targeting criteria
-        variables:
-          description: Variables used by the agent to find high intent leads. (Keywords, Competitor Page URL, etc.)
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        ignoredCompanies:
-          description: Company names to exclude from prospecting. Part of the ICP.
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        mandatoryKeywords:
-          description: Keywords that must be present in a lead profile to be included
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        agentType:
-          type: string
-          description: 'Type of agent: "autopilot", "lookalike" or "website-visitor"'
-          example: autopilot
-        scriptInstalled:
-          type: boolean
-          description: Whether the visitor tracking script is installed on the website (website-visitor agents)
-          default: false
-        maxCreditUsage:
-          type:
-          - number
-          - 'null'
-          description: Max number of credits per month
-          example: 200
-        lastRun:
-          format: date-time
-          type:
-          - string
-          - 'null'
-          description: Timestamp of the last agent execution
-        paused:
-          type: boolean
-          description: Whether the agent is paused and will not run on its next scheduled time
-          default: false
-        excludeServiceProviders:
-          type: boolean
-          description: Whether to exclude service provider companies from prospecting
-          default: false
-        skipIcpFilter:
-          type: boolean
-          description: Whether to skip the ICP (Ideal Customer Profile) filter when sourcing leads
-          default: false
-        includeOpenToWorkProfiles:
-          type: boolean
-          description: Whether to include LinkedIn profiles marked as open to work
-          default: false
-        leadWaterfall:
-          type: boolean
-          description: Whether to use the lead waterfall strategy (cascade through multiple sources)
-          default: true
-        minLeadScore:
-          type:
-          - number
-          - 'null'
-          description: Minimum lead score threshold (0.00–1.00) required to include a lead
-          example: 0.75
+          description: Name of the list
         userId:
           type: number
-          description: ID of the account (user) who owns this agent
-        listId:
-          type:
-          - number
-          - 'null'
-          description: ID of the list this agent sources contacts into
+          description: User ID who owns this list
+        user:
+          description: Associated user account
+          allOf:
+          - $ref: '#/components/schemas/Account'
+        campaignId:
+          type: number
+          description: Campaign ID associated with this list
+        campaign:
+          description: Associated campaign
+          allOf:
+          - $ref: '#/components/schemas/Campaign'
         createdAt:
           format: date-time
           type: string
@@ -551,21 +460,93 @@ components:
       required:
       - id
       - name
-      - targetJobTitles
-      - targetIndustries
-      - targetCompanySizes
-      - targetLocations
-      - targetCompanyTypes
-      - agentType
-      - scriptInstalled
-      - paused
-      - excludeServiceProviders
-      - skipIcpFilter
-      - includeOpenToWorkProfiles
-      - leadWaterfall
       - userId
+      - user
       - createdAt
       - updatedAt
+    PersonalizedMessageDto:
+      type: object
+      properties:
+        content:
+          type: string
+          description: Message content for this campaign step
+        stepNumber:
+          type: number
+          description: Campaign step number this message applies to. Please refer to the campaign.steps array !
+      required:
+      - content
+      - stepNumber
+    Campaign:
+      type: object
+      properties:
+        id:
+          type: number
+          description: Unique identifier for the campaign
+        name:
+          type: string
+          description: Name of the campaign
+        steps:
+          type: array
+          description: Campaign steps
+        userId:
+          type: number
+          description: User ID who owns this campaign
+        active:
+          type: boolean
+          description: Whether the campaign is active
+          default: true
+        excludeFirstDegreeFromCampaigns:
+          type: boolean
+          description: Exclude first degree connections from campaigns
+          default: true
+        isManual:
+          type: boolean
+          description: Whether the campaign is manual
+          default: false
+        skipInvitationAfterDays:
+          type: number
+          description: Number of days after which a pending invitation is skipped and only email steps are sent
+        language:
+          type:
+          - string
+          - 'null'
+          description: Campaign language
+        tone:
+          type: string
+          description: Campaign tone
+          enum:
+          - professional
+          - direct
+          - conversational
+        goal:
+          type: string
+          description: Campaign goal
+          enum:
+          - conversations
+          - demos
+        linkedinSeatId:
+          type: number
+          description: LinkedIn seat ID for this campaign
+        createdAt:
+          format: date-time
+          type: string
+          description: Creation timestamp
+        updatedAt:
+          format: date-time
+          type: string
+          description: Last update timestamp
+      required:
+      - id
+      - name
+      - userId
+      - active
+      - excludeFirstDegreeFromCampaigns
+      - isManual
+      - createdAt
+      - updatedAt
+    Account:
+      type: object
+      properties: {}
     Contact:
       type: object
       properties:
@@ -803,110 +784,120 @@ components:
       - hasStartedCampaign
       - createdAt
       - updatedAt
-    List:
+    Agent:
       type: object
       properties:
         id:
           type: number
-          description: Unique identifier for the list
+          description: Unique identifier
         name:
           type: string
-          description: Name of the list
-        userId:
-          type: number
-          description: User ID who owns this list
-        user:
-          description: Associated user account
-          allOf:
-          - $ref: '#/components/schemas/Account'
-        campaignId:
-          type: number
-          description: Campaign ID associated with this list
-        campaign:
-          description: Associated campaign
-          allOf:
-          - $ref: '#/components/schemas/Campaign'
-        createdAt:
-          format: date-time
-          type: string
-          description: Creation timestamp
-        updatedAt:
-          format: date-time
-          type: string
-          description: Last update timestamp
-      required:
-      - id
-      - name
-      - userId
-      - user
-      - createdAt
-      - updatedAt
-    PersonalizedMessageDto:
-      type: object
-      properties:
-        content:
-          type: string
-          description: Message content for this campaign step
-        stepNumber:
-          type: number
-          description: Campaign step number this message applies to. Please refer to the campaign.steps array !
-      required:
-      - content
-      - stepNumber
-    Account:
-      type: object
-      properties: {}
-    Campaign:
-      type: object
-      properties:
-        id:
-          type: number
-          description: Unique identifier for the campaign
-        name:
-          type: string
-          description: Name of the campaign
-        steps:
+          description: Display name of the agent
+        targetJobTitles:
+          description: List of target job titles to prospect. Part of the ICP.
           type: array
-          description: Campaign steps
-        userId:
-          type: number
-          description: User ID who owns this campaign
-        active:
-          type: boolean
-          description: Whether the campaign is active
-          default: true
-        excludeFirstDegreeFromCampaigns:
-          type: boolean
-          description: Exclude first degree connections from campaigns
-          default: true
-        isManual:
-          type: boolean
-          description: Whether the campaign is manual
-          default: false
-        skipInvitationAfterDays:
-          type: number
-          description: Number of days after which a pending invitation is skipped and only email steps are sent
-        language:
+          items:
+            type: string
+        targetIndustries:
+          description: List of target industries to prospect. Part of the ICP.
+          type: array
+          items:
+            type: string
+        targetCompanySizes:
+          description: List of target company sizes (e.g. "1-10", "11-50"). Part of the ICP.
+          type: array
+          items:
+            type: string
+        targetLocations:
+          description: List of target geographic locations. Part of the ICP.
+          type: array
+          items:
+            type: string
+        targetCompanyTypes:
+          description: List of target company types (e.g. "Public", "Private")
+          type: array
+          items:
+            type: string
+        additionalCriteria:
           type:
           - string
           - 'null'
-          description: Campaign language
-        tone:
+          description: Additional free-text targeting criteria
+        variables:
+          description: Variables used by the agent to find high intent leads. (Keywords, Competitor Page URL, etc.)
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        ignoredCompanies:
+          description: Company names to exclude from prospecting. Part of the ICP.
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        mandatoryKeywords:
+          description: Keywords that must be present in a lead profile to be included
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        agentType:
           type: string
-          description: Campaign tone
-          enum:
-          - professional
-          - direct
-          - conversational
-        goal:
-          type: string
-          description: Campaign goal
-          enum:
-          - conversations
-          - demos
-        linkedinSeatId:
+          description: 'Type of agent: "autopilot", "lookalike" or "website-visitor"'
+          example: autopilot
+        scriptInstalled:
+          type: boolean
+          description: Whether the visitor tracking script is installed on the website (website-visitor agents)
+          default: false
+        maxCreditUsage:
+          type:
+          - number
+          - 'null'
+          description: Max number of credits per month
+          example: 200
+        lastRun:
+          format: date-time
+          type:
+          - string
+          - 'null'
+          description: Timestamp of the last agent execution
+        paused:
+          type: boolean
+          description: Whether the agent is paused and will not run on its next scheduled time
+          default: false
+        excludeServiceProviders:
+          type: boolean
+          description: Whether to exclude service provider companies from prospecting
+          default: false
+        skipIcpFilter:
+          type: boolean
+          description: Whether to skip the ICP (Ideal Customer Profile) filter when sourcing leads
+          default: false
+        includeOpenToWorkProfiles:
+          type: boolean
+          description: Whether to include LinkedIn profiles marked as open to work
+          default: false
+        leadWaterfall:
+          type: boolean
+          description: Whether to use the lead waterfall strategy (cascade through multiple sources)
+          default: true
+        minLeadScore:
+          type:
+          - number
+          - 'null'
+          description: Minimum lead score threshold (0.00–1.00) required to include a lead
+          example: 0.75
+        userId:
           type: number
-          description: LinkedIn seat ID for this campaign
+          description: ID of the account (user) who owns this agent
+        listId:
+          type:
+          - number
+          - 'null'
+          description: ID of the list this agent sources contacts into
         createdAt:
           format: date-time
           type: string
@@ -918,10 +909,19 @@ components:
       required:
       - id
       - name
+      - targetJobTitles
+      - targetIndustries
+      - targetCompanySizes
+      - targetLocations
+      - targetCompanyTypes
+      - agentType
+      - scriptInstalled
+      - paused
+      - excludeServiceProviders
+      - skipIcpFilter
+      - includeOpenToWorkProfiles
+      - leadWaterfall
       - userId
-      - active
-      - excludeFirstDegreeFromCampaigns
-      - isManual
       - createdAt
       - updatedAt
     UpdateContactExternalDto:

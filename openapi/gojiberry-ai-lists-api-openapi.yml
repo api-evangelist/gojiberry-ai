@@ -162,21 +162,6 @@ components:
       - isManual
       - createdAt
       - updatedAt
-    CreateListDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of the list
-          maxLength: 255
-        campaignId:
-          type: number
-          description: Campaign ID associated with this list
-      required:
-      - name
-    Account:
-      type: object
-      properties: {}
     List:
       type: object
       properties:
@@ -215,6 +200,21 @@ components:
       - user
       - createdAt
       - updatedAt
+    Account:
+      type: object
+      properties: {}
+    CreateListDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the list
+          maxLength: 255
+        campaignId:
+          type: number
+          description: Campaign ID associated with this list
+      required:
+      - name
   securitySchemes:
     API-Key:
       scheme: bearer
