@@ -149,6 +149,51 @@ paths:
       - Lead source agents
 components:
   schemas:
+    AgentLog:
+      type: object
+      properties:
+        id:
+          type: number
+          description: Unique identifier of the agent log entry.
+        leadsCreated:
+          type: number
+          description: Number of leads imported into the user platform after the AI scoring & filtering pipeline. These are the qualified leads that ended up on the agent's list and become contacts of the linked outreach campaign.
+        totalLeads:
+          type: number
+          description: Total number of raw leads the agent found from this signal in this run, BEFORE any AI scoring or filtering. Always greater than or equal to leadsCreated.
+        errorMessage:
+          type:
+          - string
+          - 'null'
+          description: Error message if the run failed for this signal. Null when the run succeeded.
+        agentType:
+          type:
+          - object
+          - 'null'
+          description: Type of signal the agent ran (e.g. SEARCH_KEYWORD, COMPETITOR_PAGE_URL, RECENT_FUNDING_EVENT). Matches the agent's configured signal types.
+        agentKeyword:
+          type:
+          - string
+          - 'null'
+          description: The specific signal value used in this run — e.g. the keyword searched, the competitor page URL watched, or the lookalike seed. Lets you see which signal produced which leads.
+        userId:
+          type: number
+          description: Owner user ID.
+        agentId:
+          type:
+          - number
+          - 'null'
+          description: ID of the agent this log entry belongs to.
+        createdAt:
+          format: date-time
+          type: string
+          description: When this log entry was recorded (ISO 8601).
+      required:
+      - id
+      - leadsCreated
+      - totalLeads
+      - userId
+      - createdAt
     UpdateAgentDto:
       type: object
       properties:
@@ -230,51 +275,6 @@ components:
         maxCreditUsage:
           type: number
           description: Max number of credits per month
-    AgentLog:
-      type: object
-      properties:
-        id:
-          type: number
-          description: Unique identifier of the agent log entry.
-        leadsCreated:
-          type: number
-          description: Number of leads imported into the user platform after the AI scoring & filtering pipeline. These are the qualified leads that ended up on the agent's list and become contacts of the linked outreach campaign.
-        totalLeads:
-          type: number
-          description: Total number of raw leads the agent found from this signal in this run, BEFORE any AI scoring or filtering. Always greater than or equal to leadsCreated.
-        errorMessage:
-          type:
-          - string
-          - 'null'
-          description: Error message if the run failed for this signal. Null when the run succeeded.
-        agentType:
-          type:
-          - object
-          - 'null'
-          description: Type of signal the agent ran (e.g. SEARCH_KEYWORD, COMPETITOR_PAGE_URL, RECENT_FUNDING_EVENT). Matches the agent's configured signal types.
-        agentKeyword:
-          type:
-          - string
-          - 'null'
-          description: The specific signal value used in this run — e.g. the keyword searched, the competitor page URL watched, or the lookalike seed. Lets you see which signal produced which leads.
-        userId:
-          type: number
-          description: Owner user ID.
-        agentId:
-          type:
-          - number
-          - 'null'
-          description: ID of the agent this log entry belongs to.
-        createdAt:
-          format: date-time
-          type: string
-          description: When this log entry was recorded (ISO 8601).
-      required:
-      - id
-      - leadsCreated
-      - totalLeads
-      - userId
-      - createdAt
     Agent:
       type: object
       properties:

@@ -94,6 +94,44 @@ paths:
       - Lists
 components:
   schemas:
+    List:
+      type: object
+      properties:
+        id:
+          type: number
+          description: Unique identifier for the list
+        name:
+          type: string
+          description: Name of the list
+        userId:
+          type: number
+          description: User ID who owns this list
+        user:
+          description: Associated user account
+          allOf:
+          - $ref: '#/components/schemas/Account'
+        campaignId:
+          type: number
+          description: Campaign ID associated with this list
+        campaign:
+          description: Associated campaign
+          allOf:
+          - $ref: '#/components/schemas/Campaign'
+        createdAt:
+          format: date-time
+          type: string
+          description: Creation timestamp
+        updatedAt:
+          format: date-time
+          type: string
+          description: Last update timestamp
+      required:
+      - id
+      - name
+      - userId
+      - user
+      - createdAt
+      - updatedAt
     Campaign:
       type: object
       properties:
@@ -162,47 +200,6 @@ components:
       - isManual
       - createdAt
       - updatedAt
-    List:
-      type: object
-      properties:
-        id:
-          type: number
-          description: Unique identifier for the list
-        name:
-          type: string
-          description: Name of the list
-        userId:
-          type: number
-          description: User ID who owns this list
-        user:
-          description: Associated user account
-          allOf:
-          - $ref: '#/components/schemas/Account'
-        campaignId:
-          type: number
-          description: Campaign ID associated with this list
-        campaign:
-          description: Associated campaign
-          allOf:
-          - $ref: '#/components/schemas/Campaign'
-        createdAt:
-          format: date-time
-          type: string
-          description: Creation timestamp
-        updatedAt:
-          format: date-time
-          type: string
-          description: Last update timestamp
-      required:
-      - id
-      - name
-      - userId
-      - user
-      - createdAt
-      - updatedAt
-    Account:
-      type: object
-      properties: {}
     CreateListDto:
       type: object
       properties:
@@ -215,6 +212,9 @@ components:
           description: Campaign ID associated with this list
       required:
       - name
+    Account:
+      type: object
+      properties: {}
   securitySchemes:
     API-Key:
       scheme: bearer

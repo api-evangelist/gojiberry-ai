@@ -209,6 +209,9 @@ paths:
       - Unibox
 components:
   schemas:
+    Account:
+      type: object
+      properties: {}
     List:
       type: object
       properties:
@@ -247,6 +250,9 @@ components:
       - user
       - createdAt
       - updatedAt
+    LinkedinSeat:
+      type: object
+      properties: {}
     Campaign:
       type: object
       properties:
@@ -315,12 +321,6 @@ components:
       - isManual
       - createdAt
       - updatedAt
-    LinkedinSeat:
-      type: object
-      properties: {}
-    Account:
-      type: object
-      properties: {}
     Contact:
       type: object
       properties:
