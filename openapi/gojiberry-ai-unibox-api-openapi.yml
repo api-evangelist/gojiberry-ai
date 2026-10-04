@@ -209,50 +209,6 @@ paths:
       - Unibox
 components:
   schemas:
-    Account:
-      type: object
-      properties: {}
-    List:
-      type: object
-      properties:
-        id:
-          type: number
-          description: Unique identifier for the list
-        name:
-          type: string
-          description: Name of the list
-        userId:
-          type: number
-          description: User ID who owns this list
-        user:
-          description: Associated user account
-          allOf:
-          - $ref: '#/components/schemas/Account'
-        campaignId:
-          type: number
-          description: Campaign ID associated with this list
-        campaign:
-          description: Associated campaign
-          allOf:
-          - $ref: '#/components/schemas/Campaign'
-        createdAt:
-          format: date-time
-          type: string
-          description: Creation timestamp
-        updatedAt:
-          format: date-time
-          type: string
-          description: Last update timestamp
-      required:
-      - id
-      - name
-      - userId
-      - user
-      - createdAt
-      - updatedAt
-    LinkedinSeat:
-      type: object
-      properties: {}
     Campaign:
       type: object
       properties:
@@ -321,6 +277,121 @@ components:
       - isManual
       - createdAt
       - updatedAt
+    List:
+      type: object
+      properties:
+        id:
+          type: number
+          description: Unique identifier for the list
+        name:
+          type: string
+          description: Name of the list
+        userId:
+          type: number
+          description: User ID who owns this list
+        user:
+          description: Associated user account
+          allOf:
+          - $ref: '#/components/schemas/Account'
+        campaignId:
+          type: number
+          description: Campaign ID associated with this list
+        campaign:
+          description: Associated campaign
+          allOf:
+          - $ref: '#/components/schemas/Campaign'
+        createdAt:
+          format: date-time
+          type: string
+          description: Creation timestamp
+        updatedAt:
+          format: date-time
+          type: string
+          description: Last update timestamp
+      required:
+      - id
+      - name
+      - userId
+      - user
+      - createdAt
+      - updatedAt
+    Unibox:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique chat identifier (internal chat ID)
+        subject:
+          type: string
+          description: Subject of the chat (sometimes empty)
+        lastMessage:
+          type: string
+          description: Content of the latest message in the chat
+        lastMessageDate:
+          format: date-time
+          type: string
+          description: Date of the latest message in the chat
+        messages:
+          description: List of messages in the chat
+          type: array
+          items:
+            type: object
+        sender:
+          type: object
+          description: Sender attendee information for the chat
+        seen:
+          type: boolean
+          description: Whether the chat has been seen
+          default: false
+        attendeeId:
+          type: string
+          description: attendee ID of the conversation partner (internal)
+        accountId:
+          type: string
+          description: Linkedin account ID associated with this chat (internal)
+        interested:
+          type: boolean
+          description: Whether the contact is interested (sentiment analysis result)
+        tag:
+          type: string
+          description: Sentiment / category tag for the chat
+        contactId:
+          type: number
+          description: Linked Gojiberry contact ID, if matched
+        contact:
+          description: Associated Gojiberry contact
+          allOf:
+          - $ref: '#/components/schemas/Contact'
+        seatId:
+          type: number
+          description: Gojiberry LinkedIn seat ID owning this chat
+        seat:
+          description: Associated LinkedIn seat
+          allOf:
+          - $ref: '#/components/schemas/LinkedinSeat'
+        userId:
+          type: number
+          description: User ID who owns this chat
+        user:
+          description: Associated user account
+          allOf:
+          - $ref: '#/components/schemas/Account'
+        createdAt:
+          format: date-time
+          type: string
+          description: Creation timestamp
+        updatedAt:
+          format: date-time
+          type: string
+          description: Last update timestamp
+      required:
+      - id
+      - seen
+      - createdAt
+      - updatedAt
+    LinkedinSeat:
+      type: object
+      properties: {}
     Contact:
       type: object
       properties:
@@ -558,80 +629,6 @@ components:
       - hasStartedCampaign
       - createdAt
       - updatedAt
-    Unibox:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique chat identifier (internal chat ID)
-        subject:
-          type: string
-          description: Subject of the chat (sometimes empty)
-        lastMessage:
-          type: string
-          description: Content of the latest message in the chat
-        lastMessageDate:
-          format: date-time
-          type: string
-          description: Date of the latest message in the chat
-        messages:
-          description: List of messages in the chat
-          type: array
-          items:
-            type: object
-        sender:
-          type: object
-          description: Sender attendee information for the chat
-        seen:
-          type: boolean
-          description: Whether the chat has been seen
-          default: false
-        attendeeId:
-          type: string
-          description: attendee ID of the conversation partner (internal)
-        accountId:
-          type: string
-          description: Linkedin account ID associated with this chat (internal)
-        interested:
-          type: boolean
-          description: Whether the contact is interested (sentiment analysis result)
-        tag:
-          type: string
-          description: Sentiment / category tag for the chat
-        contactId:
-          type: number
-          description: Linked Gojiberry contact ID, if matched
-        contact:
-          description: Associated Gojiberry contact
-          allOf:
-          - $ref: '#/components/schemas/Contact'
-        seatId:
-          type: number
-          description: Gojiberry LinkedIn seat ID owning this chat
-        seat:
-          description: Associated LinkedIn seat
-          allOf:
-          - $ref: '#/components/schemas/LinkedinSeat'
-        userId:
-          type: number
-          description: User ID who owns this chat
-        user:
-          description: Associated user account
-          allOf:
-          - $ref: '#/components/schemas/Account'
-        createdAt:
-          format: date-time
-          type: string
-          description: Creation timestamp
-        updatedAt:
-          format: date-time
-          type: string
-          description: Last update timestamp
-      required:
-      - id
-      - seen
-      - createdAt
-      - updatedAt
     Agent:
       type: object
       properties:
@@ -772,6 +769,9 @@ components:
       - userId
       - createdAt
       - updatedAt
+    Account:
+      type: object
+      properties: {}
   securitySchemes:
     API-Key:
       scheme: bearer

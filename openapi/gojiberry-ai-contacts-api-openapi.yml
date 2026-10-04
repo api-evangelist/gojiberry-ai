@@ -426,139 +426,6 @@ paths:
       - Contacts
 components:
   schemas:
-    UpdateContactExternalDto:
-      type: object
-      properties:
-        firstName:
-          type: string
-          description: First name of the contact
-        lastName:
-          type: string
-          description: Last name of the contact
-        profileUrl:
-          type: string
-          description: LinkedIn profile URL
-        profileId:
-          type: string
-          description: LinkedIn profile ID
-        profileBaseline:
-          type: string
-          description: Profile baseline information
-        location:
-          type: string
-          description: Location of the contact
-        jobTitle:
-          type: string
-          description: Job title of the contact
-        positionDates:
-          type: string
-          description: Position dates information
-        company:
-          type: string
-          description: Company name
-        companySize:
-          type: string
-          description: Company size
-        companyUrl:
-          type: string
-          description: LinkedIn company URL
-        website:
-          type: string
-          description: Website URL
-        industry:
-          type: string
-          description: Industry
-        email:
-          type: string
-          description: Primary email address
-        picture:
-          type: string
-          description: Profile picture URL
-        openToWork:
-          type: boolean
-          description: Open to work status
-        linkedinIdentifier:
-          type: string
-          description: LinkedIn identifier for the profile
-        intent:
-          type: string
-          description: Intent or activity description for the contact
-        fit:
-          type: string
-          description: Contact fit classification
-          enum:
-          - qualified
-          - unknown
-          - out-of-scope
-        state:
-          type:
-          - string
-          - 'null'
-          description: 'Contact state. Set to "paused" to stop a contact from progressing in the campaign. Send null to clear the state. Possible values: "paused" (stops campaign progression), "finished" (completed all steps), "1stnetwork" (1st degree LinkedIn connection), "excluded" (excluded from all campaigns), "answered" (replied to a message).'
-          enum:
-          - finished
-          - paused
-          - 1stnetwork
-          - excluded
-          - answered
-        personalizedMessages:
-          description: Personalized messages for each campaign step.
-          type: array
-          items:
-            $ref: '#/components/schemas/PersonalizedMessageDto'
-    PersonalizedMessageDto:
-      type: object
-      properties:
-        content:
-          type: string
-          description: Message content for this campaign step
-        stepNumber:
-          type: number
-          description: Campaign step number this message applies to. Please refer to the campaign.steps array !
-      required:
-      - content
-      - stepNumber
-    Account:
-      type: object
-      properties: {}
-    List:
-      type: object
-      properties:
-        id:
-          type: number
-          description: Unique identifier for the list
-        name:
-          type: string
-          description: Name of the list
-        userId:
-          type: number
-          description: User ID who owns this list
-        user:
-          description: Associated user account
-          allOf:
-          - $ref: '#/components/schemas/Account'
-        campaignId:
-          type: number
-          description: Campaign ID associated with this list
-        campaign:
-          description: Associated campaign
-          allOf:
-          - $ref: '#/components/schemas/Campaign'
-        createdAt:
-          format: date-time
-          type: string
-          description: Creation timestamp
-        updatedAt:
-          format: date-time
-          type: string
-          description: Last update timestamp
-      required:
-      - id
-      - name
-      - userId
-      - user
-      - createdAt
-      - updatedAt
     Campaign:
       type: object
       properties:
@@ -625,6 +492,56 @@ components:
       - active
       - excludeFirstDegreeFromCampaigns
       - isManual
+      - createdAt
+      - updatedAt
+    PersonalizedMessageDto:
+      type: object
+      properties:
+        content:
+          type: string
+          description: Message content for this campaign step
+        stepNumber:
+          type: number
+          description: Campaign step number this message applies to. Please refer to the campaign.steps array !
+      required:
+      - content
+      - stepNumber
+    List:
+      type: object
+      properties:
+        id:
+          type: number
+          description: Unique identifier for the list
+        name:
+          type: string
+          description: Name of the list
+        userId:
+          type: number
+          description: User ID who owns this list
+        user:
+          description: Associated user account
+          allOf:
+          - $ref: '#/components/schemas/Account'
+        campaignId:
+          type: number
+          description: Campaign ID associated with this list
+        campaign:
+          description: Associated campaign
+          allOf:
+          - $ref: '#/components/schemas/Campaign'
+        createdAt:
+          format: date-time
+          type: string
+          description: Creation timestamp
+        updatedAt:
+          format: date-time
+          type: string
+          description: Last update timestamp
+      required:
+      - id
+      - name
+      - userId
+      - user
       - createdAt
       - updatedAt
     Contact:
@@ -864,6 +781,86 @@ components:
       - hasStartedCampaign
       - createdAt
       - updatedAt
+    UpdateContactExternalDto:
+      type: object
+      properties:
+        firstName:
+          type: string
+          description: First name of the contact
+        lastName:
+          type: string
+          description: Last name of the contact
+        profileUrl:
+          type: string
+          description: LinkedIn profile URL
+        profileId:
+          type: string
+          description: LinkedIn profile ID
+        profileBaseline:
+          type: string
+          description: Profile baseline information
+        location:
+          type: string
+          description: Location of the contact
+        jobTitle:
+          type: string
+          description: Job title of the contact
+        positionDates:
+          type: string
+          description: Position dates information
+        company:
+          type: string
+          description: Company name
+        companySize:
+          type: string
+          description: Company size
+        companyUrl:
+          type: string
+          description: LinkedIn company URL
+        website:
+          type: string
+          description: Website URL
+        industry:
+          type: string
+          description: Industry
+        email:
+          type: string
+          description: Primary email address
+        picture:
+          type: string
+          description: Profile picture URL
+        openToWork:
+          type: boolean
+          description: Open to work status
+        linkedinIdentifier:
+          type: string
+          description: LinkedIn identifier for the profile
+        intent:
+          type: string
+          description: Intent or activity description for the contact
+        fit:
+          type: string
+          description: Contact fit classification
+          enum:
+          - qualified
+          - unknown
+          - out-of-scope
+        state:
+          type:
+          - string
+          - 'null'
+          description: 'Contact state. Set to "paused" to stop a contact from progressing in the campaign. Send null to clear the state. Possible values: "paused" (stops campaign progression), "finished" (completed all steps), "1stnetwork" (1st degree LinkedIn connection), "excluded" (excluded from all campaigns), "answered" (replied to a message).'
+          enum:
+          - finished
+          - paused
+          - 1stnetwork
+          - excluded
+          - answered
+        personalizedMessages:
+          description: Personalized messages for each campaign step.
+          type: array
+          items:
+            $ref: '#/components/schemas/PersonalizedMessageDto'
     Agent:
       type: object
       properties:
@@ -1004,6 +1001,9 @@ components:
       - userId
       - createdAt
       - updatedAt
+    Account:
+      type: object
+      properties: {}
   securitySchemes:
     API-Key:
       scheme: bearer
