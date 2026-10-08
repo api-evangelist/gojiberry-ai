@@ -60,3 +60,23 @@ credits:
     The External API models a monthly credit ceiling per lead-source agent
     (Agent.maxCreditUsage, "Max number of credits per month"), but Gojiberry
     does not publish how many credits a plan includes or what a credit costs.
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - hybrid
+  units: []
+  plans:
+  - name: PRO
+    access: other
+    model: hybrid
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: CUSTOM
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
