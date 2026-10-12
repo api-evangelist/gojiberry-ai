@@ -1,0 +1,20 @@
+generated: '2026-10-12'
+method: none
+source:
+- https://zapier.com/apps/gojiberry-ai/integrations
+- https://zapier.com/apps/gojiberry/integrations
+- https://n8n.io/integrations/gojiberry-ai/
+- https://n8n.io/integrations/gojiberry/
+- https://composio.dev/toolkits/gojiberry-ai
+- https://monid.ai/tools/gojiberry-ai
+checked:
+- https://composio.dev/toolkits/gojiberry-ai
+- https://monid.ai/tools/gojiberry-ai
+- https://n8n.io/integrations/gojiberry-ai/
+- https://n8n.io/integrations/gojiberry/
+- https://zapier.com/apps/gojiberry-ai/integrations
+- https://zapier.com/apps/gojiberry/integrations
+summary: null
+marketplace_apps: []
+edges: []
+templates: []
