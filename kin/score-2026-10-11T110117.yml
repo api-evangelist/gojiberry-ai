@@ -1,24 +1,22 @@
-# Kin Score artifact — gojiberry-ai — 2026-09-08T214843
+# Kin Score artifact — gojiberry-ai — 2026-10-11T110117
 # The API Evangelist rating (https://github.com/api-evangelist/kin-score). Generated; do not edit.
 ---
 kin_score:
   slug: gojiberry-ai
-  schema_version: 0.20.0
-  scored_at: '2026-09-08'
-  run_ts: 2026-09-08T214843
-  composite: 45.6
+  schema_version: 0.23.0
+  scored_at: '2026-10-11'
+  run_ts: 2026-10-11T110117
+  composite: 47.4
   band: developing
   facets:
-    discoverability: 75.9
-    contract_quality: 51.6
-    governance: 4.5
+    discoverability: 75.0
+    contract_quality: 47.7
+    contract_governance: 4.5
     operational_transparency: 39.5
     developer_ergonomics: 47.0
-    commercial_clarity: 53.9
-    contract_governance: 4.5
     access_clarity: 53.9
   agent_readiness:
-    score: 55.2
+    score: 53.1
     band: agent-ready
     band_gated_from: agent-native
     dimensions:
@@ -28,7 +26,7 @@ kin_score:
       mcp_server: verified
       auth_clarity: served
       idempotency: false
-      error_semantics: documented
+      error_semantics: derived
       openapi_examples: partial
       rate_limit_signal: documented
       event_surface_described: true
@@ -41,6 +39,12 @@ kin_score:
       protected_resource_metadata: verified
       dynamic_client_registration: true
       agentic_commerce: false
+  regulatory:
+    applies: true
+    regime: Horizontal (data, software, accessibility, platform)
+    regime_id: horizontal
+    score: 34.3
+    matched_via: fallback
   provenance:
     mcp: first-party
     skills: derived
