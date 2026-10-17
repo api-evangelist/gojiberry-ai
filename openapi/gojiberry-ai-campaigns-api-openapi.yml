@@ -108,6 +108,25 @@ paths:
       - Campaigns
 components:
   schemas:
+    UpdateCampaignExternalDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Campaign name
+          example: Q1 Sales Campaign
+        listIds:
+          description: List IDs to associate with the campaign
+          example:
+          - 1
+          - 2
+          - 3
+          type: array
+          items:
+            type: string
+        steps:
+          type: array
+          description: Campaign steps. Must have the same length and step type order as the existing campaign; only message and messageMode are updated.
     Campaign:
       type: object
       properties:
@@ -176,25 +195,6 @@ components:
       - isManual
       - createdAt
       - updatedAt
-    UpdateCampaignExternalDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Campaign name
-          example: Q1 Sales Campaign
-        listIds:
-          description: List IDs to associate with the campaign
-          example:
-          - 1
-          - 2
-          - 3
-          type: array
-          items:
-            type: string
-        steps:
-          type: array
-          description: Campaign steps. Must have the same length and step type order as the existing campaign; only message and messageMode are updated.
   securitySchemes:
     API-Key:
       scheme: bearer
