@@ -1,0 +1,44 @@
+openapi: 3.2.0
+info:
+  title: Gojiberry AI - External App External API
+  description: '# Gojiberry AI External API
+
+
+    This API allows you to programmatically access your Gojiberry AI data and integrate it with your applications.'
+  version: '1.0'
+  contact: {}
+servers: []
+tags:
+- name: AppExternal
+paths:
+  /:
+    get:
+      operationId: AppExternalController_getHello
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+      - AppExternal
+      summary: App external controller get hello
+      x-summary-source: derived
+  /health:
+    get:
+      operationId: AppExternalController_healthCheck
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+      - AppExternal
+      summary: App external controller health check
+      x-summary-source: derived
+components:
+  securitySchemes:
+    API-Key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      name: JWT
+      description: Enter API Key
+      in: header

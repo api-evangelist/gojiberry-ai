@@ -1,0 +1,147 @@
+openapi: 3.2.0
+info:
+  title: Gojiberry AI - External Organization API
+  description: '# Gojiberry AI External API
+
+
+    This API allows you to programmatically access your Gojiberry AI data and integrate it with your applications.'
+  version: '1.0'
+  contact: {}
+servers: []
+tags:
+- name: Organization
+paths:
+  /v1/organization:
+    get:
+      description: Retrieve the organization of the authenticated user.
+      operationId: OrganizationExternalController_getOrganization
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Organization information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                    description: Organization ID
+                  companyName:
+                    type:
+                    - string
+                    - 'null'
+                    description: Company name
+                  website:
+                    type:
+                    - string
+                    - 'null'
+                    description: Company website URL
+                  industry:
+                    type:
+                    - string
+                    - 'null'
+                    description: Industry
+                  companySize:
+                    type:
+                    - string
+                    - 'null'
+                    description: Company size
+                  description:
+                    type:
+                    - string
+                    - 'null'
+                    description: Company description
+                  linkedinPage:
+                    type:
+                    - string
+                    - 'null'
+                    description: LinkedIn company page URL
+                  ownerId:
+                    type:
+                    - number
+                    - 'null'
+                    description: User ID of the organization owner
+                  createdAt:
+                    type: string
+                    format: date-time
+                    description: Creation date
+        '404':
+          description: Organization not found
+      security:
+      - bearer: []
+      summary: Get the organization
+      tags:
+      - Organization
+  /v1/organization/members:
+    get:
+      description: Retrieve all members of the organization of the authenticated user. The member IDs can be used in the x-impersonate-user-id header to act on behalf of a member.
+      operationId: OrganizationExternalController_getOrganizationMembers
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of organization members
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                      description: User ID of the member (usable in the x-impersonate-user-id header)
+                    email:
+                      type: string
+                      description: Email address of the member
+                    firstName:
+                      type:
+                      - string
+                      - 'null'
+                      description: First name of the member
+                    lastName:
+                      type:
+                      - string
+                      - 'null'
+                      description: Last name of the member
+                    organizationRole:
+                      type: string
+                      enum:
+                      - member
+                      - admin
+                      description: Role of the member in the organization
+                    isActive:
+                      type: boolean
+                      description: Whether the member account is active
+                    createdAt:
+                      type: string
+                      format: date-time
+                      description: Account creation date
+        '404':
+          description: Organization not found
+      security:
+      - bearer: []
+      summary: Get all organization members
+      tags:
+      - Organization
+components:
+  securitySchemes:
+    API-Key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      name: JWT
+      description: Enter API Key
+      in: header

@@ -1,0 +1,225 @@
+openapi: 3.2.0
+info:
+  title: Gojiberry AI - External Lists API
+  description: '# Gojiberry AI External API
+
+
+    This API allows you to programmatically access your Gojiberry AI data and integrate it with your applications.'
+  version: '1.0'
+  contact: {}
+servers: []
+tags:
+- name: Lists
+paths:
+  /v1/list:
+    post:
+      description: Create a new list for the authenticated user
+      operationId: ListExternalController_create
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateListDto'
+      responses:
+        '201':
+          description: List created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/List'
+      security:
+      - bearer: []
+      summary: Create a list
+      tags:
+      - Lists
+    get:
+      description: Retrieve all lists with contact counts
+      operationId: ListExternalController_findAll
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of lists with contact counts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/List'
+      security:
+      - bearer: []
+      summary: Get all lists
+      tags:
+      - Lists
+  /v1/list/{id}:
+    get:
+      description: Retrieve a single list by ID with its contacts
+      operationId: ListExternalController_findOne
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Get one list with contacts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/List'
+      security:
+      - bearer: []
+      summary: Get one list
+      tags:
+      - Lists
+components:
+  schemas:
+    Account:
+      type: object
+      properties: {}
+    Campaign:
+      type: object
+      properties:
+        id:
+          type: number
+          description: Unique identifier for the campaign
+        name:
+          type: string
+          description: Name of the campaign
+        steps:
+          type: array
+          description: Campaign steps
+        userId:
+          type: number
+          description: User ID who owns this campaign
+        active:
+          type: boolean
+          description: Whether the campaign is active
+          default: true
+        excludeFirstDegreeFromCampaigns:
+          type: boolean
+          description: Exclude first degree connections from campaigns
+          default: true
+        isManual:
+          type: boolean
+          description: Whether the campaign is manual
+          default: false
+        skipInvitationAfterDays:
+          type: number
+          description: Number of days after which a pending invitation is skipped and only email steps are sent
+        language:
+          type:
+          - string
+          - 'null'
+          description: Campaign language
+        tone:
+          type: string
+          description: Campaign tone
+          enum:
+          - professional
+          - direct
+          - conversational
+        goal:
+          type: string
+          description: Campaign goal
+          enum:
+          - conversations
+          - demos
+        linkedinSeatId:
+          type: number
+          description: LinkedIn seat ID for this campaign
+        createdAt:
+          format: date-time
+          type: string
+          description: Creation timestamp
+        updatedAt:
+          format: date-time
+          type: string
+          description: Last update timestamp
+      required:
+      - id
+      - name
+      - userId
+      - active
+      - excludeFirstDegreeFromCampaigns
+      - isManual
+      - createdAt
+      - updatedAt
+    CreateListDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the list
+          maxLength: 255
+        campaignId:
+          type: number
+          description: Campaign ID associated with this list
+      required:
+      - name
+    List:
+      type: object
+      properties:
+        id:
+          type: number
+          description: Unique identifier for the list
+        name:
+          type: string
+          description: Name of the list
+        userId:
+          type: number
+          description: User ID who owns this list
+        user:
+          description: Associated user account
+          allOf:
+          - $ref: '#/components/schemas/Account'
+        campaignId:
+          type: number
+          description: Campaign ID associated with this list
+        campaign:
+          description: Associated campaign
+          allOf:
+          - $ref: '#/components/schemas/Campaign'
+        createdAt:
+          format: date-time
+          type: string
+          description: Creation timestamp
+        updatedAt:
+          format: date-time
+          type: string
+          description: Last update timestamp
+      required:
+      - id
+      - name
+      - userId
+      - user
+      - createdAt
+      - updatedAt
+  securitySchemes:
+    API-Key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      name: JWT
+      description: Enter API Key
+      in: header

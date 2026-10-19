@@ -4,10 +4,75 @@ info:
   description: '# Gojiberry AI External API
 
 
-    This API allows you to programmatically access your Gojiberry AI data and integrate it with your applications.'
+    This API allows you to programmatically access your Gojiberry AI data and integrate it with your applications. ## How it works
+
+
+    Gojiberry runs your outreach as a pipeline of three building blocks:
+
+
+    1. **Source agent — the lead finder.** A source agent continuously sources leads matching your targeting criteria (job titles, industries, locations, signals, ...) and scores them with AI. 2. **List — where the leads land.** Every source agent is linked to a list (`listId` is required when creating an agent): the leads it finds are imported as contacts into that list. Lists can also be filled by importing contacts yourself. 3. **Campaign — the outreach.** A campaign uses one or more lists as its lead source (`listIds` is required when creating a campaign) and runs its steps (LinkedIn invitations, messages, emails, ...) on the contacts of those lists, sending through your LinkedIn and/or email seats. Once activated, the campaign runs the outreach automatically on a daily basis. **Terminology.** In the Gojiberry platform, an **Agent** is a *campaign agent* — the campaign that performs the outreach. A **source agent** is the lead finder that sources the leads. The two are linked through a **list**: the source agent imports the leads it finds into the list, and the campaign agent reaches out to the contacts of that list. **Best practice: create a Full Cycle agent.** Always create the three resources in this order — first the list, then the source agent that fills it, then the campaign that reaches out to it. Together, the list + source agent + campaign agent form a **Full Cycle agent**: leads are sourced and outreached automatically, end to end. If you create a source agent without a campaign agent, it shows up as a **legacy agent** in the platform: it only sources leads and does **no outreach**. So it''s best practice to always create all three. A typical setup through the API:
+
+
+    ```text
+
+    POST /v1/list # 1. create the list
+
+    POST /v1/agent # 2. create the source agent (lead finder) linked to that list (listId)
+
+    POST /v1/campaign # 3. create the campaign agent using that list as lead source (listIds)
+
+    GET /v1/campaign/{id}/logs # 4. follow the outreach activity
+
+    ```
+
+
+    ## Authentication
+
+
+    All API requests require authentication using a Bearer token. To get your API key:
+
+
+    1. **Log in to your Gojiberry AI account** at https://app.gojiberry.ai
+
+    2. **Navigate to Settings** → **API** section
+
+    3. **Click "Create API Key"** to generate a new token
+
+    4. **Copy the API key** when it''s displayed (you won''t be able to see it again)
+
+    5. **Use the token** in your requests by adding the header: `Authorization: Bearer YOUR_API_KEY`
+
+
+    ## Impersonation (organization owners)
+
+
+    If your API key belongs to the **owner of an organization**, you can perform any API call on behalf of another member of your organization by adding the `x-impersonate-user-id` header with the member''s user ID:
+
+
+    ```bash
+
+    # Get the contacts of the organization member with user ID 123
+
+    curl -H "Authorization: Bearer YOUR_API_KEY" \
+
+    -H "x-impersonate-user-id: 123" \
+
+    https://ext.gojiberry.ai/v1/contact
+
+    ```
+
+
+    When impersonating, the request behaves exactly as if it was made by that member: you read and write their data (contacts, campaigns, lists, unibox, etc.). Rules:
+
+    - Your API key must belong to the **organization owner**; other members cannot impersonate. - The impersonated user must belong to the **same organization** as the API key user. - Requests that don''t meet these rules are rejected with a `401 Unauthorized`. Tip: use `GET /v1/organization/members` to list the members of your organization and their user IDs, and `GET /v1/user/me` to verify which user the current request acts as. ## Rate Limits
+
+
+    - **100 requests per minute** per account. Short bursts above this are tolerated. - **100,000 requests per day** per account.'
   version: '1.0'
   contact: {}
-servers: []
+servers:
+- url: https://ext.gojiberry.ai
+  description: Production
 tags:
 - name: Contacts
 paths:
@@ -87,6 +152,9 @@ paths:
                 profileId:
                   type: string
                   description: LinkedIn profile ID, eg. ACoAABcwGZ0BPKyEbC2o13Qq7MhrAaD
+                linkedinMemberId:
+                  type: number
+                  description: Stable numeric LinkedIn member ID (ie. 1234567890)
                 profileUrl:
                   type: string
                   example: https://linkedin.com/in/johndoe
@@ -112,6 +180,9 @@ paths:
                 listId:
                   type: number
                   description: Associated list ID. Useful to add a contact directly in a campaign.
+                readyForCampaign:
+                  type: boolean
+                  description: 'Mainly used for review mode campaigns: setting this to true accepts the lead for the scheduled queue, so it is picked up at the next campaign launch without manual review.'
       responses:
         '201':
           description: Contact successfully created
@@ -260,6 +331,31 @@ paths:
       summary: Update a contact
       tags:
       - Contacts
+    delete:
+      description: Permanently deletes the contact. When a contact is deleted, its profileUrl (along with its LinkedIn member ID and email, when known) is stored in your excluded contacts, so the Lead sources agents will not import it again. Creating the same contact again through POST /v1/contact is also refused (CONTACT_ALREADY_EXCLUDED).
+      operationId: ContactExternalController_delete
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Contact successfully deleted
+        '404':
+          description: Contact not found
+      security:
+      - bearer: []
+      summary: Delete a contact
+      tags:
+      - Contacts
     get:
       operationId: ContactExternalController_findOne
       parameters:
@@ -394,7 +490,7 @@ paths:
       - Contacts
   /v1/contact/{id}/enrich/email:
     post:
-      description: Attempts to find a verified email for the given contact. Each email enrichment that returns an email consumes 1 credit; failed enrichments do not consume any credit.
+      description: 'Attempts to find a verified email for the given contact. This call is synchronous: it queries several enrichment providers in sequence and only responds once the search completes, which can take from a few seconds up to several minutes. Configure your HTTP client timeout accordingly. Each email enrichment that returns an email consumes 1 credit; failed enrichments do not consume any credit.'
       operationId: ContactExternalController_enrichEmail
       parameters:
       - name: x-impersonate-user-id
@@ -424,6 +520,266 @@ paths:
       summary: Enrich a contact's email
       tags:
       - Contacts
+  /v1/contact/{id}/enrich/phone:
+    post:
+      description: 'Attempts to find a mobile phone number for the given contact. This call is synchronous: it queries several enrichment providers in sequence and only responds once the search completes, which can take from a few seconds up to several minutes. Configure your HTTP client timeout accordingly. Each phone enrichment that returns a phone number consumes 10 credits; failed enrichments do not consume any credit.'
+      operationId: ContactExternalController_enrichPhone
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Contact updated with the enriched phone number. If no phone could be found, the contact is returned with phoneEnriched set to true and no phone (no credit consumed).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+        '402':
+          description: Not enough credits (phone enrichment requires 10 credits)
+        '404':
+          description: Contact not found
+      security:
+      - bearer: []
+      summary: Enrich a contact's mobile phone
+      tags:
+      - Contacts
+  /v1/contact/{id}/enrich/email/async:
+    post:
+      description: 'Starts an email enrichment for the given contact and returns immediately, without waiting for the enrichment providers to respond. Recommended over the synchronous route for AI/MCP integrations and any client that cannot hold a long-running HTTP connection. To verify completion, poll GET /v1/contact/{id}: the enrichment is done once emailEnriched is true — the email field is then filled if an email was found, and stays empty otherwise. Each enrichment that finds an email consumes 1 credit; failed enrichments do not consume any credit.'
+      operationId: ContactExternalController_enrichEmailAsync
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: number
+      responses:
+        '202':
+          description: Email enrichment accepted and running in the background
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accepted:
+                    type: boolean
+                    example: true
+                  contactId:
+                    type: number
+                    example: 123
+                  message:
+                    type: string
+                    description: How to check for completion
+        '402':
+          description: Not enough credits (email enrichment requires 1 credit)
+        '404':
+          description: Contact not found
+      security:
+      - bearer: []
+      summary: Enrich a contact's email (asynchronous)
+      tags:
+      - Contacts
+  /v1/contact/{id}/enrich/phone/async:
+    post:
+      description: 'Starts a mobile phone enrichment for the given contact and returns immediately, without waiting for the enrichment providers to respond. Recommended over the synchronous route for AI/MCP integrations and any client that cannot hold a long-running HTTP connection. To verify completion, poll GET /v1/contact/{id}: the enrichment is done once phoneEnriched is true — the phone field is then filled if a phone was found, and stays empty otherwise. Each enrichment that finds a phone number consumes 10 credits; failed enrichments do not consume any credit.'
+      operationId: ContactExternalController_enrichPhoneAsync
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: number
+      responses:
+        '202':
+          description: Phone enrichment accepted and running in the background
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accepted:
+                    type: boolean
+                    example: true
+                  contactId:
+                    type: number
+                    example: 123
+                  message:
+                    type: string
+                    description: How to check for completion
+        '402':
+          description: Not enough credits (phone enrichment requires 10 credits)
+        '404':
+          description: Contact not found
+      security:
+      - bearer: []
+      summary: Enrich a contact's mobile phone (asynchronous)
+      tags:
+      - Contacts
+  /v1/contact/{id}/reject:
+    post:
+      description: 'Marks the contact as rejected: it disappears from the review queue, is excluded from campaign scheduling (readyForCampaign is reset to false), and will not be picked up by automatic campaign launches. The rejection records who rejected the lead and when (rejectedAt / rejectedByUserId on the returned contact). Providing a reason is optional but recommended: reasons are stored on the contact and help understand why leads are rejected so targeting can be refined. Calling this route on an already-rejected contact only updates the reason (latest reason wins); the original rejection timestamp and reviewer are kept. A rejection is reversible with POST /v1/contact/{id}/unreject.'
+      operationId: ContactExternalController_reject
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: number
+      requestBody:
+        required: false
+        description: Optional rejection reason. Use one of the stable reason codes when the lead does not match your targeting; use "other" together with reasonText for anything else. When reason is "other", reasonText is required for the reason to be stored (it is ignored for the other codes).
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason:
+                  type:
+                  - string
+                  - 'null'
+                  enum:
+                  - company_competitor
+                  - company_wrong_industry_or_type
+                  - company_wrong_size
+                  - company_wrong_location
+                  - contact_wrong_title_or_function
+                  - contact_wrong_seniority
+                  - contact_known_or_duplicate
+                  - data_incorrect_or_outdated
+                  - signal_not_relevant
+                  - other
+                  description: Stable reason code. company_* codes flag a mismatch on the company (competitor, wrong industry/type, wrong size, wrong location); contact_* codes flag a mismatch on the person (wrong title/function, wrong seniority, already known or duplicate); data_incorrect_or_outdated flags bad enrichment data; signal_not_relevant flags an irrelevant intent signal; other requires reasonText.
+                  example: company_wrong_size
+                reasonText:
+                  type:
+                  - string
+                  - 'null'
+                  maxLength: 500
+                  description: Free-text explanation, only stored when reason is "other". Maximum 500 characters.
+                  example: Already a customer through their parent company
+      responses:
+        '200':
+          description: The rejected contact, with rejectedAt, rejectedByUserId, rejectionReason and rejectionReasonText set
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+        '400':
+          description: Invalid reason code or reasonText longer than 500 characters
+        '404':
+          description: Contact not found
+      security:
+      - bearer: []
+      summary: Reject a lead
+      tags:
+      - Contacts
+  /v1/contact/{id}/unreject:
+    post:
+      description: 'Reverses a rejection: clears rejectedAt, rejectedByUserId and the stored reason, putting the contact back in the review queue. This does not approve the lead — readyForCampaign is reset to false, so the contact still needs to be accepted (e.g. by updating it with readyForCampaign set to true) before it is picked up by a campaign. Note that because readyForCampaign is always reset, calling this route on an approved contact moves it back to the review queue.'
+      operationId: ContactExternalController_unreject
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: number
+      responses:
+        '200':
+          description: The contact with all rejection fields cleared
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+        '404':
+          description: Contact not found
+      security:
+      - bearer: []
+      summary: Unreject a lead
+      tags:
+      - Contacts
+  /v1/contact/{id}/signals:
+    post:
+      description: 'Designed for first-party signals: actions a lead takes in your own product or stack, pushed programmatically the moment they happen. Hook it to any event you already track (a lead signs up for a free trial, books a demo, attends your webinar, downloads your pricing guide, upgrades to a paid plan...) and the signal is added to the contact, next to the signals detected by Gojiberry agents, most recent first. Anything that can send an HTTP request can feed it: your backend, a CRM workflow, a form or scheduling tool webhook, Zapier, Make or n8n. The possibilities are endless.
+
+
+        To send a first-party signal, describe what happened in intent (e.g. "Booked a demo from the pricing page"), optionally add a short label in intentKeyword (e.g. "demo_booked"), and leave intentType empty. Signals without an intentType are recorded on every call, so repeated events (a second demo, another webinar) are all kept; make sure your integration sends each event only once.
+
+
+        Set intentType only to record one of the signal types detected by Gojiberry agents. A typed signal the contact already has (same intentType and intentKeyword) is not recorded twice and the call returns created: false; HIRING, HIRING_SURGE, NEW_DECISION_MAKER, RECENT_ACTIVITY, RECENTLY_CHANGED_JOB and RECENT_FUNDING_EVENT are recorded at most once per contact, whatever the keyword. At least one of intent, intentType or intentKeyword is required.'
+      operationId: ContactExternalController_addSignal
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddContactSignalDto'
+      responses:
+        '200':
+          description: Whether the signal was recorded, and the contact with its up-to-date signals
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  created:
+                    type: boolean
+                    description: false when the contact already had this signal (only possible when intentType is set)
+                  contact:
+                    $ref: '#/components/schemas/Contact'
+        '400':
+          description: Invalid intentType, or none of intent, intentType and intentKeyword provided
+        '404':
+          description: Contact not found
+      security:
+      - bearer: []
+      summary: Add a signal to a contact (first-party signals)
+      tags:
+      - Contacts
 components:
   schemas:
     UpdateContactExternalDto:
@@ -447,6 +803,9 @@ components:
         location:
           type: string
           description: Location of the contact
+        companyLocation:
+          type: string
+          description: Location of the contact company
         jobTitle:
           type: string
           description: Job title of the contact
@@ -490,6 +849,9 @@ components:
           - qualified
           - unknown
           - out-of-scope
+        readyForCampaign:
+          type: boolean
+          description: 'Mainly used for review mode campaigns: setting this to true accepts the lead for the scheduled queue, so it is picked up at the next campaign launch without manual review. Also set by the AI agent when a contact should be scheduled.'
         state:
           type:
           - string
@@ -502,81 +864,10 @@ components:
           - excluded
           - answered
         personalizedMessages:
-          description: Personalized messages for each campaign step.
+          description: 'Personalized messages for each campaign step. This array REPLACES the stored messages: always resend every step you want to keep, with all of its fields (content, subject, parts). Any step or field left out of the payload is erased.'
           type: array
           items:
             $ref: '#/components/schemas/PersonalizedMessageDto'
-    Account:
-      type: object
-      properties: {}
-    Campaign:
-      type: object
-      properties:
-        id:
-          type: number
-          description: Unique identifier for the campaign
-        name:
-          type: string
-          description: Name of the campaign
-        steps:
-          type: array
-          description: Campaign steps
-        userId:
-          type: number
-          description: User ID who owns this campaign
-        active:
-          type: boolean
-          description: Whether the campaign is active
-          default: true
-        excludeFirstDegreeFromCampaigns:
-          type: boolean
-          description: Exclude first degree connections from campaigns
-          default: true
-        isManual:
-          type: boolean
-          description: Whether the campaign is manual
-          default: false
-        skipInvitationAfterDays:
-          type: number
-          description: Number of days after which a pending invitation is skipped and only email steps are sent
-        language:
-          type:
-          - string
-          - 'null'
-          description: Campaign language
-        tone:
-          type: string
-          description: Campaign tone
-          enum:
-          - professional
-          - direct
-          - conversational
-        goal:
-          type: string
-          description: Campaign goal
-          enum:
-          - conversations
-          - demos
-        linkedinSeatId:
-          type: number
-          description: LinkedIn seat ID for this campaign
-        createdAt:
-          format: date-time
-          type: string
-          description: Creation timestamp
-        updatedAt:
-          format: date-time
-          type: string
-          description: Last update timestamp
-      required:
-      - id
-      - name
-      - userId
-      - active
-      - excludeFirstDegreeFromCampaigns
-      - isManual
-      - createdAt
-      - updatedAt
     Agent:
       type: object
       properties:
@@ -645,12 +936,21 @@ components:
           type: boolean
           description: Whether the visitor tracking script is installed on the website (website-visitor agents)
           default: false
+        trackingScriptId:
+          type:
+          - string
+          - 'null'
+          description: Tracking script ID of the website-visitor agent
         maxCreditUsage:
           type:
           - number
           - 'null'
           description: Max number of credits per month
           example: 200
+        currentCreditUsage:
+          type: number
+          description: Credits consumed so far in the current period (e.g. website-visitor company identifications)
+          default: 0
         lastRun:
           format: date-time
           type:
@@ -709,6 +1009,7 @@ components:
       - targetCompanyTypes
       - agentType
       - scriptInstalled
+      - currentCreditUsage
       - paused
       - excludeServiceProviders
       - skipIcpFilter
@@ -717,6 +1018,153 @@ components:
       - userId
       - createdAt
       - updatedAt
+    List:
+      type: object
+      properties:
+        id:
+          type: number
+          description: Unique identifier for the list
+        name:
+          type: string
+          description: Name of the list
+        userId:
+          type: number
+          description: User ID who owns this list
+        user:
+          description: Associated user account
+          allOf:
+          - $ref: '#/components/schemas/Account'
+        campaignId:
+          type: number
+          description: Campaign ID associated with this list
+        campaign:
+          description: Associated campaign
+          allOf:
+          - $ref: '#/components/schemas/Campaign'
+        customFields:
+          description: Custom field definitions imported into this list (append-only union across imports)
+          type: array
+          items:
+            type: string
+        createdAt:
+          format: date-time
+          type: string
+          description: Creation timestamp
+        updatedAt:
+          format: date-time
+          type: string
+          description: Last update timestamp
+      required:
+      - id
+      - name
+      - userId
+      - user
+      - createdAt
+      - updatedAt
+    Campaign:
+      type: object
+      properties:
+        id:
+          type: number
+          description: Unique identifier for the campaign
+        name:
+          type: string
+          description: Name of the campaign
+        steps:
+          type: array
+          description: Campaign steps
+          items:
+            type: object
+        userId:
+          type: number
+          description: User ID who owns this campaign
+        active:
+          type: boolean
+          description: Whether the campaign is active
+          default: true
+        excludeFirstDegreeFromCampaigns:
+          type: boolean
+          description: Exclude first degree connections from campaigns
+          default: true
+        splitLinkedinMessagesIntoConversation:
+          type: boolean
+          description: When enabled, LinkedIn message steps may be sent as multiple shorter messages when it feels natural
+          default: false
+        isManual:
+          type: boolean
+          description: Whether the campaign is manual
+          default: false
+        skipInvitationAfterDays:
+          type: number
+          description: Number of days after which a pending invitation is skipped and only email steps are sent
+        language:
+          type:
+          - string
+          - 'null'
+          description: Campaign language
+        tone:
+          type: string
+          description: Campaign tone
+          enum:
+          - professional
+          - direct
+          - conversational
+        goal:
+          type: string
+          description: Campaign goal
+          enum:
+          - conversations
+          - demos
+        linkedinSeatId:
+          type: number
+          description: LinkedIn seat ID for this campaign
+        createdAt:
+          format: date-time
+          type: string
+          description: Creation timestamp
+        updatedAt:
+          format: date-time
+          type: string
+          description: Last update timestamp
+      required:
+      - id
+      - name
+      - userId
+      - active
+      - excludeFirstDegreeFromCampaigns
+      - splitLinkedinMessagesIntoConversation
+      - isManual
+      - createdAt
+      - updatedAt
+    PersonalizedMessageDto:
+      type: object
+      properties:
+        content:
+          type: string
+          description: Message content for this campaign step
+        parts:
+          description: Derived conversation parts when split is enabled
+          type: array
+          items:
+            type: string
+        subject:
+          type: string
+          description: Email subject for this campaign step. Only used when the step is an email step. When editing an email step, always resend the subject together with the content — even if only the content changed — otherwise the stored subject is erased.
+        stepNumber:
+          type: number
+          description: Campaign step number this message applies to. Please refer to the campaign.steps array !
+        stepId:
+          type: string
+          description: 'Server-managed stable id of the campaign step. Read-only: the server derives it from stepNumber on write, any sent value is ignored. Declared so stored messages can be resent as-is.'
+        audioUrl:
+          type: string
+          description: 'Server-managed audio of an AI voice message step, spoken in the account’s cloned voice. Read-only: generated voice messages are kept as stored and any sent value is ignored. Declared so stored messages can be resent as-is.'
+        aiVoiceId:
+          type: number
+          description: 'Server-managed id of the cloned voice that spoke `audioUrl`. Read-only: any sent value is ignored. Declared so stored messages can be resent as-is.'
+      required:
+      - content
+      - stepNumber
     Contact:
       type: object
       properties:
@@ -739,6 +1187,9 @@ components:
         location:
           type: string
           description: Location of the contact
+        companyLocation:
+          type: string
+          description: Location of the contact company
         jobTitle:
           type: string
           description: Job title of the contact
@@ -856,6 +1307,10 @@ components:
           type: boolean
           description: Whether the contact matches the organization people blocklist
           default: false
+        companyBlocked:
+          type: boolean
+          description: Set once a campaign pass skipped the contact because its company is on the organization blocklist
+          default: false
         emailEnriched:
           type: boolean
           description: Whether email has been enriched
@@ -864,6 +1319,14 @@ components:
           type: boolean
           description: Whether phone has been enriched
           default: false
+        enrichingEmail:
+          type: boolean
+          description: Whether an email enrichment job currently holds the billing lease
+          default: false
+        enrichingPhone:
+          type: boolean
+          description: Whether a phone enrichment job currently holds the billing lease
+          default: false
         fit:
           type: string
           description: Contact fit classification
@@ -871,6 +1334,35 @@ components:
           - qualified
           - unknown
           - out-of-scope
+        rejectedAt:
+          format: date-time
+          type:
+          - string
+          - 'null'
+          description: When this contact was rejected
+        rejectedByUserId:
+          type:
+          - number
+          - 'null'
+          description: User who rejected this contact
+        rejectionReason:
+          type:
+          - string
+          - 'null'
+          description: Stable rejection reason
+        rejectionReasonText:
+          type:
+          - string
+          - 'null'
+          description: Free-text reason when Other was submitted with text
+        deepResearchStartedAt:
+          format: date-time
+          type: string
+          description: When the latest deep research started for this contact
+        deepResearchEndedAt:
+          format: date-time
+          type: string
+          description: When the latest deep research ended for this contact
         email_template:
           type: object
           description: Email template in JSON format with subject and body
@@ -887,8 +1379,16 @@ components:
           type: array
           items:
             type: string
+        customFields:
+          type: object
+          description: Custom fields imported from CSV, keyed by normalized snake_case name (rendered with the custom_ prefix)
         campaignStatus:
           description: Campaign status information. Useful to know what is the achieved step of the contact in the campaign — i.e. how far the contact has progressed through the campaign's sequence. The stepNumber matches the campaign's step numbers (the steps defined on the campaign), so a stepNumber of 2 means the contact has reached step 2 of that campaign.
+          type: array
+          items:
+            type: string
+        signals:
+          description: Every signal recorded for the contact, most recent first (agents and LinkedIn pools)
           type: array
           items:
             type: string
@@ -929,6 +1429,7 @@ components:
           - paused
           - 1stnetwork
           - excluded
+          - onhold
         createdAt:
           format: date-time
           type: string
@@ -946,69 +1447,61 @@ components:
       - unsubscribed
       - redListed
       - blocked
+      - companyBlocked
       - emailEnriched
       - phoneEnriched
+      - enrichingEmail
+      - enrichingPhone
       - userId
       - user
       - readyForCampaign
       - hasStartedCampaign
       - createdAt
       - updatedAt
-    PersonalizedMessageDto:
+    AddContactSignalDto:
       type: object
       properties:
-        content:
+        intent:
           type: string
-          description: Message content for this campaign step
-        stepNumber:
-          type: number
-          description: Campaign step number this message applies to. Please refer to the campaign.steps array !
-      required:
-      - content
-      - stepNumber
-    List:
+          description: Human-readable description of what the lead did, as it should appear on the contact
+          example: Booked a demo from the pricing page
+        intentType:
+          type: string
+          description: Leave empty for first-party signals. Only set it to record one of the signal types detected by Gojiberry agents.
+          enum:
+          - SEARCH_KEYWORD
+          - SEARCH_KEYWORD_COMMENT
+          - SEARCH_KEYWORD_LIKE
+          - SEARCH_KEYWORD_POST
+          - EVENT_KEYWORD
+          - GROUP_KEYWORD
+          - COMPETITOR_PAGE_URL
+          - INFLUENCER_PAGE_URL
+          - YOUR_COMPANY
+          - RECENT_ACTIVITY
+          - RECENTLY_CHANGED_JOB
+          - RECENT_FUNDING_EVENT
+          - VISITED_PROFILE
+          - YOUR_PROFILE
+          - YOUR_COMPANY_FOLLOWERS
+          - JOB_SEARCH
+          - HIRING
+          - HIRING_SURGE
+          - TECHNOLOGY
+          - NEW_DECISION_MAKER
+          - LOOKALIKE
+          - WEBSITE_VISITOR
+        intentKeyword:
+          type: string
+          description: Short label for the signal, e.g. trial_signup, demo_booked or webinar_attended
+          example: demo_booked
+          maxLength: 255
+    Account:
       type: object
-      properties:
-        id:
-          type: number
-          description: Unique identifier for the list
-        name:
-          type: string
-          description: Name of the list
-        userId:
-          type: number
-          description: User ID who owns this list
-        user:
-          description: Associated user account
-          allOf:
-          - $ref: '#/components/schemas/Account'
-        campaignId:
-          type: number
-          description: Campaign ID associated with this list
-        campaign:
-          description: Associated campaign
-          allOf:
-          - $ref: '#/components/schemas/Campaign'
-        createdAt:
-          format: date-time
-          type: string
-          description: Creation timestamp
-        updatedAt:
-          format: date-time
-          type: string
-          description: Last update timestamp
-      required:
-      - id
-      - name
-      - userId
-      - user
-      - createdAt
-      - updatedAt
+      properties: {}
   securitySchemes:
-    API-Key:
+    bearer:
       scheme: bearer
       bearerFormat: JWT
       type: http
-      name: JWT
       description: Enter API Key
-      in: header

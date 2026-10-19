@@ -221,6 +221,26 @@ apis:
     url: data-model/gojiberry-ai-data-model.yml
   - type: Webhooks
     url: asyncapi/gojiberry-ai-webhooks.yml
+- aid: gojiberry-ai:gojiberry-ai-directory-api
+  name: Gojiberry AI Directory API
+  description: The Directory API from Gojiberry AI — 6 operation(s) for directory.
+  humanURL: https://ext.gojiberry.ai/documentation
+  baseURL: https://ext.gojiberry.ai
+  tags:
+  - Directory
+  properties:
+  - type: OpenAPI
+    url: openapi/gojiberry-ai-directory-api-openapi.yml
+- aid: gojiberry-ai:gojiberry-ai-email-seat-api
+  name: Gojiberry AI Email Seat API
+  description: The Email Seat API from Gojiberry AI — 1 operation(s) for email seat.
+  humanURL: https://ext.gojiberry.ai/documentation
+  baseURL: https://ext.gojiberry.ai
+  tags:
+  - Email Seat
+  properties:
+  - type: OpenAPI
+    url: openapi/gojiberry-ai-email-seat-api-openapi.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

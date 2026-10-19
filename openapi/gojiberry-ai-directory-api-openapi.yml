@@ -1,0 +1,501 @@
+openapi: 3.2.0
+info:
+  title: Gojiberry AI - External Directory API
+  description: '# Gojiberry AI External API
+
+
+    This API allows you to programmatically access your Gojiberry AI data and integrate it with your applications. ## How it works
+
+
+    Gojiberry runs your outreach as a pipeline of three building blocks:
+
+
+    1. **Source agent — the lead finder.** A source agent continuously sources leads matching your targeting criteria (job titles, industries, locations, signals, ...) and scores them with AI. 2. **List — where the leads land.** Every source agent is linked to a list (`listId` is required when creating an agent): the leads it finds are imported as contacts into that list. Lists can also be filled by importing contacts yourself. 3. **Campaign — the outreach.** A campaign uses one or more lists as its lead source (`listIds` is required when creating a campaign) and runs its steps (LinkedIn invitations, messages, emails, ...) on the contacts of those lists, sending through your LinkedIn and/or email seats. Once activated, the campaign runs the outreach automatically on a daily basis. **Terminology.** In the Gojiberry platform, an **Agent** is a *campaign agent* — the campaign that performs the outreach. A **source agent** is the lead finder that sources the leads. The two are linked through a **list**: the source agent imports the leads it finds into the list, and the campaign agent reaches out to the contacts of that list. **Best practice: create a Full Cycle agent.** Always create the three resources in this order — first the list, then the source agent that fills it, then the campaign that reaches out to it. Together, the list + source agent + campaign agent form a **Full Cycle agent**: leads are sourced and outreached automatically, end to end. If you create a source agent without a campaign agent, it shows up as a **legacy agent** in the platform: it only sources leads and does **no outreach**. So it''s best practice to always create all three. A typical setup through the API:
+
+
+    ```text
+
+    POST /v1/list # 1. create the list
+
+    POST /v1/agent # 2. create the source agent (lead finder) linked to that list (listId)
+
+    POST /v1/campaign # 3. create the campaign agent using that list as lead source (listIds)
+
+    GET /v1/campaign/{id}/logs # 4. follow the outreach activity
+
+    ```
+
+
+    ## Authentication
+
+
+    All API requests require authentication using a Bearer token. To get your API key:
+
+
+    1. **Log in to your Gojiberry AI account** at https://app.gojiberry.ai
+
+    2. **Navigate to Settings** → **API** section
+
+    3. **Click "Create API Key"** to generate a new token
+
+    4. **Copy the API key** when it''s displayed (you won''t be able to see it again)
+
+    5. **Use the token** in your requests by adding the header: `Authorization: Bearer YOUR_API_KEY`
+
+
+    ## Impersonation (organization owners)
+
+
+    If your API key belongs to the **owner of an organization**, you can perform any API call on behalf of another member of your organization by adding the `x-impersonate-user-id` header with the member''s user ID:
+
+
+    ```bash
+
+    # Get the contacts of the organization member with user ID 123
+
+    curl -H "Authorization: Bearer YOUR_API_KEY" \
+
+    -H "x-impersonate-user-id: 123" \
+
+    https://ext.gojiberry.ai/v1/contact
+
+    ```
+
+
+    When impersonating, the request behaves exactly as if it was made by that member: you read and write their data (contacts, campaigns, lists, unibox, etc.). Rules:
+
+    - Your API key must belong to the **organization owner**; other members cannot impersonate. - The impersonated user must belong to the **same organization** as the API key user. - Requests that don''t meet these rules are rejected with a `401 Unauthorized`. Tip: use `GET /v1/organization/members` to list the members of your organization and their user IDs, and `GET /v1/user/me` to verify which user the current request acts as. ## Rate Limits
+
+
+    - **100 requests per minute** per account. Short bursts above this are tolerated. - **100,000 requests per day** per account.'
+  version: '1.0'
+  contact: {}
+servers:
+- url: https://ext.gojiberry.ai
+  description: Production
+tags:
+- name: Directory
+paths:
+  /v1/directory/industries:
+    get:
+      description: Return the suggested values for the `industry` filter of `POST /v1/directory/leads/search` and `POST /v1/directory/companies/search`, both flat and grouped by category. Free of charge. Other industry values are accepted by the search endpoints, but these labels line up with the pool taxonomy and give the best results.
+      operationId: DirectoryExternalController_getIndustries
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Suggested industries, flat and grouped
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: number
+                    description: Number of distinct industries
+                  industries:
+                    type: array
+                    items:
+                      type: string
+                    description: Flat list of suggested industry values
+                  groups:
+                    type: array
+                    description: Same industries grouped by category (as shown in the app)
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: Technology
+                        industries:
+                          type: array
+                          items:
+                            type: string
+                          example:
+                          - Software Development & SaaS
+                          - Cybersecurity
+      security:
+      - bearer: []
+      summary: List suggested industries (free)
+      tags:
+      - Directory
+  /v1/directory/locations:
+    get:
+      description: 'Return the suggested values for the `location` filter of `POST /v1/directory/leads/search`, grouped by country: the country name itself plus one string per region or state in the form `", "` (for example `"California, United States"`). Free of charge. Other location strings are accepted by the search endpoint too, but these values line up with how the pool spells locations and give the best results.'
+      operationId: DirectoryExternalController_getLocations
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Suggested locations grouped by country
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: number
+                    description: Number of countries
+                  countries:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        country:
+                          type: string
+                          example: United States
+                          description: Country name, usable as a `location` value on its own
+                        locations:
+                          type: array
+                          items:
+                            type: string
+                          example:
+                          - Alabama, United States
+                          - Alaska, United States
+                          - California, United States
+                          description: Region/state-level locations of that country, formatted as "<region>, <country>" (empty when the pool has no region breakdown)
+      security:
+      - bearer: []
+      summary: List suggested locations (free)
+      tags:
+      - Directory
+  /v1/directory/leads/search:
+    post:
+      description: 'Search the lead pool with filters. Free of charge: only id, firstName, jobTitle, location and industry are filled — all other fields are returned empty. Use `POST /v1/directory/leads/reveal` with the returned ids to get the full lead data (0.5 credit per lead). Results are deterministic (no randomness), so the same filters + page always return the same leads.'
+      operationId: DirectoryExternalController_search
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      requestBody:
+        required: true
+        description: Search filters. At least one filter is required. String-array fields also accept a single string.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                limit:
+                  type: number
+                  example: 25
+                  description: Number of leads per page (1-100, default 10)
+                page:
+                  type: number
+                  example: 1
+                  description: Page number, starts at 1
+                jobTitle:
+                  type: array
+                  items:
+                    type: string
+                  example:
+                  - Head of Marketing
+                  description: Job titles to match
+                location:
+                  type: array
+                  items:
+                    type: string
+                  example:
+                  - France
+                  description: Locations or countries to match
+                industry:
+                  type: array
+                  items:
+                    type: string
+                  example:
+                  - Software Development
+                  description: Industries to prefer
+                companySize:
+                  type: array
+                  items:
+                    type: string
+                  example:
+                  - 51-200
+                  description: Company size brackets (e.g. "2-10", "51-200", "10001+")
+                name:
+                  type: string
+                  description: Full name of the person
+                company:
+                  type: string
+                  description: Company name
+                companyUrl:
+                  type: array
+                  items:
+                    type: string
+                  description: LinkedIn company URLs to restrict the search to
+                companyIdentifier:
+                  type: array
+                  items:
+                    type: string
+                  example:
+                  - gojiberryai
+                  description: Exact LinkedIn company identifiers (the vanity slug in linkedin.com/company/<identifier>) to restrict the search to
+                companyLastFundingRoundSince:
+                  type: string
+                  example: '2025-01-01'
+                  description: Only companies with a funding round since this date (YYYY-MM-DD)
+                isCompanyHiring:
+                  type: boolean
+                  description: Only companies with at least one active job posting
+                hasRecentFundingRound:
+                  type: boolean
+                  description: Only companies with a funding round in the last 6 months
+                hasRecentlyChangedJob:
+                  type: boolean
+                  description: Only people who started their current position in the last 3 months
+                hasRecentActivity:
+                  type: boolean
+                  description: Only people who were active on LinkedIn (posted, commented or reacted) in the last 90 days. People whose last activity date is unknown are excluded.
+      responses:
+        '200':
+          description: Page of masked leads. Empty string fields become available after revealing the lead.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  leads:
+                    type: array
+                    items:
+                      type: object
+                  total:
+                    type: number
+                    description: Total number of leads matching the filters, capped at 10 000 (the deepest page reachable anyway)
+                  page:
+                    type: number
+                  limit:
+                    type: number
+        '400':
+          description: No filter provided
+      security:
+      - bearer: []
+      summary: Search leads (free preview)
+      tags:
+      - Directory
+  /v1/directory/leads/reveal:
+    post:
+      description: 'Return the full data of the leads with the given ids (from `POST /v1/directory/leads/search`). Each revealed lead costs 0.5 credit. If the credit balance cannot cover all requested ids, only the first affordable leads are revealed and charged. When `listId` is provided, the revealed leads are also saved as contacts into that list (no extra credit cost): leads already in the workspace, excluded, or missing a first/last name are skipped. The save is synchronous, so a large reveal with `listId` can take noticeably longer — configure your HTTP client timeout accordingly.'
+      operationId: DirectoryExternalController_reveal
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      requestBody:
+        required: true
+        description: Ids of the leads to reveal (max 100 per request).
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - ids
+              properties:
+                ids:
+                  type: array
+                  items:
+                    type: number
+                  example:
+                  - 1234567890
+                  - 987654321
+                  description: Lead ids returned by the search endpoint
+                listId:
+                  type: number
+                  example: 123
+                  description: Optional id of one of your lists. When provided, the revealed leads are also saved as contacts into this list (free of extra charge).
+      responses:
+        '200':
+          description: Full leads and credit usage summary
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  leads:
+                    type: array
+                    items:
+                      type: object
+                  requested:
+                    type: number
+                    description: Number of distinct ids requested
+                  revealed:
+                    type: number
+                    description: Number of leads actually returned
+                  creditsUsed:
+                    type: number
+                  savedToList:
+                    type: number
+                    description: 'Only present when listId was provided: number of leads saved as contacts into the list (already-existing/excluded leads are skipped)'
+        '400':
+          description: ids is missing or empty, or listId is not a positive integer
+        '404':
+          description: listId does not match one of your lists
+      security:
+      - bearer: []
+      summary: Reveal full leads (0.5 credit per lead)
+      tags:
+      - Directory
+  /v1/directory/companies/search:
+    post:
+      description: 'Search the company pool with filters. Free of charge: only id, size, industry and headquarters are filled — all other fields are returned empty. Use `POST /v1/directory/companies/reveal` with the returned ids to get the full company data (0.5 credit per company). Results are deterministic (no randomness), so the same filters + page always return the same companies. Disclaimer: a company "uses" a technology when we saw that technology mentioned in at least one of the company''s job offers in the past months, or in the website sources. It signals the company hires for or runs that technology, not a verified install base.'
+      operationId: DirectoryExternalController_searchCompanies
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      requestBody:
+        required: true
+        description: Search filters. At least one filter is required. String-array fields also accept a single string.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                limit:
+                  type: number
+                  example: 25
+                  description: Number of companies per page (1-100, default 20)
+                page:
+                  type: number
+                  example: 1
+                  description: Page number, starts at 1
+                companySize:
+                  type: array
+                  items:
+                    type: string
+                  example:
+                  - 51-200
+                  description: Company size brackets (e.g. "2-10", "51-200", "10001+")
+                industry:
+                  type: array
+                  items:
+                    type: string
+                  example:
+                  - Software Development
+                  description: Industries to prefer
+                headquarters:
+                  type: array
+                  items:
+                    type: string
+                  example:
+                  - France
+                  description: Headquarters locations or countries to match
+                isHiring:
+                  type: boolean
+                  description: Only companies with at least one active job posting
+                isB2b:
+                  type: boolean
+                  description: 'true: only B2B companies, false: only B2C companies. Omit to get both.'
+                technologiesUsed:
+                  type: array
+                  items:
+                    type: string
+                  example:
+                  - hubspot
+                  description: 'Technologies the company uses. Disclaimer: a company "uses" a technology when we saw that technology mentioned in at least one of the company''s job offers in the past months, or in the website sources. It signals the company hires for or runs that technology, not a verified install base.'
+      responses:
+        '200':
+          description: Page of masked companies. Empty fields become available after revealing the company.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  companies:
+                    type: array
+                    items:
+                      type: object
+                  total:
+                    type: number
+                    description: Total number of companies matching the filters, capped at 10 000 (the deepest page reachable anyway)
+                  page:
+                    type: number
+                  limit:
+                    type: number
+        '400':
+          description: No filter provided
+      security:
+      - bearer: []
+      summary: Search companies (free preview)
+      tags:
+      - Directory
+  /v1/directory/companies/reveal:
+    post:
+      description: 'Return the full data of the companies with the given ids (from `POST /v1/directory/companies/search`). Each revealed company costs 0.5 credit. If the credit balance cannot cover all requested ids, only the first affordable companies are revealed and charged. Disclaimer: a company "uses" a technology when we saw that technology mentioned in at least one of the company''s job offers in the past months, or in the website sources. It signals the company hires for or runs that technology, not a verified install base.'
+      operationId: DirectoryExternalController_revealCompanies
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      requestBody:
+        required: true
+        description: Ids of the companies to reveal (max 100 per request).
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - ids
+              properties:
+                ids:
+                  type: array
+                  items:
+                    type: number
+                  example:
+                  - 1441
+                  - 10667
+                  description: Company ids returned by the search endpoint
+      responses:
+        '200':
+          description: Full companies and credit usage summary
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  companies:
+                    type: array
+                    items:
+                      type: object
+                  requested:
+                    type: number
+                    description: Number of distinct ids requested
+                  revealed:
+                    type: number
+                    description: Number of companies actually returned
+                  creditsUsed:
+                    type: number
+        '400':
+          description: ids is missing or empty
+      security:
+      - bearer: []
+      summary: Reveal full companies (0.5 credit per company)
+      tags:
+      - Directory
+components:
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Enter API Key

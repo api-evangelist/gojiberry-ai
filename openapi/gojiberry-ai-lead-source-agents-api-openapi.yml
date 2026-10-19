@@ -4,14 +4,114 @@ info:
   description: '# Gojiberry AI External API
 
 
-    This API allows you to programmatically access your Gojiberry AI data and integrate it with your applications.'
+    This API allows you to programmatically access your Gojiberry AI data and integrate it with your applications. ## How it works
+
+
+    Gojiberry runs your outreach as a pipeline of three building blocks:
+
+
+    1. **Source agent — the lead finder.** A source agent continuously sources leads matching your targeting criteria (job titles, industries, locations, signals, ...) and scores them with AI. 2. **List — where the leads land.** Every source agent is linked to a list (`listId` is required when creating an agent): the leads it finds are imported as contacts into that list. Lists can also be filled by importing contacts yourself. 3. **Campaign — the outreach.** A campaign uses one or more lists as its lead source (`listIds` is required when creating a campaign) and runs its steps (LinkedIn invitations, messages, emails, ...) on the contacts of those lists, sending through your LinkedIn and/or email seats. Once activated, the campaign runs the outreach automatically on a daily basis. **Terminology.** In the Gojiberry platform, an **Agent** is a *campaign agent* — the campaign that performs the outreach. A **source agent** is the lead finder that sources the leads. The two are linked through a **list**: the source agent imports the leads it finds into the list, and the campaign agent reaches out to the contacts of that list. **Best practice: create a Full Cycle agent.** Always create the three resources in this order — first the list, then the source agent that fills it, then the campaign that reaches out to it. Together, the list + source agent + campaign agent form a **Full Cycle agent**: leads are sourced and outreached automatically, end to end. If you create a source agent without a campaign agent, it shows up as a **legacy agent** in the platform: it only sources leads and does **no outreach**. So it''s best practice to always create all three. A typical setup through the API:
+
+
+    ```text
+
+    POST /v1/list # 1. create the list
+
+    POST /v1/agent # 2. create the source agent (lead finder) linked to that list (listId)
+
+    POST /v1/campaign # 3. create the campaign agent using that list as lead source (listIds)
+
+    GET /v1/campaign/{id}/logs # 4. follow the outreach activity
+
+    ```
+
+
+    ## Authentication
+
+
+    All API requests require authentication using a Bearer token. To get your API key:
+
+
+    1. **Log in to your Gojiberry AI account** at https://app.gojiberry.ai
+
+    2. **Navigate to Settings** → **API** section
+
+    3. **Click "Create API Key"** to generate a new token
+
+    4. **Copy the API key** when it''s displayed (you won''t be able to see it again)
+
+    5. **Use the token** in your requests by adding the header: `Authorization: Bearer YOUR_API_KEY`
+
+
+    ## Impersonation (organization owners)
+
+
+    If your API key belongs to the **owner of an organization**, you can perform any API call on behalf of another member of your organization by adding the `x-impersonate-user-id` header with the member''s user ID:
+
+
+    ```bash
+
+    # Get the contacts of the organization member with user ID 123
+
+    curl -H "Authorization: Bearer YOUR_API_KEY" \
+
+    -H "x-impersonate-user-id: 123" \
+
+    https://ext.gojiberry.ai/v1/contact
+
+    ```
+
+
+    When impersonating, the request behaves exactly as if it was made by that member: you read and write their data (contacts, campaigns, lists, unibox, etc.). Rules:
+
+    - Your API key must belong to the **organization owner**; other members cannot impersonate. - The impersonated user must belong to the **same organization** as the API key user. - Requests that don''t meet these rules are rejected with a `401 Unauthorized`. Tip: use `GET /v1/organization/members` to list the members of your organization and their user IDs, and `GET /v1/user/me` to verify which user the current request acts as. ## Rate Limits
+
+
+    - **100 requests per minute** per account. Short bursts above this are tolerated. - **100,000 requests per day** per account.'
   version: '1.0'
   contact: {}
-servers: []
+servers:
+- url: https://ext.gojiberry.ai
+  description: Production
 tags:
 - name: Lead source agents
 paths:
   /v1/agent:
+    post:
+      description: 'Create a new source agent (the lead finder) for the authenticated user. **A list is mandatory: the agent imports the leads it sources into a list, so you must create a list first (`POST /v1/list`) and link it to the agent through the required `listId` field.** If the active agent limit is reached, the agent is still created but paused. A source agent only finds leads — it does no outreach. Without a campaign agent attached to the same list, it shows up as a **legacy agent** in the platform. Best practice is to follow up with `POST /v1/campaign` using the same list as lead source, forming a **Full Cycle agent** (list + source agent + campaign agent) that sources and reaches out to leads automatically.
+
+
+        **Signals (`variables`)**: the agent finds leads through its signals. `variables` is optional, but when sent it must hold 4 to 15 signals, and an "autopilot" agent created without it is accepted but has nothing to run. Each signal is a `{ "type", "value" }` object, and **the `value` format depends on the `type`**: a quoted keyword of 1 to 3 words for `SEARCH_KEYWORD` (`"\"cold email\""`), a LinkedIn company page URL for `COMPETITOR_PAGE_URL` (`https://www.linkedin.com/company/lemlist`), a LinkedIn profile URL for `INFLUENCER_PAGE_URL` (`https://www.linkedin.com/in/johndoe`), the literal `"true"` for event signals (`RECENTLY_CHANGED_JOB`, `HIRING`, ...), and a lowercase technology name for `TECHNOLOGY` (`hubspot`). `VISITED_PROFILE` and `YOUR_COMPANY_FOLLOWERS` also need `needsUserToken: true` and a `linkedinSeatId`. The API does not validate values: a malformed keyword, URL, or technology is saved anyway, and that signal then finds no leads or the wrong ones. The `value` field of the variable schema lists the exact format for every type.'
+      operationId: AgentExternalController_create
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAgentExternalDto'
+      responses:
+        '201':
+          description: Agent created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+        '400':
+          description: Invalid payload (e.g. fewer than 4 variables)
+        '404':
+          description: List not found
+      security:
+      - bearer: []
+      summary: Create a source agent
+      tags:
+      - Lead source agents
     get:
       description: Retrieve all source agents for the authenticated user
       operationId: AgentExternalController_findAll
@@ -67,7 +167,7 @@ paths:
       tags:
       - Lead source agents
     patch:
-      description: Update a source agent by ID
+      description: 'Update a source agent by ID. Only the fields sent are changed. `variables` replaces the whole signal list: to add or edit one signal, send the full list returned by `GET /v1/agent/{id}` with your change applied. Signal values follow the same per-type formats as `POST /v1/agent`.'
       operationId: AgentExternalController_update
       parameters:
       - name: x-impersonate-user-id
@@ -101,6 +201,31 @@ paths:
       security:
       - bearer: []
       summary: Update a source agent
+      tags:
+      - Lead source agents
+    delete:
+      description: 'Permanently delete a source agent. The agent stops sourcing immediately and its run logs (`GET /v1/agent/{id}/logs`) are deleted with it. The list the agent imports into and the leads already imported are **not** deleted. For website-visitor agents, the website tracking script is deactivated. **Deletion cannot be undone** — to stop an agent temporarily, use `PATCH /v1/agent/{id}` with `{ "paused": true }` instead.'
+      operationId: AgentExternalController_delete
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Agent deleted
+        '404':
+          description: Agent not found
+      security:
+      - bearer: []
+      summary: Delete a source agent
       tags:
       - Lead source agents
   /v1/agent/{id}/logs:
@@ -149,51 +274,139 @@ paths:
       - Lead source agents
 components:
   schemas:
-    AgentLog:
+    CreateAgentExternalDto:
       type: object
       properties:
-        id:
-          type: number
-          description: Unique identifier of the agent log entry.
-        leadsCreated:
-          type: number
-          description: Number of leads imported into the user platform after the AI scoring & filtering pipeline. These are the qualified leads that ended up on the agent's list and become contacts of the linked outreach campaign.
-        totalLeads:
-          type: number
-          description: Total number of raw leads the agent found from this signal in this run, BEFORE any AI scoring or filtering. Always greater than or equal to leadsCreated.
-        errorMessage:
-          type:
-          - string
-          - 'null'
-          description: Error message if the run failed for this signal. Null when the run succeeded.
-        agentType:
-          type:
-          - object
-          - 'null'
-          description: Type of signal the agent ran (e.g. SEARCH_KEYWORD, COMPETITOR_PAGE_URL, RECENT_FUNDING_EVENT). Matches the agent's configured signal types.
-        agentKeyword:
-          type:
-          - string
-          - 'null'
-          description: The specific signal value used in this run — e.g. the keyword searched, the competitor page URL watched, or the lookalike seed. Lets you see which signal produced which leads.
-        userId:
-          type: number
-          description: Owner user ID.
-        agentId:
-          type:
-          - number
-          - 'null'
-          description: ID of the agent this log entry belongs to.
-        createdAt:
-          format: date-time
+        name:
           type: string
-          description: When this log entry was recorded (ISO 8601).
+          description: Name of the source agent
+          example: SaaS CTOs - Europe
+        listId:
+          type: number
+          description: 'ID of the list the agent imports its sourced leads into. A list is mandatory: create one first (POST /v1/list) and pass its ID here. The list must belong to the authenticated user.'
+          example: 123
+        targetJobTitles:
+          description: Target job titles to search for
+          example:
+          - CTO
+          - VP of Engineering
+          type: array
+          items:
+            type: string
+        targetIndustries:
+          description: Target industries to search in
+          example:
+          - Computer Software
+          type: array
+          items:
+            type: string
+        targetCompanySizes:
+          type: array
+          description: Target company sizes
+          example:
+          - 11-50
+          - 51-200
+          items:
+            type: string
+            enum:
+            - 2-10
+            - 11-50
+            - 51-200
+            - 201-500
+            - 501-1000
+            - 1001-5000
+            - 5001-10000
+            - 10001+
+        targetLocations:
+          description: Target locations to search in
+          example:
+          - France
+          - Germany
+          type: array
+          items:
+            type: string
+        targetCompanyTypes:
+          type: array
+          description: Target company types
+          example:
+          - Private Company
+          - Startup
+          items:
+            type: string
+            enum:
+            - All company types
+            - Private Company
+            - Public Company
+            - Startup
+            - Non-profit
+            - Government
+            - Educational Institution
+            - Other
+        agentType:
+          type: string
+          description: 'Type of agent: "autopilot" (default), "lookalike" or "website-visitor".'
+          enum:
+          - autopilot
+          - lookalike
+          - website-visitor
+          default: autopilot
+        variables:
+          description: 'The signals the agent tracks to find leads. Each variable is one signal: one keyword, one LinkedIn URL, one event, or one technology. Send between 4 and 15 variables. An "autopilot" agent created without variables has no signal to run. Optional for "website-visitor" agents (the website visitor signal is added automatically) and not allowed for "lookalike" agents. Each variable needs a `type` and a `value` whose format depends on the type. See `value` for every type: quoted keyword, LinkedIn page URL, `"true"` for event signals, or lowercase technology name. **Values are not validated: a malformed keyword, URL, or technology is saved anyway, and that signal then finds no leads or the wrong ones.** LOOKALIKE variables are refused, and JOB_SEARCH variables are refused for now.'
+          example:
+          - type: SEARCH_KEYWORD
+            value: '"cold email"'
+          - type: COMPETITOR_PAGE_URL
+            value: https://www.linkedin.com/company/lemlist
+          - type: INFLUENCER_PAGE_URL
+            value: https://www.linkedin.com/in/johndoe
+          - type: RECENTLY_CHANGED_JOB
+            value: 'true'
+          - type: HIRING
+            value: 'true'
+          - type: TECHNOLOGY
+            value: hubspot
+          type: array
+          items:
+            $ref: '#/components/schemas/AgentVariableV2Dto'
+        ignoredCompanies:
+          description: Companies to ignore in search results
+          type: array
+          items:
+            type: string
+        mandatoryKeywords:
+          description: Keywords that must be present in the profile
+          type: array
+          items:
+            type: string
+        excludeServiceProviders:
+          type: boolean
+          description: Exclude service providers from results
+        skipIcpFilter:
+          type: boolean
+          description: Skip ICP (Ideal Customer Profile) filter
+        includeOpenToWorkProfiles:
+          type: boolean
+          description: Include open-to-work profiles in results
+        leadWaterfall:
+          type: boolean
+          description: Enable smart lead finder mode, usually true
+        paused:
+          type: boolean
+          description: 'Create the agent paused. Note: the agent is also created paused when the active agent limit is reached.'
+        minLeadScore:
+          type: number
+          description: Minimum lead score threshold (0–1) - Usually 0.6 or 0.8
+        maxCreditUsage:
+          type: number
+          description: Max number of credits per month (website visitor agent only)
       required:
-      - id
-      - leadsCreated
-      - totalLeads
-      - userId
-      - createdAt
+      - name
+      - listId
+      - targetJobTitles
+      - targetIndustries
+      - targetCompanySizes
+      - targetLocations
+      - targetCompanyTypes
     UpdateAgentDto:
       type: object
       properties:
@@ -232,9 +445,11 @@ components:
           maxLength: 200
         agentType:
           type: string
-          description: 'Type of agent : "autopilot", "lookalike" or "website-visitor"'
+          description: Type of agent, only "autopilot" is accepted
+          enum:
+          - autopilot
         variables:
-          description: Agent variables configuration (minimum 4 required)
+          description: 'The agent''s signals. **Replaces the whole list**: send every signal to keep, not only new or changed ones. Between 4 and 15 variables, with the same per-type `value` formats as `POST /v1/agent`. LOOKALIKE and JOB_SEARCH variables are refused.'
           type: array
           items:
             $ref: '#/components/schemas/AgentVariableV2Dto'
@@ -280,7 +495,7 @@ components:
       properties:
         type:
           type: string
-          description: Type of signal this variable configures
+          description: 'Type of signal: what the agent looks for. It sets the expected format of `value` (see `value`).'
           enum:
           - SEARCH_KEYWORD
           - SEARCH_KEYWORD_COMMENT
@@ -299,23 +514,84 @@ components:
           - YOUR_COMPANY_FOLLOWERS
           - JOB_SEARCH
           - HIRING
+          - HIRING_SURGE
           - TECHNOLOGY
+          - NEW_DECISION_MAKER
           - LOOKALIKE
+          - WEBSITE_VISITOR
         value:
           type: string
-          description: Value of the variable; its meaning depends on the type (e.g. a search keyword for SEARCH_KEYWORD, a page URL for COMPETITOR_PAGE_URL)
+          description: 'Value of the signal. Its format depends on `type`. **The API does not validate it: a malformed keyword, URL, or technology is saved anyway, and that signal then finds no leads or the wrong ones.** Use one item per variable (one keyword, one URL, one technology), as the Gojiberry app does.
+
+
+            **Keyword signals**: people who liked or commented on recent LinkedIn posts containing the keyword.
+
+            - `SEARCH_KEYWORD`: one keyword of 1 to 3 words, wrapped in double quotes so LinkedIn matches the exact phrase. The value is the string `"cold email"` including its quotes (`"\"cold email\""` in JSON). This is the keyword type the Gojiberry app creates.
+
+            - `SEARCH_KEYWORD_COMMENT` (commenters only), `SEARCH_KEYWORD_LIKE` (likers only), `SEARCH_KEYWORD_POST` (post authors): same value format. Legacy types not offered in the app; prefer `SEARCH_KEYWORD`.
+
+
+            **LinkedIn page signals**: people who liked or commented on the recent posts of a LinkedIn page. The value is the page URL, never a website URL or a name. Remove sub-paths and query strings (`/about/`, `/posts/`, `?...`).
+
+            - `COMPETITOR_PAGE_URL`: a company page (competitor, partner, or your own company): `https://www.linkedin.com/company/<slug>`, e.g. `https://www.linkedin.com/company/lemlist`. `/school/` pages also work; `/showcase/` pages are not supported.
+
+            - `INFLUENCER_PAGE_URL`: a person (expert or creator in your market): `https://www.linkedin.com/in/<slug>`, e.g. `https://www.linkedin.com/in/johndoe`.
+
+            - `YOUR_PROFILE`: your own LinkedIn profile: `https://www.linkedin.com/in/<slug>`.
+
+            - `YOUR_COMPANY`: legacy. Use `COMPETITOR_PAGE_URL` with your own company page instead.
+
+
+            **Signals run on the user''s own LinkedIn account**: also set `needsUserToken: true` and `linkedinSeatId`.
+
+            - `VISITED_PROFILE`: people who viewed the profile of the LinkedIn account behind `linkedinSeatId`. That account needs LinkedIn Premium or Sales Navigator. Value: `"true"`.
+
+            - `YOUR_COMPANY_FOLLOWERS`: followers of your LinkedIn company page. The account behind `linkedinSeatId` must be an admin of the page. Value: the page URL with its numeric company ID (the ID in the page admin URL), `https://www.linkedin.com/company/<numeric id>`, e.g. `https://www.linkedin.com/company/107433042`.
+
+
+            **Event signals**: the value is ignored, always send `"true"`. Never put a funding round, job title, or description in it (e.g. "Series A", "hiring SDRs"). Leads come from the agent targeting (`targetJobTitles`, `targetIndustries`, `targetLocations`, `targetCompanySizes`). Each event signal runs at most once every 72 hours.
+
+            - `RECENT_ACTIVITY`: people matching the targeting who are active on LinkedIn.
+
+            - `RECENTLY_CHANGED_JOB`: people matching the targeting who recently started a new job.
+
+            - `NEW_DECISION_MAKER`: people who recently started a Director-level or higher role. `options: { "seniority": "vpPlus" }` narrows it to VP level and above.
+
+            - `RECENT_FUNDING_EVENT`: people at companies that recently raised funds.
+
+            - `HIRING`: people at companies that are hiring.
+
+            - `HIRING_SURGE`: people at companies whose hiring is growing fast.
+
+
+            **Tech stack signal**
+
+            - `TECHNOLOGY`: people matching `targetJobTitles` (required for this signal) at companies that use a technology. Value: one technology slug, which is the lowercase technology name with its spaces and punctuation kept, e.g. `hubspot`, `salesforce`, `google analytics`, `amazon aws`, `asp.net`. Matching is exact (case-insensitive), so a variant spelling such as `google-analytics` or `Google Analytics 4` finds nothing. Same values as `technologiesUsed` in `POST /v1/directory/companies/search`.
+
+
+            **Not usable in `variables`**
+
+            - `LOOKALIKE`: refused. Create the agent with `agentType: "lookalike"` instead.
+
+            - `WEBSITE_VISITOR`: create the agent with `agentType: "website-visitor"` instead of adding it here.
+
+            - `JOB_SEARCH`: refused for now.
+
+            - `EVENT_KEYWORD`, `GROUP_KEYWORD`: accepted but never run, so they never find leads.'
+          example: '"cold email"'
         options:
           type: object
-          description: Type-specific configuration object (e.g. JOB_SEARCH stores { job_type, geocode })
+          description: 'Type-specific settings. Through the API, only `NEW_DECISION_MAKER` reads one: `{ "seniority": "vpPlus" }` keeps VP-level and higher roles only (default: Director-level and higher). Omit it for every other type.'
         enabled:
           type: boolean
-          description: Whether the variable is enabled and will be used in runs
+          description: Whether the signal runs. Defaults to true. Set to false to keep the signal on the agent without running it.
+          default: true
         needsUserToken:
           type: boolean
-          description: Whether running this variable requires a connected LinkedIn account token
+          description: 'Set to true for `VISITED_PROFILE` and `YOUR_COMPANY_FOLLOWERS` only, together with `linkedinSeatId`: these signals must run on the user''s own connected LinkedIn account. Leave it unset for every other type.'
         linkedinSeatId:
           type: number
-          description: ID of the LinkedIn seat used to run this variable
+          description: 'ID of the user''s connected LinkedIn seat that runs the signal (the same seat ID as a campaign''s `linkedinSeatId`). Required for `VISITED_PROFILE` and `YOUR_COMPANY_FOLLOWERS`, with `needsUserToken: true`. Leave it unset for every other type.'
       required:
       - type
       - value
@@ -387,12 +663,21 @@ components:
           type: boolean
           description: Whether the visitor tracking script is installed on the website (website-visitor agents)
           default: false
+        trackingScriptId:
+          type:
+          - string
+          - 'null'
+          description: Tracking script ID of the website-visitor agent
         maxCreditUsage:
           type:
           - number
           - 'null'
           description: Max number of credits per month
           example: 200
+        currentCreditUsage:
+          type: number
+          description: Credits consumed so far in the current period (e.g. website-visitor company identifications)
+          default: 0
         lastRun:
           format: date-time
           type:
@@ -451,6 +736,7 @@ components:
       - targetCompanyTypes
       - agentType
       - scriptInstalled
+      - currentCreditUsage
       - paused
       - excludeServiceProviders
       - skipIcpFilter
@@ -459,11 +745,54 @@ components:
       - userId
       - createdAt
       - updatedAt
+    AgentLog:
+      type: object
+      properties:
+        id:
+          type: number
+          description: Unique identifier of the agent log entry.
+        leadsCreated:
+          type: number
+          description: Number of leads imported into the user platform after the AI scoring & filtering pipeline. These are the qualified leads that ended up on the agent's list and become contacts of the linked outreach campaign.
+        totalLeads:
+          type: number
+          description: Total number of raw leads the agent found from this signal in this run, BEFORE any AI scoring or filtering. Always greater than or equal to leadsCreated.
+        errorMessage:
+          type:
+          - string
+          - 'null'
+          description: Error message if the run failed for this signal. Null when the run succeeded.
+        agentType:
+          type:
+          - object
+          - 'null'
+          description: Type of signal the agent ran (e.g. SEARCH_KEYWORD, COMPETITOR_PAGE_URL, RECENT_FUNDING_EVENT). Matches the agent's configured signal types.
+        agentKeyword:
+          type:
+          - string
+          - 'null'
+          description: The specific signal value used in this run — e.g. the keyword searched, the competitor page URL watched, or the lookalike seed. Lets you see which signal produced which leads.
+        userId:
+          type: number
+          description: Owner user ID.
+        agentId:
+          type:
+          - number
+          - 'null'
+          description: ID of the agent this log entry belongs to.
+        createdAt:
+          format: date-time
+          type: string
+          description: When this log entry was recorded (ISO 8601).
+      required:
+      - id
+      - leadsCreated
+      - totalLeads
+      - userId
+      - createdAt
   securitySchemes:
-    API-Key:
+    bearer:
       scheme: bearer
       bearerFormat: JWT
       type: http
-      name: JWT
       description: Enter API Key
-      in: header

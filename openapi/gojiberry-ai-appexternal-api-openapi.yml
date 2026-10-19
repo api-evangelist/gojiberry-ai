@@ -4,10 +4,75 @@ info:
   description: '# Gojiberry AI External API
 
 
-    This API allows you to programmatically access your Gojiberry AI data and integrate it with your applications.'
+    This API allows you to programmatically access your Gojiberry AI data and integrate it with your applications. ## How it works
+
+
+    Gojiberry runs your outreach as a pipeline of three building blocks:
+
+
+    1. **Source agent — the lead finder.** A source agent continuously sources leads matching your targeting criteria (job titles, industries, locations, signals, ...) and scores them with AI. 2. **List — where the leads land.** Every source agent is linked to a list (`listId` is required when creating an agent): the leads it finds are imported as contacts into that list. Lists can also be filled by importing contacts yourself. 3. **Campaign — the outreach.** A campaign uses one or more lists as its lead source (`listIds` is required when creating a campaign) and runs its steps (LinkedIn invitations, messages, emails, ...) on the contacts of those lists, sending through your LinkedIn and/or email seats. Once activated, the campaign runs the outreach automatically on a daily basis. **Terminology.** In the Gojiberry platform, an **Agent** is a *campaign agent* — the campaign that performs the outreach. A **source agent** is the lead finder that sources the leads. The two are linked through a **list**: the source agent imports the leads it finds into the list, and the campaign agent reaches out to the contacts of that list. **Best practice: create a Full Cycle agent.** Always create the three resources in this order — first the list, then the source agent that fills it, then the campaign that reaches out to it. Together, the list + source agent + campaign agent form a **Full Cycle agent**: leads are sourced and outreached automatically, end to end. If you create a source agent without a campaign agent, it shows up as a **legacy agent** in the platform: it only sources leads and does **no outreach**. So it''s best practice to always create all three. A typical setup through the API:
+
+
+    ```text
+
+    POST /v1/list # 1. create the list
+
+    POST /v1/agent # 2. create the source agent (lead finder) linked to that list (listId)
+
+    POST /v1/campaign # 3. create the campaign agent using that list as lead source (listIds)
+
+    GET /v1/campaign/{id}/logs # 4. follow the outreach activity
+
+    ```
+
+
+    ## Authentication
+
+
+    All API requests require authentication using a Bearer token. To get your API key:
+
+
+    1. **Log in to your Gojiberry AI account** at https://app.gojiberry.ai
+
+    2. **Navigate to Settings** → **API** section
+
+    3. **Click "Create API Key"** to generate a new token
+
+    4. **Copy the API key** when it''s displayed (you won''t be able to see it again)
+
+    5. **Use the token** in your requests by adding the header: `Authorization: Bearer YOUR_API_KEY`
+
+
+    ## Impersonation (organization owners)
+
+
+    If your API key belongs to the **owner of an organization**, you can perform any API call on behalf of another member of your organization by adding the `x-impersonate-user-id` header with the member''s user ID:
+
+
+    ```bash
+
+    # Get the contacts of the organization member with user ID 123
+
+    curl -H "Authorization: Bearer YOUR_API_KEY" \
+
+    -H "x-impersonate-user-id: 123" \
+
+    https://ext.gojiberry.ai/v1/contact
+
+    ```
+
+
+    When impersonating, the request behaves exactly as if it was made by that member: you read and write their data (contacts, campaigns, lists, unibox, etc.). Rules:
+
+    - Your API key must belong to the **organization owner**; other members cannot impersonate. - The impersonated user must belong to the **same organization** as the API key user. - Requests that don''t meet these rules are rejected with a `401 Unauthorized`. Tip: use `GET /v1/organization/members` to list the members of your organization and their user IDs, and `GET /v1/user/me` to verify which user the current request acts as. ## Rate Limits
+
+
+    - **100 requests per minute** per account. Short bursts above this are tolerated. - **100,000 requests per day** per account.'
   version: '1.0'
   contact: {}
-servers: []
+servers:
+- url: https://ext.gojiberry.ai
+  description: Production
 tags:
 - name: AppExternal
 paths:
@@ -35,10 +100,8 @@ paths:
       x-summary-source: derived
 components:
   securitySchemes:
-    API-Key:
+    bearer:
       scheme: bearer
       bearerFormat: JWT
       type: http
-      name: JWT
       description: Enter API Key
-      in: header

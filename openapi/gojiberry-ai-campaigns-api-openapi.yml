@@ -4,14 +4,111 @@ info:
   description: '# Gojiberry AI External API
 
 
-    This API allows you to programmatically access your Gojiberry AI data and integrate it with your applications.'
+    This API allows you to programmatically access your Gojiberry AI data and integrate it with your applications. ## How it works
+
+
+    Gojiberry runs your outreach as a pipeline of three building blocks:
+
+
+    1. **Source agent — the lead finder.** A source agent continuously sources leads matching your targeting criteria (job titles, industries, locations, signals, ...) and scores them with AI. 2. **List — where the leads land.** Every source agent is linked to a list (`listId` is required when creating an agent): the leads it finds are imported as contacts into that list. Lists can also be filled by importing contacts yourself. 3. **Campaign — the outreach.** A campaign uses one or more lists as its lead source (`listIds` is required when creating a campaign) and runs its steps (LinkedIn invitations, messages, emails, ...) on the contacts of those lists, sending through your LinkedIn and/or email seats. Once activated, the campaign runs the outreach automatically on a daily basis. **Terminology.** In the Gojiberry platform, an **Agent** is a *campaign agent* — the campaign that performs the outreach. A **source agent** is the lead finder that sources the leads. The two are linked through a **list**: the source agent imports the leads it finds into the list, and the campaign agent reaches out to the contacts of that list. **Best practice: create a Full Cycle agent.** Always create the three resources in this order — first the list, then the source agent that fills it, then the campaign that reaches out to it. Together, the list + source agent + campaign agent form a **Full Cycle agent**: leads are sourced and outreached automatically, end to end. If you create a source agent without a campaign agent, it shows up as a **legacy agent** in the platform: it only sources leads and does **no outreach**. So it''s best practice to always create all three. A typical setup through the API:
+
+
+    ```text
+
+    POST /v1/list # 1. create the list
+
+    POST /v1/agent # 2. create the source agent (lead finder) linked to that list (listId)
+
+    POST /v1/campaign # 3. create the campaign agent using that list as lead source (listIds)
+
+    GET /v1/campaign/{id}/logs # 4. follow the outreach activity
+
+    ```
+
+
+    ## Authentication
+
+
+    All API requests require authentication using a Bearer token. To get your API key:
+
+
+    1. **Log in to your Gojiberry AI account** at https://app.gojiberry.ai
+
+    2. **Navigate to Settings** → **API** section
+
+    3. **Click "Create API Key"** to generate a new token
+
+    4. **Copy the API key** when it''s displayed (you won''t be able to see it again)
+
+    5. **Use the token** in your requests by adding the header: `Authorization: Bearer YOUR_API_KEY`
+
+
+    ## Impersonation (organization owners)
+
+
+    If your API key belongs to the **owner of an organization**, you can perform any API call on behalf of another member of your organization by adding the `x-impersonate-user-id` header with the member''s user ID:
+
+
+    ```bash
+
+    # Get the contacts of the organization member with user ID 123
+
+    curl -H "Authorization: Bearer YOUR_API_KEY" \
+
+    -H "x-impersonate-user-id: 123" \
+
+    https://ext.gojiberry.ai/v1/contact
+
+    ```
+
+
+    When impersonating, the request behaves exactly as if it was made by that member: you read and write their data (contacts, campaigns, lists, unibox, etc.). Rules:
+
+    - Your API key must belong to the **organization owner**; other members cannot impersonate. - The impersonated user must belong to the **same organization** as the API key user. - Requests that don''t meet these rules are rejected with a `401 Unauthorized`. Tip: use `GET /v1/organization/members` to list the members of your organization and their user IDs, and `GET /v1/user/me` to verify which user the current request acts as. ## Rate Limits
+
+
+    - **100 requests per minute** per account. Short bursts above this are tolerated. - **100,000 requests per day** per account.'
   version: '1.0'
   contact: {}
-servers: []
+servers:
+- url: https://ext.gojiberry.ai
+  description: Production
 tags:
 - name: Campaigns
 paths:
   /v1/campaign:
+    post:
+      description: 'Create a campaign with its steps, lead source lists and sending seats. A campaign is the **campaign agent** — the outreach half of a **Full Cycle agent**: create the list first (`POST /v1/list`), then the source agent that fills it with leads (`POST /v1/agent`), then this campaign to reach out to them. **At least one list (lead source) is required.** The campaign reaches out to the contacts of its lists; lists are typically filled by a source agent (the lead finder, see `POST /v1/agent`) or by importing contacts. If the campaign contains any LinkedIn step (invitation, invitationNote, message, voiceMessage, visitProfile, likePosts), a `linkedinSeatId` is required. If it contains email steps, at least one `emailSeatId` is required; multiple email seats (up to 100) are only allowed when the campaign has email steps exclusively. Step rules: at most one Connection Request step, an invitation cannot come after a LinkedIn message or voice message, and `delayAfterLastStep` must be at least 1 day (see the `steps` field for per-type fields and limits). When the campaign has a Connection Request step, 1st-degree connections are excluded from the campaign by default. **Once activated, the campaign starts the outreach automatically on a daily basis.** The launch hours can be configured in the LinkedIn seat settings.'
+      operationId: CampaignExternalController_create
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCampaignExternalDto'
+      responses:
+        '201':
+          description: Campaign created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Campaign'
+        '400':
+          description: Invalid steps or seat configuration
+        '404':
+          description: List or seat not found
+      security:
+      - bearer: []
+      summary: Create a campaign
+      tags:
+      - Campaigns
     get:
       description: Retrieve all campaigns with optional filtering by active status
       operationId: CampaignExternalController_findAll
@@ -106,27 +203,246 @@ paths:
       summary: Update one campaign
       tags:
       - Campaigns
+    delete:
+      description: Permanently delete a campaign. The campaign is removed from the daily outreach scheduling, so no further steps are sent (messages and invitations already sent are not retracted). The campaign's lists and contacts are kept, and the contacts' campaign progress is reset so they can be enrolled into another campaign. The outreach logs (`GET /v1/campaign/{id}/logs`) are detached from the campaign and are no longer retrievable through the API. **Deletion cannot be undone.** An active campaign can be deleted directly; it does not need to be deactivated first.
+      operationId: CampaignExternalController_remove
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Campaign deleted
+        '404':
+          description: Campaign not found
+      security:
+      - bearer: []
+      summary: Delete a campaign
+      tags:
+      - Campaigns
+  /v1/campaign/{id}/logs:
+    get:
+      description: Retrieve the outreach event log of a campaign (paginated, most recent first). Each entry records an action performed on a contact, e.g. invitation, invitationNote, invitationAccepted, message, voiceMessage, visitProfile, likePosts, email, replied, email-reply, interested, not-interested.
+      operationId: CampaignExternalController_findLogs
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: number
+      - name: page
+        required: false
+        in: query
+        description: Page number, starting at 1 (default 1)
+        schema:
+          type: number
+      - name: limit
+        required: false
+        in: query
+        description: Entries per page, between 1 and 100 (default 50)
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Paginated campaign contact logs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: number
+                        action:
+                          type: string
+                          example: invitation
+                        contactId:
+                          type:
+                          - number
+                          - 'null'
+                        contact:
+                          type:
+                          - object
+                          - 'null'
+                          description: The contact the action was performed on
+                        campaignId:
+                          type: number
+                        createdAt:
+                          type: string
+                          format: date-time
+                  total:
+                    type: number
+                  page:
+                    type: number
+                  limit:
+                    type: number
+        '404':
+          description: Campaign not found
+      security:
+      - bearer: []
+      summary: Get campaign outreach logs
+      tags:
+      - Campaigns
+  /v1/campaign/{id}/queue:
+    get:
+      description: '**For LinkedIn and multi-channel campaigns** (campaigns with a LinkedIn seat). For email-only campaigns, use `GET /v1/campaign/{id}/email-queue`. Returns the actions queued for this campaign, as shown in the Scheduled tab of the app: one entry per contact with the step to run (invitation, invitationNote, message, voiceMessage, visitProfile, likePosts or email), its message filled with the contact variables, and the last step the contact already received. The queue is capped at the LinkedIn seat''s full daily quotas (today''s LinkedIn actions are not subtracted), shared between the campaigns running on the same LinkedIn seat, and at the remaining daily quota of the email seats, divided between the active campaigns using each email seat. **Preview only:** it lists the contacts already scheduled by the hourly planner. It sends nothing and does not pull new contacts into the campaign, generate AI messages, or look up emails, so no credit is spent. As on the campaign page, the planner still updates the contacts it reads: a contact with no step left is marked finished, a step it cannot perform (no email, unsubscribed, no LinkedIn profile) is marked skipped or the contact excluded, and a blocklisted company is flagged. An inactive campaign has an empty queue.'
+      operationId: CampaignExternalController_findQueue
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Scheduled actions of the campaign
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    contact:
+                      type: object
+                      description: The contact the step will be performed on
+                    campaign:
+                      type: object
+                      description: The campaign
+                    campaignStep:
+                      type: object
+                      description: The step to perform, with its message filled with the contact variables
+                    lastContactStep:
+                      type:
+                      - object
+                      - 'null'
+                      description: The last step already performed on the contact, absent for a contact entering the campaign
+        '400':
+          description: 'The campaign is email-only: use `GET /v1/campaign/{id}/email-queue`'
+        '404':
+          description: Campaign not found
+      security:
+      - bearer: []
+      summary: Get the scheduled queue of a LinkedIn or multi-channel campaign
+      tags:
+      - Campaigns
+  /v1/campaign/{id}/email-queue:
+    get:
+      description: '**For email-only campaigns** (every step is an email, no LinkedIn seat). For LinkedIn and multi-channel campaigns, use `GET /v1/campaign/{id}/queue`. Returns the emails queued for this campaign, as shown in the Scheduled tab of the app: one entry per contact with the email step to send (subject and body filled with the contact variables), the last step the contact already received, the email seat that will send it and whether it starts a new thread. The queue is capped at the remaining daily sending quota of the campaign email seats. **Preview only:** it lists the contacts already scheduled by the hourly planner. It sends nothing and does not pull new contacts into the campaign, generate AI messages, or look up emails, so no credit is spent. As on the campaign page, the planner still updates the contacts it reads: a contact with no step left is marked finished, a step it cannot perform (no email, unsubscribed) is marked skipped, and a blocklisted company is flagged. An inactive campaign has an empty queue.'
+      operationId: CampaignExternalController_findEmailQueue
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Scheduled emails of the campaign
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    contact:
+                      type: object
+                      description: The contact the email will be sent to
+                    campaign:
+                      type: object
+                      description: The campaign
+                    campaignStep:
+                      type: object
+                      description: The email step to send, with subject and message filled with the contact variables
+                    lastContactStep:
+                      type:
+                      - object
+                      - 'null'
+                      description: The last step already performed on the contact, absent for a contact entering the campaign
+                    emailSeatId:
+                      type: number
+                      description: The email seat (mailbox) that will send the email
+                    sendAsNewThread:
+                      type: boolean
+                      description: true when the email starts a new thread instead of replying to the previous one
+        '400':
+          description: 'The campaign is not email-only: use `GET /v1/campaign/{id}/queue`'
+        '404':
+          description: Campaign not found
+      security:
+      - bearer: []
+      summary: Get the scheduled queue of an email-only campaign
+      tags:
+      - Campaigns
+  /v1/campaign/{id}/status:
+    patch:
+      description: 'Set the campaign `active` flag. An active campaign is included in the daily outreach scheduling; a deactivated campaign stops sending new steps (messages and invitations already sent are not retracted). Activating requires free campaign capacity: each account can run 2 campaigns, plus one per assigned Full-cycle Agent add-on. If the account is at capacity, an Full-cycle Agent add-on from the organization is assigned automatically; otherwise the request fails with 400. This endpoint is rate limited to 10 requests per minute.'
+      operationId: CampaignExternalController_toggleStatus
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ToggleCampaignStatusExternalDto'
+      responses:
+        '200':
+          description: Campaign status updated
+        '400':
+          description: No campaign capacity left (no Outreach Agent add-on available)
+        '404':
+          description: Campaign or LinkedIn seat not found
+        '429':
+          description: Rate limit exceeded (10 requests per minute).
+      security:
+      - bearer: []
+      summary: Activate or deactivate a campaign
+      tags:
+      - Campaigns
 components:
   schemas:
-    UpdateCampaignExternalDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Campaign name
-          example: Q1 Sales Campaign
-        listIds:
-          description: List IDs to associate with the campaign
-          example:
-          - 1
-          - 2
-          - 3
-          type: array
-          items:
-            type: string
-        steps:
-          type: array
-          description: Campaign steps. Must have the same length and step type order as the existing campaign; only message and messageMode are updated.
     Campaign:
       type: object
       properties:
@@ -139,6 +455,8 @@ components:
         steps:
           type: array
           description: Campaign steps
+          items:
+            type: object
         userId:
           type: number
           description: User ID who owns this campaign
@@ -150,6 +468,10 @@ components:
           type: boolean
           description: Exclude first degree connections from campaigns
           default: true
+        splitLinkedinMessagesIntoConversation:
+          type: boolean
+          description: When enabled, LinkedIn message steps may be sent as multiple shorter messages when it feels natural
+          default: false
         isManual:
           type: boolean
           description: Whether the campaign is manual
@@ -192,14 +514,97 @@ components:
       - userId
       - active
       - excludeFirstDegreeFromCampaigns
+      - splitLinkedinMessagesIntoConversation
       - isManual
       - createdAt
       - updatedAt
+    UpdateCampaignExternalDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Campaign name
+          example: Q1 Sales Campaign
+        listIds:
+          description: List IDs to associate with the campaign
+          example:
+          - 1
+          - 2
+          - 3
+          type: array
+          items:
+            type: string
+        steps:
+          type: array
+          description: Campaign steps. Must have the same length and step type order as the existing campaign; only message and messageMode are updated.
+          items:
+            type: object
+    ToggleCampaignStatusExternalDto:
+      type: object
+      properties:
+        active:
+          type: boolean
+          description: '`true` to activate the campaign, `false` to deactivate it'
+          example: true
+      required:
+      - active
+    CreateCampaignExternalDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Campaign name
+          example: Q1 Sales Campaign
+        steps:
+          type: array
+          description: 'Campaign steps, executed in order. Valid types: invitation, invitationNote, message, voiceMessage, visitProfile, likePosts, email. Ordering rules: at most one Connection Request step (invitation or invitationNote); an invitation cannot come after a message or voiceMessage step. Common fields: delayAfterLastStep in days (integer >= 1, default 2). stepNumber is assigned automatically from the array order and unknown fields are ignored. message and email steps take a messageMode: ''ai'' (content is generated by AI for each contact, the default when no content is provided) or ''same'' (the provided content is sent as-is, supports the [FirstName], [LastName], [Company], [JobTitle], [SenderFirstName], [SenderName], [SenderFullName] and [SenderCompany] variables; an empty value removes the tag). In ''same'' mode, message is required (max 1900 chars for LinkedIn messages) and email steps also require subject. invitationNote requires note (max 180 chars, 280 with a Sales Navigator seat); voiceMessage requires url to the audio file; likePosts accepts numberOfPosts (1-3, default 1); visitProfile and invitation need no extra fields.'
+          items:
+            type: object
+          example:
+          - type: invitationNote
+            note: Hi [FirstName], let’s connect!
+            delayAfterLastStep: 1
+          - type: message
+            messageMode: ai
+            delayAfterLastStep: 2
+          - type: email
+            subject: Quick question
+            message: Hi [FirstName], ...
+            delayAfterLastStep: 3
+        listIds:
+          description: IDs of the lists used as lead source. At least one list is required.
+          example:
+          - 1
+          type: array
+          items:
+            type: string
+        linkedinSeatId:
+          type: number
+          description: LinkedIn seat sending the LinkedIn steps. Required when the campaign contains any LinkedIn step; not allowed on email-only campaigns.
+          example: 1
+        emailSeatIds:
+          description: Email seats sending the email steps. Required when the campaign contains email steps. Multiple seats (up to 100) are only allowed on email-only campaigns. Use GET /v1/email-seat to list your email seats and their IDs.
+          example:
+          - 1
+          type: array
+          items:
+            type: string
+        active:
+          type: boolean
+          description: Whether the campaign starts active. Once active, the campaign starts the outreach automatically on a daily basis; the launch hours can be configured in the LinkedIn seat settings.
+          example: true
+          default: true
+        language:
+          type: string
+          description: Campaign language
+          example: en-US
+      required:
+      - name
+      - steps
+      - listIds
   securitySchemes:
-    API-Key:
+    bearer:
       scheme: bearer
       bearerFormat: JWT
       type: http
-      name: JWT
       description: Enter API Key
-      in: header

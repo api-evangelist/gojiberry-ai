@@ -1,0 +1,12 @@
+{
+ "url": "https://ext.gojiberry.ai/openapi.json",
+ "final": "https://ext.gojiberry.ai/openapi.json",
+ "status": 200,
+ "content_type": "application/json; charset=utf-8",
+ "bytes": 126533,
+ "sha256": "17b55a0ee2e3ec4b8ddc57266f56844cdead76771197ada75cbb4ed06104d0cd",
+ "fetched_at": "2026-10-19",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "re-archived: the provider's current document replaced a stale archive (roadmap#793); the old files are in openapi/_superseded/2026-10-19-stale"
+}

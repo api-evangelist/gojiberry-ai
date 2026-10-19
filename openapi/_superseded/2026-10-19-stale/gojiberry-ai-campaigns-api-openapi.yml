@@ -1,0 +1,205 @@
+openapi: 3.2.0
+info:
+  title: Gojiberry AI - External Campaigns API
+  description: '# Gojiberry AI External API
+
+
+    This API allows you to programmatically access your Gojiberry AI data and integrate it with your applications.'
+  version: '1.0'
+  contact: {}
+servers: []
+tags:
+- name: Campaigns
+paths:
+  /v1/campaign:
+    get:
+      description: Retrieve all campaigns with optional filtering by active status
+      operationId: CampaignExternalController_findAll
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      - name: activeOnly
+        required: false
+        in: query
+        description: Filter by active status (true/false)
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: List of campaigns
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Campaign'
+      security:
+      - bearer: []
+      summary: Get all campaigns
+      tags:
+      - Campaigns
+  /v1/campaign/{id}:
+    get:
+      operationId: CampaignExternalController_findOne
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Get one campaign
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Campaign'
+      security:
+      - bearer: []
+      summary: Get one campaign
+      tags:
+      - Campaigns
+    patch:
+      description: Update campaign name, associated list IDs, and existing step messages or same/AI mode. **Steps must keep the same length and type order; only the message content and mode can be edited in the steps.**
+      operationId: CampaignExternalController_update
+      parameters:
+      - name: x-impersonate-user-id
+        in: header
+        description: ID of an organization member to act on behalf of. The API key user must be the owner of the organization and the target user must belong to the same organization.
+        required: false
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCampaignExternalDto'
+      responses:
+        '200':
+          description: Campaign updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Campaign'
+        '400':
+          description: Invalid step update or list assignment
+        '404':
+          description: Campaign or list not found
+      security:
+      - bearer: []
+      summary: Update one campaign
+      tags:
+      - Campaigns
+components:
+  schemas:
+    UpdateCampaignExternalDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Campaign name
+          example: Q1 Sales Campaign
+        listIds:
+          description: List IDs to associate with the campaign
+          example:
+          - 1
+          - 2
+          - 3
+          type: array
+          items:
+            type: string
+        steps:
+          type: array
+          description: Campaign steps. Must have the same length and step type order as the existing campaign; only message and messageMode are updated.
+    Campaign:
+      type: object
+      properties:
+        id:
+          type: number
+          description: Unique identifier for the campaign
+        name:
+          type: string
+          description: Name of the campaign
+        steps:
+          type: array
+          description: Campaign steps
+        userId:
+          type: number
+          description: User ID who owns this campaign
+        active:
+          type: boolean
+          description: Whether the campaign is active
+          default: true
+        excludeFirstDegreeFromCampaigns:
+          type: boolean
+          description: Exclude first degree connections from campaigns
+          default: true
+        isManual:
+          type: boolean
+          description: Whether the campaign is manual
+          default: false
+        skipInvitationAfterDays:
+          type: number
+          description: Number of days after which a pending invitation is skipped and only email steps are sent
+        language:
+          type:
+          - string
+          - 'null'
+          description: Campaign language
+        tone:
+          type: string
+          description: Campaign tone
+          enum:
+          - professional
+          - direct
+          - conversational
+        goal:
+          type: string
+          description: Campaign goal
+          enum:
+          - conversations
+          - demos
+        linkedinSeatId:
+          type: number
+          description: LinkedIn seat ID for this campaign
+        createdAt:
+          format: date-time
+          type: string
+          description: Creation timestamp
+        updatedAt:
+          format: date-time
+          type: string
+          description: Last update timestamp
+      required:
+      - id
+      - name
+      - userId
+      - active
+      - excludeFirstDegreeFromCampaigns
+      - isManual
+      - createdAt
+      - updatedAt
+  securitySchemes:
+    API-Key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      name: JWT
+      description: Enter API Key
+      in: header
