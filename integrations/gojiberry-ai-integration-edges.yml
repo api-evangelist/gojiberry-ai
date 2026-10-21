@@ -1,5 +1,5 @@
 generated: '2026-10-12'
-method: none
+method: searched
 source:
 - https://zapier.com/apps/gojiberry-ai/integrations
 - https://zapier.com/apps/gojiberry/integrations
@@ -14,7 +14,41 @@ checked:
 - https://n8n.io/integrations/gojiberry/
 - https://zapier.com/apps/gojiberry-ai/integrations
 - https://zapier.com/apps/gojiberry/integrations
+- https://500.co/api/startups
+- https://500.co/companies
+- https://www.antler.co/portfolio
+- https://www.techstars.com/portfolio
+- https://www.ycombinator.com/companies
 summary: null
 marketplace_apps: []
-edges: []
+edges:
+- partner_name: Y Combinator
+  partner: y-combinator
+  partner_match: register
+  type: register
+  channel: standard-directory
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://www.ycombinator.com/companies/gojiberry-ai
+  category: accelerator portfolio participation
+  contract_reference:
+    register: Y Combinator company directory (ycombinator.com/companies/<slug>)
+    standard: null
+    spec_file: null
+    role: accelerator-portfolio-company
+    registered_name: Gojiberry AI
+    register_id: https://www.ycombinator.com/companies/gojiberry-ai
+    register_country: FR
+    register_website: https://www.gojiberry.ai
+    matched_domain: gojiberry.ai
+    matched_by: domain
+    signal_note: 'participation only: the accelerator''s own portfolio register lists the company (cohort / investment);
+      an ownership and participation record, not conformance or certification'
+    detected_by: sweep-accelerator-portfolios.py
+    detected: '2026-10-21'
+    batch: Spring 2026
+    year: '2025'
+    status: Active
+  detected_by: sweep-accelerator-portfolios.py
+  first_seen: '2026-10-21'
 templates: []
